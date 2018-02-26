@@ -75,25 +75,42 @@ public class Map {
 		}
 		
 		if(person == 'O') {
-			if(club == 1 && map[y-1][x] != 'X' && map[y-1][x] != 'I')
-				map[y-1][x] = ' ';
-			else if(club == 2 && map[y][x+1] != 'X' && map[y][x+1] != 'I')
-				map[y][x+1] = ' ';
-			else if(club == 3 && map[y+1][x] != 'X' && map[y+1][x] != 'I')
-				map[y+1][x] = ' ';
-			else if(club == 4 && map[y][x-1] != 'X' && map[y][x-1] != 'I')
-				map[y][x-1] = ' '; 
+			if(club == 1 && map[y-1][x] != 'X' && map[y-1][x] != 'I') {
+				if (map[y-1][x] == '$')
+					map[y-1][x] = 'k';
+				else
+					map[y-1][x] = ' ';
+			}
+			else if(club == 2 && map[y][x+1] != 'X' && map[y][x+1] != 'I') {
+				if (map[y][x+1] == '$')
+					map[y][x+1] = 'k';
+				else
+					map[y][x+1] = ' ';
+			}
+			else if(club == 3 && map[y+1][x] != 'X' && map[y+1][x] != 'I') {
+				if (map[y+1][x] == '$')
+					map[y+1][x] = 'k';
+				else
+					map[y+1][x] = ' ';
+			}
+			else if(club == 4 && map[y][x-1] != 'X' && map[y][x-1] != 'I') {
+				if (map[y][x-1] == '$')
+					map[y][x-1] = 'k';
+				else
+					map[y][x-1] = ' ';
+			}
 		}
 		
-		if (map[y][x-1] == 'X') {
-			return 0;
-		}
-		else if (map[y][x-1] == 'I' && map[y][x] == 'K') {
+		if (map[y][x-1] == 'I' && map[y][x] == 'K') {
 			if (lever == 1){
 				map[y][x-1] = 'S';
 				map[y][x] = 'H';
 			}
-			
+		}
+		else if(map[y][x-1] == '*' && person == 'O') {
+			map[y][x-1] = person;
+			map[y][x] = ' ';
+			x--;
 		}
 		else if (map[y][x-1] == ' ') {
 			if(map[y][x] == '$') {
@@ -101,15 +118,15 @@ public class Map {
 				map[y][x-1] = 'O';
 			}
 			else if (lever == 0 || person == 'O' || person == 'G') {
-				map[y][x - 1] = person;
+				map[y][x-1] = person;
 				map[y][x] = ' ';
 			}
 			else {
 				if (level == 2) {
-					map[y][x - 1] = 'K';
+					map[y][x-1] = 'K';
 				}
 				else {
-					map[y][x - 1] = 'H';
+					map[y][x-1] = 'H';
 				}
 
 				map[y][x] = ' ';
@@ -169,7 +186,7 @@ public class Map {
 				else
 					map[y+1][x] = '*';
 			}
-			else if(club == 4 && map[y][y-1] != 'X'&& map[y][x-1] != 'I') {
+			else if(club == 4 && map[y][x-1] != 'X'&& map[y][x-1] != 'I') {
 				if (map[y][x-1] == 'k') {
 					map[y][x-1] = '$';
 				}
@@ -178,7 +195,7 @@ public class Map {
 			}
 		}
 		
-		if (map[y][x-1] == 'G' || map[y+1][x] == 'G' || map[y-1][x] == 'G' || map[y][x+1] == 'G' || map[y][x] == '*') {
+		if (map[y][x-1] == 'G' || map[y+1][x] == 'G' || map[y-1][x] == 'G' || map[y][x+1] == 'G' || map[y][x-1] == '*') {
 			return -1;
 		}
 		
@@ -217,23 +234,42 @@ public class Map {
 		}
 		
 		if(person == 'O') {
-			if(club == 1 && map[y-1][x] != 'X' && map[y-1][x] != 'I')
-				map[y-1][x] = ' ';
-			else if(club == 2 && map[y][x+1] != 'X' && map[y][x+1] != 'I')
-				map[y][x+1] = ' ';
-			else if(club == 3 && map[y+1][x] != 'X' && map[y+1][x] != 'I')
-				map[y+1][x] = ' ';
-			else if(club == 4 && map[y][x-1] != 'X' && map[y][x-1] != 'I')
-				map[y][x-1] = ' '; 
+			if(club == 1 && map[y-1][x] != 'X' && map[y-1][x] != 'I') {
+				if (map[y-1][x] == '$')
+					map[y-1][x] = 'k';
+				else
+					map[y-1][x] = ' ';
+			}
+			else if(club == 2 && map[y][x+1] != 'X' && map[y][x+1] != 'I') {
+				if (map[y][x+1] == '$')
+					map[y][x+1] = 'k';
+				else
+					map[y][x+1] = ' ';
+			}
+			else if(club == 3 && map[y+1][x] != 'X' && map[y+1][x] != 'I') {
+				if (map[y+1][x] == '$')
+					map[y+1][x] = 'k';
+				else
+					map[y+1][x] = ' ';
+			}
+			else if(club == 4 && map[y][x-1] != 'X' && map[y][x-1] != 'I') {
+				if (map[y][x-1] == '$')
+					map[y][x-1] = 'k';
+				else
+					map[y][x-1] = ' ';
+			}
 		}
 		
-		if (map[y][x+1] == 'X')
-			return 0;
-		else if (map[y][x+1] == 'I') {
+		if (map[y][x+1] == 'I') {
 			if (lever == 1 && map[y][x] == 'K'){
 				map[y][x+1] = 'S';
 				map[y][x] = 'H';
 			}
+		}
+		else if(map[y][x+1] == '*' && person == 'O') {
+			map[y][x+1] = person;
+			map[y][x] = ' ';
+			x++;
 		}
 		else if (map[y][x+1] == ' ') {
 			if(map[y][x] == '$') {
@@ -316,7 +352,7 @@ public class Map {
 			}
 		}
 		
-		if (map[y][x+1] == 'G' || map[y+1][x] == 'G' || map[y-1][x] == 'G' || map[y][x+1] == 'G' || map[y][x] == '*') {
+		if (map[y][x+1] == 'G' || map[y+1][x] == 'G' || map[y-1][x] == 'G' || map[y][x+1] == 'G' || map[y][x+1] == '*') {
 			return -1;
 		}
 		
@@ -354,23 +390,42 @@ public class Map {
 		}
 		
 		if(person == 'O') {
-			if(club == 1 && map[y-1][x] != 'X' && map[y-1][x] != 'I')
-				map[y-1][x] = ' ';
-			else if(club == 2 && map[y][x+1] != 'X' && map[y][x+1] != 'I')
-				map[y][x+1] = ' ';
-			else if(club == 3 && map[y+1][x] != 'X' && map[y+1][x] != 'I')
-				map[y+1][x] = ' ';
-			else if(club == 4 && map[y][x-1] != 'X' && map[y][x-1] != 'I')
-				map[y][x-1] = ' '; 
+			if(club == 1 && map[y-1][x] != 'X' && map[y-1][x] != 'I') {
+				if (map[y-1][x] == '$')
+					map[y-1][x] = 'k';
+				else
+					map[y-1][x] = ' ';
+			}
+			else if(club == 2 && map[y][x+1] != 'X' && map[y][x+1] != 'I') {
+				if (map[y][x+1] == '$')
+					map[y][x+1] = 'k';
+				else
+					map[y][x+1] = ' ';
+			}
+			else if(club == 3 && map[y+1][x] != 'X' && map[y+1][x] != 'I') {
+				if (map[y+1][x] == '$')
+					map[y+1][x] = 'k';
+				else
+					map[y+1][x] = ' ';
+			}
+			else if(club == 4 && map[y][x-1] != 'X' && map[y][x-1] != 'I') {
+				if (map[y][x-1] == '$')
+					map[y][x-1] = 'k';
+				else
+					map[y][x-1] = ' ';
+			}
 		}
 		
-		if (map[y+1][x] == 'X')
-			return 0;
-		else if (map[y+1][x] == 'I') {
+		if (map[y+1][x] == 'I') {
 			if (lever == 1 && map[y][x] == 'K'){
 				map[y+1][x] = 'S';
 				map[y][x] = 'H';
 			}
+		}
+		else if(map[y+1][x] == '*' && person == 'O') {
+			map[y+1][x] = person;
+			map[y][x] = ' ';
+			y++;
 		}
 		else if (map[y+1][x] == ' ') {
 			if(map[y][x] == '$') {
@@ -453,7 +508,7 @@ public class Map {
 			}
 		}
 		
-		if (map[y+1][x] == 'G' || map[y][x+1] == 'G' || map[y][x-1] == 'G' || map[y+1][x] == 'G' || map[y][x] == '*') {
+		if (map[y+1][x] == 'G' || map[y][x+1] == 'G' || map[y][x-1] == 'G' || map[y+1][x] == 'G' || map[y+1][x] == '*') {
 			return -1;
 		}
 		
@@ -491,23 +546,42 @@ public class Map {
 		}
 		
 		if(person == 'O') {
-			if(club == 1 && map[y-1][x] != 'X' && map[y-1][x] != 'I')
-				map[y-1][x] = ' ';
-			else if(club == 2 && map[y][x+1] != 'X' && map[y][x+1] != 'I')
-				map[y][x+1] = ' ';
-			else if(club == 3 && map[y+1][x] != 'X' && map[y+1][x] != 'I')
-				map[y+1][x] = ' ';
-			else if(club == 4 && map[y][x-1] != 'X' && map[y][x-1] != 'I')
-				map[y][x-1] = ' '; 
+			if(club == 1 && map[y-1][x] != 'X' && map[y-1][x] != 'I') {
+				if (map[y-1][x] == '$')
+					map[y-1][x] = 'k';
+				else
+					map[y-1][x] = ' ';
+			}
+			else if(club == 2 && map[y][x+1] != 'X' && map[y][x+1] != 'I') {
+				if (map[y][x+1] == '$')
+					map[y][x+1] = 'k';
+				else
+					map[y][x+1] = ' ';
+			}
+			else if(club == 3 && map[y+1][x] != 'X' && map[y+1][x] != 'I') {
+				if (map[y+1][x] == '$')
+					map[y+1][x] = 'k';
+				else
+					map[y+1][x] = ' ';
+			}
+			else if(club == 4 && map[y][x-1] != 'X' && map[y][x-1] != 'I') {
+				if (map[y][x-1] == '$')
+					map[y][x-1] = 'k';
+				else
+					map[y][x-1] = ' ';
+			}
 		}
 		
-		if (map[y-1][x] == 'X')
-			return 0;
-		else if (map[y-1][x] == 'I') {
+		if (map[y-1][x] == 'I') {
 			if (lever == 1 && map[y][x] == 'K'){
 				map[y-1][x] = 'S';
 				map[y][x] = 'H';
 			}
+		}
+		else if(map[y-1][x] == '*' && person == 'O') {
+			map[y-1][x] = person;
+			map[y][x] = ' ';
+			y--;
 		}
 		else if (map[y-1][x] == ' ') {
 			if(map[y][x] == '$') {

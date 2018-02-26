@@ -38,8 +38,6 @@ public class Start {
 					gameMap.moveDown('O');
 				else if (ogre[indiceO] == 'd')
 					gameMap.moveRight('O');
-				
-				System.out.println(indiceO);
 			}
 			input = scanner.next().charAt(0);
 			
