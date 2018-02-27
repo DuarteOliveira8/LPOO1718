@@ -29,6 +29,8 @@ public class Start {
 					gameMap.moveRight('G');
 			}
 			else if(level == 2) {
+				gameMap.removeClub();
+				
 				indiceO = ThreadLocalRandom.current().nextInt(0, 4);
 				if (ogre[indiceO] == 'w')
 					gameMap.moveUp('O');
@@ -38,6 +40,8 @@ public class Start {
 					gameMap.moveDown('O');
 				else if (ogre[indiceO] == 'd')
 					gameMap.moveRight('O');
+				
+				gameMap.addClub();
 			}
 			input = scanner.next().charAt(0);
 			
@@ -54,9 +58,6 @@ public class Start {
 			indiceG++;
 			if (indiceG == patrol.length)
 				indiceG = 0;
-			
-			if (indiceO == ogre.length)
-				indiceO = 0;
 			
 			
 			if (gameState == 1) {
