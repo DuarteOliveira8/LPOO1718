@@ -1,18 +1,15 @@
 package dkeep.logic;
 
 public class CurrentMap {
-	public char map[][] = {
-			{'X','X','X','X','X','X','X','X','X','X'},
-			{'X','H',' ',' ','I',' ','X',' ','G','X'},
-			{'X','X','X',' ','X','X','X',' ',' ','X'},
-			{'X',' ','I',' ','I',' ','X',' ',' ','X'},
-			{'X','X','X',' ','X','X','X',' ',' ','X'},
-			{'I',' ',' ',' ',' ',' ',' ',' ',' ','X'},
-			{'I',' ',' ',' ',' ',' ',' ',' ',' ','X'},
-			{'X','X','X',' ','X','X','X','X',' ','X'},
-			{'X',' ','I',' ','I',' ','X','k',' ','X'},
-			{'X','X','X','X','X','X','X','X','X','X'}
-	};
+	public char map[][];
+	int lever = 0;
+	int level = 1;
+	
+	CurrentMap(char[][] map) {
+		this.map = map;
+		this.map[1][1] = 'H';
+		this.map[1][8] = 'G';
+	}
 	
 	public void printMap() {
 		for(int i = 0; i < 10; i++) {

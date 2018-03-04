@@ -4,20 +4,19 @@ import java.util.concurrent.ThreadLocalRandom;
 import dkeep.logic.CurrentMap;
 
 public class Map {
-	int lever = 0;
 	int heroX = 1;
 	int heroY = 1;
 	int guardX = 8;
 	int guardY = 1;
-	int ogreX = 4;
-	int ogreY = 1;
-	int club = 0; 
+//	int ogreX = 4;
+//	int ogreY = 1;
+	//int club = 0; 
 	
-	CurrentMap currentMap = new CurrentMap();
+	
 	
 	char map1[][] = {
 			{'X','X','X','X','X','X','X','X','X','X'},
-			{'X','H',' ',' ','I',' ','X',' ','G','X'},
+			{'X',' ',' ',' ','I',' ','X',' ',' ','X'},
 			{'X','X','X',' ','X','X','X',' ',' ','X'},
 			{'X',' ','I',' ','I',' ','X',' ',' ','X'},
 			{'X','X','X',' ','X','X','X',' ',' ','X'},
@@ -30,16 +29,18 @@ public class Map {
 
 	char map2[][] = {
 			{'X','X','X','X','X','X','X','X','X','X'},
-			{'I',' ',' ',' ','O',' ',' ',' ','k','X'},
+			{'I',' ',' ',' ',' ',' ',' ',' ','k','X'},
 			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
 			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
 			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
 			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
 			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
 			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
-			{'X','H',' ',' ',' ',' ',' ',' ',' ','X'},
+			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
 			{'X','X','X','X','X','X','X','X','X','X'}
 	};
+	
+	CurrentMap currentMap = new CurrentMap(map1);
 	
 	public void printMap() {
 		currentMap.printMap();
@@ -47,65 +48,66 @@ public class Map {
 
 	public void changeMap() {
 		currentMap.map = map2;
-		heroX = 1;
-		heroY = 8;
+		currentMap.map[1][4] = 'O';
+		currentMap.map[8][1] = 'H';
+		currentMap.level++;
 	}
 
-	public void removeClub() {
-		if(club == 1 && currentMap.map[ogreY-1][ogreX] != 'X'  && currentMap.map[ogreY-1][ogreX] != 'I') { // CIMA
-			if(currentMap.map[ogreY-1][ogreX] == '$')
-				currentMap.map[ogreY-1][ogreX] = 'k';
-			else
-				currentMap.map[ogreY-1][ogreX] = ' ';
-		}
-		else if(club == 2 && currentMap.map[ogreY][ogreX+1] != 'X'  && currentMap.map[ogreY][ogreX+1] != 'I') { // DIREITA
-			if(currentMap.map[ogreY][ogreX+1] == '$')
-				currentMap.map[ogreY][ogreX+1] = 'k';
-			else
-				currentMap.map[ogreY][ogreX+1] = ' ';
-		}
-		else if(club == 3 && currentMap.map[ogreY+1][ogreX] != 'X'  && currentMap.map[ogreY+1][ogreX] != 'I') { // BAIXO
-			if(currentMap.map[ogreY+1][ogreX] == '$')
-				currentMap.map[ogreY+1][ogreX] = 'k';
-			else
-				currentMap.map[ogreY+1][ogreX] = ' ';
-		}
-		else if(club == 4 && currentMap.map[ogreY][ogreX-1] != 'X'  && currentMap.map[ogreY][ogreX-1] != 'I') { // ESQUERDA
-			if(currentMap.map[ogreY][ogreX-1] == '$')
-				currentMap.map[ogreY][ogreX-1] = 'k';
-			else
-				currentMap.map[ogreY][ogreX-1] = ' ';
-		}
-	}
-	
-	public void addClub() {
-		club = ThreadLocalRandom.current().nextInt(1, 5);
-		
-		if(club == 1 && currentMap.map[ogreY-1][ogreX] != 'X'  && currentMap.map[ogreY-1][ogreX] != 'I') { // CIMA
-			if(currentMap.map[ogreY-1][ogreX] == 'k')
-				currentMap.map[ogreY-1][ogreX] = '$';
-			else
-				currentMap.map[ogreY-1][ogreX] = '*';
-		}
-		else if(club == 2 && currentMap.map[ogreY][ogreX+1] != 'X'  && currentMap.map[ogreY][ogreX+1] != 'I') { // DIREITA
-			if(currentMap.map[ogreY][ogreX+1] == 'k')
-				currentMap.map[ogreY][ogreX+1] = '$';
-			else
-				currentMap.map[ogreY][ogreX+1] = '*';
-		}
-		else if(club == 3 && currentMap.map[ogreY+1][ogreX] != 'X'  && currentMap.map[ogreY+1][ogreX] != 'I') { // BAIXO
-			if(currentMap.map[ogreY+1][ogreX] == 'k')
-				currentMap.map[ogreY+1][ogreX] = '$';
-			else
-				currentMap.map[ogreY+1][ogreX] = '*';
-		}
-		else if(club == 4 && currentMap.map[ogreY][ogreX-1] != 'X'  && currentMap.map[ogreY][ogreX-1] != 'I') { // ESQUERDA
-			if(currentMap.map[ogreY][ogreX-1] == 'k')
-				currentMap.map[ogreY][ogreX-1] = '$';
-			else
-				currentMap.map[ogreY][ogreX-1] = '*';
-		}
-	}
+//	public void removeClub() {
+//		if(club == 1 && currentMap.map[ogreY-1][ogreX] != 'X'  && currentMap.map[ogreY-1][ogreX] != 'I') { // CIMA
+//			if(currentMap.map[ogreY-1][ogreX] == '$')
+//				currentMap.map[ogreY-1][ogreX] = 'k';
+//			else
+//				currentMap.map[ogreY-1][ogreX] = ' ';
+//		}
+//		else if(club == 2 && currentMap.map[ogreY][ogreX+1] != 'X'  && currentMap.map[ogreY][ogreX+1] != 'I') { // DIREITA
+//			if(currentMap.map[ogreY][ogreX+1] == '$')
+//				currentMap.map[ogreY][ogreX+1] = 'k';
+//			else
+//				currentMap.map[ogreY][ogreX+1] = ' ';
+//		}
+//		else if(club == 3 && currentMap.map[ogreY+1][ogreX] != 'X'  && currentMap.map[ogreY+1][ogreX] != 'I') { // BAIXO
+//			if(currentMap.map[ogreY+1][ogreX] == '$')
+//				currentMap.map[ogreY+1][ogreX] = 'k';
+//			else
+//				currentMap.map[ogreY+1][ogreX] = ' ';
+//		}
+//		else if(club == 4 && currentMap.map[ogreY][ogreX-1] != 'X'  && currentMap.map[ogreY][ogreX-1] != 'I') { // ESQUERDA
+//			if(currentMap.map[ogreY][ogreX-1] == '$')
+//				currentMap.map[ogreY][ogreX-1] = 'k';
+//			else
+//				currentMap.map[ogreY][ogreX-1] = ' ';
+//		}
+//	}
+//	
+//	public void addClub() {
+//		club = ThreadLocalRandom.current().nextInt(1, 5);
+//		
+//		if(club == 1 && currentMap.map[ogreY-1][ogreX] != 'X'  && currentMap.map[ogreY-1][ogreX] != 'I') { // CIMA
+//			if(currentMap.map[ogreY-1][ogreX] == 'k')
+//				currentMap.map[ogreY-1][ogreX] = '$';
+//			else
+//				currentMap.map[ogreY-1][ogreX] = '*';
+//		}
+//		else if(club == 2 && currentMap.map[ogreY][ogreX+1] != 'X'  && currentMap.map[ogreY][ogreX+1] != 'I') { // DIREITA
+//			if(currentMap.map[ogreY][ogreX+1] == 'k')
+//				currentMap.map[ogreY][ogreX+1] = '$';
+//			else
+//				currentMap.map[ogreY][ogreX+1] = '*';
+//		}
+//		else if(club == 3 && currentMap.map[ogreY+1][ogreX] != 'X'  && currentMap.map[ogreY+1][ogreX] != 'I') { // BAIXO
+//			if(currentMap.map[ogreY+1][ogreX] == 'k')
+//				currentMap.map[ogreY+1][ogreX] = '$';
+//			else
+//				currentMap.map[ogreY+1][ogreX] = '*';
+//		}
+//		else if(club == 4 && currentMap.map[ogreY][ogreX-1] != 'X'  && currentMap.map[ogreY][ogreX-1] != 'I') { // ESQUERDA
+//			if(currentMap.map[ogreY][ogreX-1] == 'k')
+//				currentMap.map[ogreY][ogreX-1] = '$';
+//			else
+//				currentMap.map[ogreY][ogreX-1] = '*';
+//		}
+//	}
 
 	public int moveLeft(char person, int level) {
 		int x = 0;
@@ -346,6 +348,7 @@ public class Map {
 				return -1;
 			} 
 		}
+		
 		if (currentMap.map[y+1][x] == 'I') {
 			if (lever == 1 && currentMap.map[y][x] == 'K'){
 				currentMap.map[y+1][x] = 'S';

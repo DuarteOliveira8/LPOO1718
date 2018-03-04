@@ -11,4 +11,24 @@ public class Guard extends Character{
 		symbol = 'G';
 	}
 
+	@Override
+	public void moveLeftSpecific(Map map) {
+		
+	}
+	
+	@Override
+	public void moveRightSpecific(Map map) {
+		
+	}
+	
+	@Override
+	public void moveDownSpecific(Map map) {
+		
+	}
+	
+	@Override
+	public void moveUpSpecific(Map map) {
+		
+	}
+	
 }
