@@ -4,6 +4,8 @@ import dkeep.logic.Character;
 
 public class Hero extends Character{
 	
+	int armed = 0;
+	
 	public Hero() {
 		x = 1;
 		y = 1;
@@ -50,6 +52,13 @@ public class Hero extends Character{
 			map.currentMap.level++;
 			map.currentMap.onGame = 0;
 		}
+		else if(map.currentMap.map[y][x-1] == '+') {
+			symbol = 'A';
+			map.currentMap.map[y][x-1] = symbol;
+			map.currentMap.map[y][x] = ' ';
+			x--;
+			armed = 1;
+		}
 	}
 	
 	@Override
@@ -91,6 +100,13 @@ public class Hero extends Character{
 			map.currentMap.map[y][x+1] = symbol;
 			map.currentMap.level++;
 			map.currentMap.onGame = 0;
+		}
+		else if(map.currentMap.map[y][x+1] == '+') {
+			symbol = 'A';
+			map.currentMap.map[y][x+1] = symbol;
+			map.currentMap.map[y][x] = ' ';
+			x++;
+			armed = 1;
 		}
 		
 	}
@@ -135,6 +151,13 @@ public class Hero extends Character{
 			map.currentMap.level++;
 			map.currentMap.onGame = 0;
 		}
+		else if(map.currentMap.map[y+1][x] == '+') {
+			symbol = 'A';
+			map.currentMap.map[y+1][x] = symbol;
+			map.currentMap.map[y][x] = ' ';
+			y++;
+			armed = 1;
+		}
 	}
 	
 	@Override
@@ -176,6 +199,13 @@ public class Hero extends Character{
 			map.currentMap.map[y-1][x] = symbol;
 			map.currentMap.level++;
 			map.currentMap.onGame = 0;
+		}
+		else if(map.currentMap.map[y-1][x] == '+') {
+			symbol = 'A';
+			map.currentMap.map[y-1][x] = symbol;
+			map.currentMap.map[y][x] = ' ';
+			y--;
+			armed = 1;
 		}
 	}
 }

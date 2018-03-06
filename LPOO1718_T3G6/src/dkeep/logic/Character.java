@@ -6,7 +6,7 @@ public abstract class Character {
 	public int x;
 	public int y;
 	public int lever = 0;
-	char symbol;
+	public char symbol;
 	
 	public void moveLeft(Map map) {
 		if(map.currentMap.map[y][x-1] == ' ' && lever == 0) {

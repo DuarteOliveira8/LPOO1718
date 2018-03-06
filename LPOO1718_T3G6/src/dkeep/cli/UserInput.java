@@ -6,7 +6,10 @@ import dkeep.logic.Hero;
 import dkeep.logic.Ogre;
 import dkeep.logic.Guard;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class UserInput {
 	static Map gameMap = new Map();
@@ -15,47 +18,60 @@ public class UserInput {
 	
 	static Hero hero = new Hero();
 	static Guard guard = new Guard();
-	static Ogre ogre = new Ogre();
+	static ArrayList<Ogre> ogres = new ArrayList<Ogre>();
+	static int nOgres = ThreadLocalRandom.current().nextInt(1, 6);
 	
-	
+
 	public static void main(String[] args) {
-		gameMap.printMap();
+		
+		for(int i = 0; i < nOgres; i++) {
+			ogres.add(new Ogre());
+		}
+		
 
 		while (true) {
-
-			gameLogic.moveNPC(gameMap, guard, ogre);
+			gameMap.printMap();
 			
-			gameState = gameLogic.verifyGameState(hero, guard, ogre, gameMap);
+			userInput(gameMap.currentMap.level);
+			
+			gameState = gameLogic.verifyGameState(hero, guard, ogres, gameMap);
+			
+			if (gameState == -1) {
+				gameMap.printMap();
+				break;
+			}
+			
+			for (Ogre ogre : ogres)
+				ogre.verifyStun(hero.symbol, gameMap);
+			
+			if (gameMap.currentMap.level == 2 && gameMap.currentMap.onGame == 0) {
+				System.out.println("Next Level");
+				gameMap.changeMap();
+				hero.x = 1;
+				hero.y = 8;
+				gameMap.currentMap.onGame = 1;
+				
+			}
+			
+			if (gameMap.currentMap.level == 3) {
+				System.out.println("You won!");
+				return;
+			}
+			
+			gameLogic.moveNPC(gameMap, guard, ogres);
+			
+			gameState = gameLogic.verifyGameState(hero, guard, ogres, gameMap);
 			
 			if (gameState == -1){
 				gameMap.printMap();
 				break;
 			}
 			
-			userInput(gameMap.currentMap.level);
-			
-			gameState = gameLogic.verifyGameState(hero, guard, ogre, gameMap);
-			
-			if (gameState == -1) {
-				gameMap.printMap();
-				break;
-			}
-
-			if (gameMap.currentMap.level == 2 && gameMap.currentMap.onGame == 0) {
-				System.out.println("Next Level!!");
-				gameMap.changeMap();
-				hero.x = 1;
-				hero.y = 8;
-				gameMap.currentMap.onGame = 1;
-			}
-			gameMap.printMap();
-			if (gameMap.currentMap.level == 3) {
-				System.out.println("You win!!");
-				return;
-			}
+			for (Ogre ogre : ogres)
+				ogre.verifyStun(hero.symbol, gameMap);
 		}
 		
-		System.out.println("You Lost!!");
+		System.out.println("You lost!");
 	}
 	
 	public static void userInput(int level) {

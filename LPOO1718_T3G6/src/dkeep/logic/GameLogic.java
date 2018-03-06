@@ -1,14 +1,15 @@
 package dkeep.logic;
 
 import dkeep.logic.Map;
+
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameLogic {
 	int indiceG = 0;
 	int indiceO = 0;
 
-	public void moveNPC(Map gameMap, Guard guard, Ogre ogre) {
-		
+	public void moveNPC(Map gameMap, Guard guard, ArrayList<Ogre> ogres) {
 		if (gameMap.currentMap.level == 1) {
 			guard.characterState = ThreadLocalRandom.current().nextInt(0, 2);
 			
@@ -52,26 +53,28 @@ public class GameLogic {
 			if(indiceG == -1)
 				indiceG = guard.patrolreverse.length - 1;
 		}
-		else if(gameMap.currentMap.level == 2) {
-			ogre.removeClub(gameMap);
-
-			indiceO = ThreadLocalRandom.current().nextInt(0, 4);
-			if (ogre.movement[indiceO] == 'w')
-				ogre.moveUp(gameMap);
-			else if (ogre.movement[indiceO] == 'a')
-				ogre.moveLeft(gameMap);
-			else if (ogre.movement[indiceO] == 's')
-				ogre.moveDown(gameMap);
-			else if (ogre.movement[indiceO] == 'd')
-				ogre.moveRight(gameMap);
-
-			ogre.addClub(gameMap);
-		}
-
 		
+		for (Ogre ogre : ogres) {
+			if(gameMap.currentMap.level == 2 && ogre.stunned == 0) {
+				ogre.removeClub(gameMap);
+				indiceO = ThreadLocalRandom.current().nextInt(0, 4);
+				if (ogre.movement[indiceO] == 'w')
+					ogre.moveUp(gameMap);
+				else if (ogre.movement[indiceO] == 'a')
+					ogre.moveLeft(gameMap);
+				else if (ogre.movement[indiceO] == 's')
+					ogre.moveDown(gameMap);
+				else if (ogre.movement[indiceO] == 'd')
+					ogre.moveRight(gameMap);
+				ogre.addClub(gameMap);
+			}
+			
+			if(ogre.stunned > 0)
+				ogre.stunned--;
+		}
 	}
 	
-	public int verifyGameState(Hero hero, Guard guard, Ogre ogre, Map map) {
+	public int verifyGameState(Hero hero, Guard guard, ArrayList<Ogre> ogres, Map map) {
 		if(map.currentMap.level == 1 && guard.symbol == 'G') {
 			if(map.currentMap.map[guard.y][guard.x + 1] == hero.symbol ||
 				map.currentMap.map[guard.y][guard.x - 1] == hero.symbol ||
@@ -83,10 +86,12 @@ public class GameLogic {
 				return 0;
 		}
 		else if(map.currentMap.level == 2) {
-			if(ogre.clubX == hero.x && ogre.clubY == hero.y)
-				return -1;
-			else
-				return 0;
+			for (Ogre ogre : ogres) {
+				if (ogre.clubX == hero.x && ogre.clubY == hero.y)
+					return -1;
+				else
+					return 0;
+			}
 			
 		}
 		

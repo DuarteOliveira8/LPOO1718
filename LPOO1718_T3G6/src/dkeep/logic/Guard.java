@@ -10,13 +10,11 @@ public class Guard extends Character{
 	int personality; //-1: drunk // 0: normal // 1: suspicious
 	public int characterState = 0;
 	
-	
 	public Guard() {
 		x = 8;
 		y = 1;
 		symbol = 'G';
-		//personality = ThreadLocalRandom.current().nextInt(-1, 2);
-		personality = 1;
+		personality = ThreadLocalRandom.current().nextInt(-1, 2);
 	}
 
 	@Override
@@ -34,5 +32,4 @@ public class Guard extends Character{
 	@Override
 	public void moveUpSpecific(Map map) {
 	}
-	
 }

@@ -10,6 +10,7 @@ public class Ogre extends Character{
 	int club = 0;
 	int clubX = 0;
 	int clubY = 0;
+	public int stunned = 0;
 	
 	public Ogre() {
 		x = 4;
@@ -18,25 +19,25 @@ public class Ogre extends Character{
 	}
 	
 	public void removeClub(Map map) {
-		if(club == 1 && map.currentMap.map[y-1][x] != 'X'  && map.currentMap.map[y-1][x] != 'I') { // CIMA
+		if(club == 1 && map.currentMap.map[y-1][x] != 'X'  && map.currentMap.map[y-1][x] != 'I' && map.currentMap.map[y-1][x] != 'O') { // CIMA
 			if(map.currentMap.map[y-1][x] == '$')
 				map.currentMap.map[y-1][x] = 'k';
 			else
 				map.currentMap.map[y-1][x] = ' ';
 		}
-		else if(club == 2 && map.currentMap.map[y][x+1] != 'X'  && map.currentMap.map[y][x+1] != 'I') { // DIREITA
+		else if(club == 2 && map.currentMap.map[y][x+1] != 'X'  && map.currentMap.map[y][x+1] != 'I' && map.currentMap.map[y][x+1] != 'O') { // DIREITA
 			if(map.currentMap.map[y][x+1] == '$')
 				map.currentMap.map[y][x+1] = 'k';
 			else
 				map.currentMap.map[y][x+1] = ' ';
 		}
-		else if(club == 3 && map.currentMap.map[y+1][x] != 'X'  && map.currentMap.map[y+1][x] != 'I') { // BAIXO
+		else if(club == 3 && map.currentMap.map[y+1][x] != 'X'  && map.currentMap.map[y+1][x] != 'I' && map.currentMap.map[y+1][x] != 'O') { // BAIXO
 			if(map.currentMap.map[y+1][x] == '$')
 				map.currentMap.map[y+1][x] = 'k';
 			else
 				map.currentMap.map[y+1][x] = ' ';
 		}
-		else if(club == 4 && map.currentMap.map[y][x-1] != 'X'  && map.currentMap.map[y][x-1] != 'I') { // ESQUERDA
+		else if(club == 4 && map.currentMap.map[y][x-1] != 'X'  && map.currentMap.map[y][x-1] != 'I' && map.currentMap.map[y][x-1] != 'O') { // ESQUERDA
 			if(map.currentMap.map[y][x-1] == '$')
 				map.currentMap.map[y][x-1] = 'k';
 			else
@@ -47,7 +48,7 @@ public class Ogre extends Character{
 	public void addClub(Map map) {
 		club = ThreadLocalRandom.current().nextInt(1, 5);
 		
-		if(club == 1 && map.currentMap.map[y-1][x] != 'X'  && map.currentMap.map[y-1][x] != 'I') { // CIMA
+		if(club == 1 && map.currentMap.map[y-1][x] != 'X'  && map.currentMap.map[y-1][x] != 'I' && map.currentMap.map[y-1][x] != 'O') { // CIMA
 			if(map.currentMap.map[y-1][x] == 'k')
 				map.currentMap.map[y-1][x] = '$';
 			else
@@ -56,7 +57,7 @@ public class Ogre extends Character{
 			clubX = x;
 			clubY = y-1;
 		}
-		else if(club == 2 && map.currentMap.map[y][x+1] != 'X'  && map.currentMap.map[y][x+1] != 'I') { // DIREITA
+		else if(club == 2 && map.currentMap.map[y][x+1] != 'X'  && map.currentMap.map[y][x+1] != 'I' && map.currentMap.map[y][x+1] != 'O') { // DIREITA
 			if(map.currentMap.map[y][x+1] == 'k')
 				map.currentMap.map[y][x+1] = '$';
 			else
@@ -65,7 +66,7 @@ public class Ogre extends Character{
 			clubX = x+1;
 			clubY = y;
 		}
-		else if(club == 3 && map.currentMap.map[y+1][x] != 'X'  && map.currentMap.map[y+1][x] != 'I') { // BAIXO
+		else if(club == 3 && map.currentMap.map[y+1][x] != 'X'  && map.currentMap.map[y+1][x] != 'I' && map.currentMap.map[y+1][x] != 'O') { // BAIXO
 			if(map.currentMap.map[y+1][x] == 'k')
 				map.currentMap.map[y+1][x] = '$';
 			else
@@ -74,7 +75,7 @@ public class Ogre extends Character{
 			clubX = x;
 			clubY = y+1;
 		}
-		else if(club == 4 && map.currentMap.map[y][x-1] != 'X'  && map.currentMap.map[y][x-1] != 'I') { // ESQUERDA
+		else if(club == 4 && map.currentMap.map[y][x-1] != 'X'  && map.currentMap.map[y][x-1] != 'I' && map.currentMap.map[y][x-1] != 'O') { // ESQUERDA
 			if(map.currentMap.map[y][x-1] == 'k')
 				map.currentMap.map[y][x-1] = '$';
 			else
@@ -154,6 +155,16 @@ public class Ogre extends Character{
 			map.currentMap.map[y-1][x] = symbol;
 			lever = 1;
 			y--;
+		}
+	}
+	
+	public void verifyStun(char heroSymbol, Map gameMap) {
+		if(gameMap.currentMap.level == 2 &&
+				(gameMap.currentMap.map[y][x+1] == heroSymbol ||
+				gameMap.currentMap.map[y][x-1] == heroSymbol ||
+				gameMap.currentMap.map[y-1][x] == heroSymbol ||
+				gameMap.currentMap.map[y+1][x] == heroSymbol)) {
+			stunned = 2;
 		}
 	}
 }
