@@ -2,7 +2,6 @@ package dkeep.logic;
 
 public class CurrentMap {
 	public char map[][];
-	int lever = 0;
 	public int level = 1;
 	public int onGame = 1;
 	

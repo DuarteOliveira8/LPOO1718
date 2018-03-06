@@ -6,8 +6,8 @@ import dkeep.logic.Character;
 
 public class Ogre extends Character{
 	char movement[] = {'a', 's', 'd', 'w'};
+	char movement2[] = {'d', 'd', 'd', 'd', 's', 's', 's'};
 	int club = 0;
-	int onLever = 0;
 	int clubX = 0;
 	int clubY = 0;
 	
@@ -87,72 +87,72 @@ public class Ogre extends Character{
 	
 	@Override
 	public void moveLeftSpecific(Map map) {
-		if(map.currentMap.map[y][x-1] == ' ' && map.currentMap.lever == 1) {
+		if(map.currentMap.map[y][x-1] == ' ' && lever == 1) {
 			symbol = 'O';
 			map.currentMap.map[y][x-1] = symbol;
 			map.currentMap.map[y][x] = 'k';
-			map.currentMap.lever = 0;
+			lever = 0;
 			x--;
 		}
 		else if (map.currentMap.map[y][x-1] == 'k') {
 			map.currentMap.map[y][x] = ' ';
 			symbol = '$';
 			map.currentMap.map[y][x-1] = symbol;
-			map.currentMap.lever = 1;
+			lever = 1;
 			x--;
 		}
 	}
 	
 	@Override
 	public void moveRightSpecific(Map map) {
-		if(map.currentMap.map[y][x+1] == ' ' && map.currentMap.lever == 1) {
+		if(map.currentMap.map[y][x+1] == ' ' && lever == 1) {
 			symbol = 'O';
 			map.currentMap.map[y][x+1] = symbol;
 			map.currentMap.map[y][x] = 'k';
-			map.currentMap.lever = 0;
+			lever = 0;
 			x++;
 		}
 		else if (map.currentMap.map[y][x+1] == 'k') {
 			map.currentMap.map[y][x] = ' ';
 			symbol = '$';
 			map.currentMap.map[y][x+1] = symbol;
-			map.currentMap.lever = 1;
+			lever = 1;
 			x++;
 		}
 	}
 	
 	@Override
 	public void moveDownSpecific(Map map) {
-		if(map.currentMap.map[y+1][x] == ' ' && map.currentMap.lever == 1) {
+		if(map.currentMap.map[y+1][x] == ' ' && lever == 1) {
 			symbol = 'O';
 			map.currentMap.map[y+1][x] = symbol;
 			map.currentMap.map[y][x] = 'k';
-			map.currentMap.lever = 0;
+			lever = 0;
 			y++;
 		}
 		else if (map.currentMap.map[y+1][x] == 'k') {
 			map.currentMap.map[y][x] = ' ';
 			symbol = '$';
 			map.currentMap.map[y+1][x] = symbol;
-			map.currentMap.lever = 1;
+			lever = 1;
 			y++;
 		}
 	}
 	
 	@Override
 	public void moveUpSpecific(Map map) {
-		if(map.currentMap.map[y-1][x] == ' ' && map.currentMap.lever == 1) {
+		if(map.currentMap.map[y-1][x] == ' ' && lever == 1) {
 			symbol = 'O';
 			map.currentMap.map[y-1][x] = symbol;
 			map.currentMap.map[y][x] = 'k';
-			map.currentMap.lever = 0;
+			lever = 0;
 			y--;
 		}
 		else if (map.currentMap.map[y-1][x] == 'k') {
 			map.currentMap.map[y][x] = ' ';
 			symbol = '$';
 			map.currentMap.map[y-1][x] = symbol;
-			map.currentMap.lever = 1;
+			lever = 1;
 			y--;
 		}
 	}

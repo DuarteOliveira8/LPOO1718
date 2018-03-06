@@ -5,10 +5,11 @@ import dkeep.logic.Map;
 public abstract class Character {
 	public int x;
 	public int y;
+	public int lever = 0;
 	char symbol;
 	
 	public void moveLeft(Map map) {
-		if(map.currentMap.map[y][x-1] == ' ' && map.currentMap.lever == 0) {
+		if(map.currentMap.map[y][x-1] == ' ' && lever == 0) {
 			map.currentMap.map[y][x] = ' ';
 			map.currentMap.map[y][x-1] = symbol;
 			x--;
@@ -20,7 +21,7 @@ public abstract class Character {
 	public abstract void moveLeftSpecific(Map map);
 	
 	public void moveRight(Map map) {
-		if(map.currentMap.map[y][x+1] == ' ' && map.currentMap.lever == 0) {
+		if(map.currentMap.map[y][x+1] == ' ' && lever == 0) {
 			map.currentMap.map[y][x] = ' ';
 			map.currentMap.map[y][x+1] = symbol;
 			x++;
@@ -32,7 +33,7 @@ public abstract class Character {
 	public abstract void moveRightSpecific(Map map);
 	
 	public void moveUp(Map map) {
-		if(map.currentMap.map[y-1][x] == ' ' && map.currentMap.lever == 0) {
+		if(map.currentMap.map[y-1][x] == ' ' && lever == 0) {
 			map.currentMap.map[y][x] = ' ';
 			map.currentMap.map[y-1][x] = symbol;
 			y--;
@@ -44,7 +45,7 @@ public abstract class Character {
 	public abstract void moveUpSpecific(Map map);
 	
 	public void moveDown(Map map) {
-		if(map.currentMap.map[y+1][x] == ' ' && map.currentMap.lever == 0) {
+		if(map.currentMap.map[y+1][x] == ' ' && lever == 0) {
 			map.currentMap.map[y][x] = ' ';
 			map.currentMap.map[y+1][x] = symbol;
 			y++;

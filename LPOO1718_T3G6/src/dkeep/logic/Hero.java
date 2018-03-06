@@ -12,7 +12,7 @@ public class Hero extends Character{
 	
 	@Override
 	public void moveLeftSpecific(Map map) {
-		if(map.currentMap.map[y][x-1] == ' ' && map.currentMap.lever == 1) {
+		if(map.currentMap.map[y][x-1] == ' ' && lever == 1) {
 			if (map.currentMap.level == 1) {
 				map.currentMap.map[y][x-1] = symbol;
 				map.currentMap.map[y][x] = 'k';
@@ -21,7 +21,7 @@ public class Hero extends Character{
 				map.currentMap.map[y][x-1] = symbol;
 				map.currentMap.map[y][x] = ' ';
 			}
-			map.currentMap.lever = 0;
+			lever = 0;
 			x--;
 		}
 		else if (map.currentMap.map[y][x-1] == 'I' && symbol == 'K') {
@@ -32,13 +32,13 @@ public class Hero extends Character{
 		else if (map.currentMap.map[y][x-1] == 'k') {
 			map.currentMap.map[y][x] = ' ';
 			if (map.currentMap.level == 1) {
-				map.currentMap.lever = 1;
+				lever = 1;
 				map.currentMap.map[y][x-1] = symbol;
 				map.currentMap.map[5][0] = 'S';
 				map.currentMap.map[6][0] = 'S';
 			}
 			else if (map.currentMap.level == 2) {
-				map.currentMap.lever = 1;
+				lever = 1;
 				symbol = 'K';
 				map.currentMap.map[y][x-1] = symbol;
 			}	
@@ -54,7 +54,7 @@ public class Hero extends Character{
 	
 	@Override
 	public void moveRightSpecific(Map map) {
-		if(map.currentMap.map[y][x+1] == ' ' && map.currentMap.lever == 1) {
+		if(map.currentMap.map[y][x+1] == ' ' && lever == 1) {
 			if (map.currentMap.level == 1) {
 				map.currentMap.map[y][x+1] = symbol;
 				map.currentMap.map[y][x] = 'k';
@@ -63,7 +63,7 @@ public class Hero extends Character{
 				map.currentMap.map[y][x+1] = symbol;
 				map.currentMap.map[y][x] = ' ';
 			}
-			map.currentMap.lever = 0;
+			lever = 0;
 			x++;
 		}
 		else if (map.currentMap.map[y][x+1] == 'I' && symbol == 'K') {
@@ -74,13 +74,13 @@ public class Hero extends Character{
 		else if (map.currentMap.map[y][x+1] == 'k') {
 			map.currentMap.map[y][x] = ' ';
 			if (map.currentMap.level == 1) {
-				map.currentMap.lever = 1;
+				lever = 1;
 				map.currentMap.map[y][x+1] = symbol;
 				map.currentMap.map[5][0] = 'S';
 				map.currentMap.map[6][0] = 'S';
 			}
 			else if (map.currentMap.level == 2) {
-				map.currentMap.lever = 1;
+				lever = 1;
 				symbol = 'K';
 				map.currentMap.map[y][x+1] = symbol;
 			}
@@ -97,7 +97,7 @@ public class Hero extends Character{
 	
 	@Override
 	public void moveDownSpecific(Map map) {
-		if(map.currentMap.map[y+1][x] == ' ' && map.currentMap.lever == 1) {
+		if(map.currentMap.map[y+1][x] == ' ' && lever == 1) {
 			if (map.currentMap.level == 1) {
 				map.currentMap.map[y+1][x] = symbol;
 				map.currentMap.map[y][x] = 'k';
@@ -106,7 +106,7 @@ public class Hero extends Character{
 				map.currentMap.map[y+1][x] = symbol;
 				map.currentMap.map[y][x] = ' ';
 			}
-			map.currentMap.lever = 0;
+			lever = 0;
 			y++;
 		}
 		else if (map.currentMap.map[y+1][x] == 'I' && symbol == 'K') {
@@ -117,13 +117,13 @@ public class Hero extends Character{
 		else if (map.currentMap.map[y+1][x] == 'k') {
 			map.currentMap.map[y][x] = ' ';
 			if (map.currentMap.level == 1) {
-				map.currentMap.lever = 1;
+				lever = 1;
 				map.currentMap.map[y+1][x] = symbol;
 				map.currentMap.map[5][0] = 'S';
 				map.currentMap.map[6][0] = 'S';
 			}
 			else if (map.currentMap.level == 2) {
-				map.currentMap.lever = 1;
+				lever = 1;
 				symbol = 'K';
 				map.currentMap.map[y+1][x] = symbol;
 			}
@@ -139,7 +139,7 @@ public class Hero extends Character{
 	
 	@Override
 	public void moveUpSpecific(Map map) {
-		if(map.currentMap.map[y-1][x] == ' ' && map.currentMap.lever == 1) {
+		if(map.currentMap.map[y-1][x] == ' ' && lever == 1) {
 			if (map.currentMap.level == 1) {
 				map.currentMap.map[y-1][x] = symbol;
 				map.currentMap.map[y][x] = 'k';
@@ -148,7 +148,7 @@ public class Hero extends Character{
 				map.currentMap.map[y-1][x] = symbol;
 				map.currentMap.map[y][x] = ' ';
 			}
-			map.currentMap.lever = 0;
+			lever = 0;
 			y--;
 		}
 		else if (map.currentMap.map[y-1][x] == 'I' && symbol == 'K') {
@@ -159,13 +159,13 @@ public class Hero extends Character{
 		else if (map.currentMap.map[y-1][x] == 'k') {
 			map.currentMap.map[y][x] = ' ';
 			if (map.currentMap.level == 1) {
-				map.currentMap.lever = 1;
+				lever = 1;
 				map.currentMap.map[y-1][x] = symbol;
 				map.currentMap.map[5][0] = 'S';
 				map.currentMap.map[6][0] = 'S';
 			}
 			else if (map.currentMap.level == 2) {
-				map.currentMap.lever = 1;
+				lever = 1;
 				symbol = 'K';
 				map.currentMap.map[y-1][x] = symbol;
 			}
