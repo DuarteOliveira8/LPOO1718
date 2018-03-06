@@ -10,9 +10,9 @@ public class Guard extends Character{
 	int personality; //-1: drunk // 0: normal // 1: suspicious
 	public int characterState = 0;
 	
-	public Guard() {
-		x = 8;
-		y = 1;
+	public Guard(int x, int y) {
+		this.x = x;
+		this.y = y;
 		symbol = 'G';
 		personality = ThreadLocalRandom.current().nextInt(-1, 2);
 	}

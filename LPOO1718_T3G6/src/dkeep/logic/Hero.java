@@ -6,9 +6,9 @@ public class Hero extends Character{
 	
 	int armed = 0;
 	
-	public Hero() {
-		x = 1;
-		y = 1;
+	public Hero(int x, int y) {
+		this.x = x;
+		this.y = y;
 		symbol = 'H';
 	}
 	

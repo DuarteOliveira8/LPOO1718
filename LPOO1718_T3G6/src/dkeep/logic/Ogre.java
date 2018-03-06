@@ -12,9 +12,9 @@ public class Ogre extends Character{
 	int clubY = 0;
 	public int stunned = 0;
 	
-	public Ogre() {
-		x = 4;
-		y = 1;
+	public Ogre(int x, int y) {
+		this.x = x;
+		this.y = y;
 		symbol = 'O';
 	}
 	

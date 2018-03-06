@@ -6,7 +6,6 @@ import dkeep.logic.Hero;
 import dkeep.logic.Ogre;
 import dkeep.logic.Guard;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -16,16 +15,18 @@ public class UserInput {
 	static int gameState = 0;
 	static GameLogic gameLogic = new GameLogic();
 	
-	static Hero hero = new Hero();
-	static Guard guard = new Guard();
+	static Hero hero = new Hero(1,1);
+	static Guard guard = new Guard(8,1);
 	static ArrayList<Ogre> ogres = new ArrayList<Ogre>();
 	static int nOgres = ThreadLocalRandom.current().nextInt(1, 6);
 	
 
 	public static void main(String[] args) {
 		
+		gameMap.currentMap.initializeLevels(1);
+		
 		for(int i = 0; i < nOgres; i++) {
-			ogres.add(new Ogre());
+			ogres.add(new Ogre(4,1));
 		}
 		
 
@@ -47,8 +48,7 @@ public class UserInput {
 			if (gameMap.currentMap.level == 2 && gameMap.currentMap.onGame == 0) {
 				System.out.println("Next Level");
 				gameMap.changeMap();
-				hero.x = 1;
-				hero.y = 8;
+				hero.changePosition(1, 8);
 				gameMap.currentMap.onGame = 1;
 				
 			}
