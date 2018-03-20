@@ -18,12 +18,10 @@ public class UserInput {
 	static Hero hero = new Hero(1,1);
 	static Guard guard = new Guard(8,1);
 	static ArrayList<Ogre> ogres = new ArrayList<Ogre>();
-	static int nOgres = ThreadLocalRandom.current().nextInt(1, 6);
+	static int nOgres = 1;//ThreadLocalRandom.current().nextInt(1, 6);
 	
 
 	public static void main(String[] args) {
-		
-		gameMap.currentMap.initializeLevels(1);
 		
 		for(int i = 0; i < nOgres; i++) {
 			ogres.add(new Ogre(4,1));
@@ -31,21 +29,22 @@ public class UserInput {
 		
 
 		while (true) {
-			gameMap.printMap();
+			gameMap.currentMap.printMap(hero, guard, ogres);
 			
 			userInput(gameMap.currentMap.level);
 			
 			gameState = gameLogic.verifyGameState(hero, guard, ogres, gameMap);
 			
 			if (gameState == -1) {
-				gameMap.printMap();
+				gameMap.currentMap.printMap(hero, guard, ogres);
 				break;
 			}
 			
 			for (Ogre ogre : ogres)
-				ogre.verifyStun(hero.symbol, gameMap);
+				ogre.verifyStun(hero, gameMap);
 			
 			if (gameMap.currentMap.level == 2 && gameMap.currentMap.onGame == 0) {
+				gameMap.currentMap.printMap(hero, guard, ogres);
 				System.out.println("Next Level");
 				gameMap.changeMap();
 				hero.changePosition(1, 8);
@@ -54,6 +53,7 @@ public class UserInput {
 			}
 			
 			if (gameMap.currentMap.level == 3) {
+				gameMap.currentMap.printMap(hero, guard, ogres);
 				System.out.println("You won!");
 				return;
 			}
@@ -63,12 +63,12 @@ public class UserInput {
 			gameState = gameLogic.verifyGameState(hero, guard, ogres, gameMap);
 			
 			if (gameState == -1){
-				gameMap.printMap();
+				gameMap.currentMap.printMap(hero, guard, ogres);
 				break;
 			}
 			
 			for (Ogre ogre : ogres)
-				ogre.verifyStun(hero.symbol, gameMap);
+				ogre.verifyStun(hero, gameMap);
 		}
 		
 		System.out.println("You lost!");

@@ -9,9 +9,7 @@ public abstract class Character {
 	public char symbol;
 	
 	public void moveLeft(Map map) {
-		if(map.currentMap.map[y][x-1] == ' ' && lever == 0) {
-			map.currentMap.map[y][x] = ' ';
-			map.currentMap.map[y][x-1] = symbol;
+		if(map.currentMap.emptymap[y][x-1] == ' ' && lever == 0 && !(map.currentMap.keyX == x-1 && map.currentMap.keyY == y) && !(map.currentMap.xClub == x-1 && map.currentMap.yClub == y)) {
 			x--;
 		}
 		else
@@ -21,9 +19,7 @@ public abstract class Character {
 	public abstract void moveLeftSpecific(Map map);
 	
 	public void moveRight(Map map) {
-		if(map.currentMap.map[y][x+1] == ' ' && lever == 0) {
-			map.currentMap.map[y][x] = ' ';
-			map.currentMap.map[y][x+1] = symbol;
+		if(map.currentMap.emptymap[y][x+1] == ' ' && lever == 0 && !(map.currentMap.keyX == x+1 && map.currentMap.keyY == y) && !(map.currentMap.xClub == x+1 && map.currentMap.yClub == y)) {
 			x++;
 		}
 		else
@@ -33,9 +29,7 @@ public abstract class Character {
 	public abstract void moveRightSpecific(Map map);
 	
 	public void moveUp(Map map) {
-		if(map.currentMap.map[y-1][x] == ' ' && lever == 0) {
-			map.currentMap.map[y][x] = ' ';
-			map.currentMap.map[y-1][x] = symbol;
+		if(map.currentMap.emptymap[y-1][x] == ' ' && lever == 0 && !(map.currentMap.keyX == x && map.currentMap.keyY == y-1) && !(map.currentMap.xClub == x && map.currentMap.yClub == y-1)) {
 			y--;
 		}
 		else
@@ -45,9 +39,7 @@ public abstract class Character {
 	public abstract void moveUpSpecific(Map map);
 	
 	public void moveDown(Map map) {
-		if(map.currentMap.map[y+1][x] == ' ' && lever == 0) {
-			map.currentMap.map[y][x] = ' ';
-			map.currentMap.map[y+1][x] = symbol;
+		if(map.currentMap.emptymap[y+1][x] == ' ' && lever == 0 && !(map.currentMap.keyX == x && map.currentMap.keyY == y+1) && !(map.currentMap.xClub == x && map.currentMap.yClub == y+1)) {
 			y++;
 		}
 		else

@@ -56,7 +56,6 @@ public class GameLogic {
 		
 		for (Ogre ogre : ogres) {
 			if(gameMap.currentMap.level == 2 && ogre.stunned == 0) {
-				ogre.removeClub(gameMap);
 				indiceO = ThreadLocalRandom.current().nextInt(0, 4);
 				if (ogre.movement[indiceO] == 'w')
 					ogre.moveUp(gameMap);
@@ -66,20 +65,25 @@ public class GameLogic {
 					ogre.moveDown(gameMap);
 				else if (ogre.movement[indiceO] == 'd')
 					ogre.moveRight(gameMap);
-				ogre.addClub(gameMap);
 			}
 			
 			if(ogre.stunned > 0)
 				ogre.stunned--;
 		}
+		
+		for (Ogre ogre : ogres) {
+			if(gameMap.currentMap.level == 2 && ogre.stunned == 0) {
+				ogre.addClub(gameMap);
+			}
+		}
 	}
 	
 	public int verifyGameState(Hero hero, Guard guard, ArrayList<Ogre> ogres, Map map) {
 		if(map.currentMap.level == 1 && guard.symbol == 'G') {
-			if(map.currentMap.map[guard.y][guard.x + 1] == hero.symbol ||
-				map.currentMap.map[guard.y][guard.x - 1] == hero.symbol ||
-				map.currentMap.map[guard.y + 1][guard.x] == hero.symbol ||
-				map.currentMap.map[guard.y - 1][guard.x] == hero.symbol) {
+			if((hero.x == guard.x+1 && hero.y == guard.y) ||
+				(hero.x == guard.x-1 && hero.y == guard.y) ||
+				(hero.x == guard.x && hero.y == guard.y+1) ||
+				(hero.x == guard.x && hero.y == guard.y-1)){
 				return -1;
 			}
 			else
@@ -87,12 +91,24 @@ public class GameLogic {
 		}
 		else if(map.currentMap.level == 2) {
 			for (Ogre ogre : ogres) {
-				if (ogre.clubX == hero.x && ogre.clubY == hero.y)
+				if(((hero.x == ogre.x+1 && hero.y == ogre.y) ||
+						(hero.x == ogre.x-1 && hero.y == ogre.y) ||
+						(hero.x == ogre.x && hero.y == ogre.y+1) ||
+						(hero.x == ogre.x && hero.y == ogre.y-1)) && hero.symbol != 'A'){
 					return -1;
+				}
+				
+				if(ogre.clubX != 0  && ogre.clubY != 0) {
+					if((hero.x == ogre.clubX+1 && hero.y == ogre.clubY) ||
+							(hero.x == ogre.clubX-1 && hero.y == ogre.clubY) ||
+							(hero.x == ogre.clubX && hero.y == ogre.clubY+1) ||
+							(hero.x == ogre.clubX && hero.y == ogre.clubY-1)){
+						return -1;
+					}
+				}
 				else
 					return 0;
 			}
-			
 		}
 		
 		return 0;

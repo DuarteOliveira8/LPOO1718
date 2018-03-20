@@ -65,5 +65,28 @@ public class TestDungeonGameLogic {
 		hero.moveLeft(gameMap);
 		assertEquals(1, gameMap.currentMap.level);
 	}
+	
+	@Test
+	public void testOpenDoors() {
+		Map gameMap = new Map();
+		gameMap.currentMap.map = map;
+		Hero hero = new Hero(1,1);
+		hero.moveDown(gameMap);
+		hero.moveDown(gameMap);
+		assertEquals('S', gameMap.currentMap.map[2][0]);
+		assertEquals('S', gameMap.currentMap.map[3][0]);
+	}
+	
+	@Test
+	public void testNextLevel() {
+		Map gameMap = new Map();
+		gameMap.currentMap.map = map;
+		Hero hero = new Hero(1,1);
+		hero.moveDown(gameMap);
+		hero.moveDown(gameMap);
+		hero.moveLeft(gameMap);
+		assertEquals(2, gameMap.currentMap.level);
+	}
+
 
 }

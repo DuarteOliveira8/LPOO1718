@@ -4,7 +4,7 @@ import dkeep.logic.Character;
 
 public class Hero extends Character{
 	
-	int armed = 0;
+	boolean armed = false;
 	
 	public Hero(int x, int y) {
 		this.x = x;
@@ -14,198 +14,141 @@ public class Hero extends Character{
 	
 	@Override
 	public void moveLeftSpecific(Map map) {
-		if(map.currentMap.map[y][x-1] == ' ' && lever == 1) {
-			if (map.currentMap.level == 1) {
-				map.currentMap.map[y][x-1] = symbol;
-				map.currentMap.map[y][x] = 'k';
-			}
-			else if (map.currentMap.level == 2) {
-				map.currentMap.map[y][x-1] = symbol;
-				map.currentMap.map[y][x] = ' ';
-			}
-			lever = 0;
+		if(map.currentMap.emptymap[y][x-1] == ' ' && lever == 1 && !(map.currentMap.xClub == x-1 && map.currentMap.yClub == y)) {
+			if (map.currentMap.level != 2)
+				lever = 0;
 			x--;
 		}
-		else if (map.currentMap.map[y][x-1] == 'I' && symbol == 'K') {
-			map.currentMap.map[y][x-1] = 'S';
+		else if (map.currentMap.emptymap[y][x-1] == 'I' && symbol == 'K') {
 			symbol = 'H';
-			map.currentMap.map[y][x] = symbol;
+			map.currentMap.doorsOpen = true;
 		}
-		else if (map.currentMap.map[y][x-1] == 'k') {
-			map.currentMap.map[y][x] = ' ';
+		else if (map.currentMap.keyX == x-1 && map.currentMap.keyY == y) {
 			if (map.currentMap.level == 1) {
 				lever = 1;
-				map.currentMap.map[y][x-1] = symbol;
-				map.currentMap.map[5][0] = 'S';
-				map.currentMap.map[6][0] = 'S';
+				map.currentMap.doorsOpen = true;
 			}
 			else if (map.currentMap.level == 2) {
 				lever = 1;
 				symbol = 'K';
-				map.currentMap.map[y][x-1] = symbol;
 			}	
 			x--;
 		}
-		else if (map.currentMap.map[y][x-1] == 'S') {
-			map.currentMap.map[y][x] = ' ';
-			map.currentMap.map[y][x-1] = symbol;
+		else if (map.currentMap.emptymap[y][x-1] == 'I' && map.currentMap.doorsOpen) {
 			map.currentMap.level++;
+			x--;
 			map.currentMap.onGame = 0;
 		}
-		else if(map.currentMap.map[y][x-1] == '+') {
+		else if(map.currentMap.xClub == x-1 && map.currentMap.yClub == y) {
 			symbol = 'A';
-			map.currentMap.map[y][x-1] = symbol;
-			map.currentMap.map[y][x] = ' ';
 			x--;
-			armed = 1;
+			armed = true;
 		}
 	}
 	
 	@Override
 	public void moveRightSpecific(Map map) {
-		if(map.currentMap.map[y][x+1] == ' ' && lever == 1) {
-			if (map.currentMap.level == 1) {
-				map.currentMap.map[y][x+1] = symbol;
-				map.currentMap.map[y][x] = 'k';
-			}
-			else if (map.currentMap.level == 2) {
-				map.currentMap.map[y][x+1] = symbol;
-				map.currentMap.map[y][x] = ' ';
-			}
-			lever = 0;
+		if(map.currentMap.emptymap[y][x+1] == ' ' && lever == 1 && !(map.currentMap.xClub == x+1 && map.currentMap.yClub == y)) {
+			if (map.currentMap.level != 2)
+				lever = 0;
 			x++;
 		}
-		else if (map.currentMap.map[y][x+1] == 'I' && symbol == 'K') {
-			map.currentMap.map[y][x+1] = 'S';
+		else if (map.currentMap.emptymap[y][x+1] == 'I' && symbol == 'K') {
 			symbol = 'H';
-			map.currentMap.map[y][x] = symbol;
+			map.currentMap.doorsOpen = true;
 		}
-		else if (map.currentMap.map[y][x+1] == 'k') {
-			map.currentMap.map[y][x] = ' ';
+		else if (map.currentMap.keyX == x+1 && map.currentMap.keyY == y) {
 			if (map.currentMap.level == 1) {
 				lever = 1;
-				map.currentMap.map[y][x+1] = symbol;
-				map.currentMap.map[5][0] = 'S';
-				map.currentMap.map[6][0] = 'S';
+				map.currentMap.doorsOpen = true;
 			}
 			else if (map.currentMap.level == 2) {
 				lever = 1;
 				symbol = 'K';
-				map.currentMap.map[y][x+1] = symbol;
 			}
 			x++;
 		}
-		else if (map.currentMap.map[y][x+1] == 'S' && map.currentMap.map[y][x] == 'H') {
-			map.currentMap.map[y][x] = ' ';
-			map.currentMap.map[y][x+1] = symbol;
+		else if (map.currentMap.emptymap[y][x+1] == 'I' && map.currentMap.doorsOpen) {
 			map.currentMap.level++;
+			x++;
 			map.currentMap.onGame = 0;
 		}
-		else if(map.currentMap.map[y][x+1] == '+') {
+		else if(map.currentMap.xClub == x+1 && map.currentMap.yClub == y) {
 			symbol = 'A';
-			map.currentMap.map[y][x+1] = symbol;
-			map.currentMap.map[y][x] = ' ';
 			x++;
-			armed = 1;
+			armed = true;
 		}
 		
 	}
 	
 	@Override
 	public void moveDownSpecific(Map map) {
-		if(map.currentMap.map[y+1][x] == ' ' && lever == 1) {
-			if (map.currentMap.level == 1) {
-				map.currentMap.map[y+1][x] = symbol;
-				map.currentMap.map[y][x] = 'k';
-			}
-			else if (map.currentMap.level == 2) {
-				map.currentMap.map[y+1][x] = symbol;
-				map.currentMap.map[y][x] = ' ';
-			}
-			lever = 0;
+		if(map.currentMap.emptymap[y+1][x] == ' ' && lever == 1 && !(map.currentMap.xClub == x && map.currentMap.yClub == y+1)) {
+			if (map.currentMap.level != 2)
+				lever = 0;
 			y++;
 		}
-		else if (map.currentMap.map[y+1][x] == 'I' && symbol == 'K') {
-			map.currentMap.map[y+1][x] = 'S';
+		else if (map.currentMap.emptymap[y+1][x] == 'I' && symbol == 'K') {
 			symbol = 'H';
-			map.currentMap.map[y][x] = symbol;
+			map.currentMap.doorsOpen = true;
 		}
-		else if (map.currentMap.map[y+1][x] == 'k') {
-			map.currentMap.map[y][x] = ' ';
+		else if (map.currentMap.keyX == x && map.currentMap.keyY == y+1) {
 			if (map.currentMap.level == 1) {
 				lever = 1;
-				map.currentMap.map[y+1][x] = symbol;
-				map.currentMap.map[5][0] = 'S';
-				map.currentMap.map[6][0] = 'S';
+				map.currentMap.doorsOpen = true;
 			}
 			else if (map.currentMap.level == 2) {
 				lever = 1;
 				symbol = 'K';
-				map.currentMap.map[y+1][x] = symbol;
+				map.currentMap.keySymbol = ' ';
 			}
 			y++;
 		}
-		else if (map.currentMap.map[y+1][x] == 'S' && map.currentMap.map[y][x] == 'H') {
-			map.currentMap.map[y][x] = ' ';
-			map.currentMap.map[y+1][x] = symbol;
+		else if (map.currentMap.emptymap[y+1][x] == 'I' && map.currentMap.doorsOpen) {
 			map.currentMap.level++;
+			y++;
 			map.currentMap.onGame = 0;
 		}
-		else if(map.currentMap.map[y+1][x] == '+') {
+		else if(map.currentMap.xClub == x && map.currentMap.yClub == y+1) {
 			symbol = 'A';
-			map.currentMap.map[y+1][x] = symbol;
-			map.currentMap.map[y][x] = ' ';
 			y++;
-			armed = 1;
+			armed = true;
 		}
 	}
 	
 	@Override
 	public void moveUpSpecific(Map map) {
-		if(map.currentMap.map[y-1][x] == ' ' && lever == 1) {
-			if (map.currentMap.level == 1) {
-				map.currentMap.map[y-1][x] = symbol;
-				map.currentMap.map[y][x] = 'k';
-			}
-			else if (map.currentMap.level == 2) {
-				map.currentMap.map[y-1][x] = symbol;
-				map.currentMap.map[y][x] = ' ';
-			}
-			lever = 0;
+		if(map.currentMap.emptymap[y-1][x] == ' ' && lever == 1 && !(map.currentMap.xClub == x && map.currentMap.yClub == y-1)) {
+			if (map.currentMap.level != 2)
+				lever = 0;
 			y--;
 		}
-		else if (map.currentMap.map[y-1][x] == 'I' && symbol == 'K') {
-			map.currentMap.map[y-1][x] = 'S';
+		else if (map.currentMap.emptymap[y-1][x] == 'I' && symbol == 'K') {
 			symbol = 'H';
-			map.currentMap.map[y][x] = symbol;
+			map.currentMap.doorsOpen = true;
 		}
-		else if (map.currentMap.map[y-1][x] == 'k') {
-			map.currentMap.map[y][x] = ' ';
+		else if (map.currentMap.keyX == x && map.currentMap.keyY == y-1) {
 			if (map.currentMap.level == 1) {
 				lever = 1;
-				map.currentMap.map[y-1][x] = symbol;
-				map.currentMap.map[5][0] = 'S';
-				map.currentMap.map[6][0] = 'S';
+				map.currentMap.doorsOpen = true;
 			}
 			else if (map.currentMap.level == 2) {
 				lever = 1;
 				symbol = 'K';
-				map.currentMap.map[y-1][x] = symbol;
+				map.currentMap.keyX = -1;
+				map.currentMap.keyY = -1;
 			}
 			y--;
 		}
-		else if (map.currentMap.map[y-1][x] == 'S' && map.currentMap.map[y][x] == 'H') {
-			map.currentMap.map[y][x] = ' ';
-			map.currentMap.map[y-1][x] = symbol;
+		else if (map.currentMap.emptymap[y-1][x] == 'I' && map.currentMap.doorsOpen) {
 			map.currentMap.level++;
+			y--;
 			map.currentMap.onGame = 0;
 		}
-		else if(map.currentMap.map[y-1][x] == '+') {
+		else if(map.currentMap.xClub == x && map.currentMap.yClub == y-1) {
 			symbol = 'A';
-			map.currentMap.map[y-1][x] = symbol;
-			map.currentMap.map[y][x] = ' ';
 			y--;
-			armed = 1;
+			armed = true;
 		}
 	}
 }
