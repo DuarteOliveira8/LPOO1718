@@ -8,10 +8,14 @@ public class Ogre extends Character{
 	char movement[] = {'a', 's', 'd', 'w'};
 	char movement2[] = {'d', 'd', 'd', 'd', 's', 's', 's'};
 	int club = 0;
-	int clubX = 0;
-	int clubY = 0;
-	char clubSymbol = '*';
+	public int clubX = 0;
+	public int clubY = 0;
+	public char clubSymbol = '*';
 	public int stunned = 0;
+	
+	public Ogre() {
+		
+	}
 	
 	public Ogre(int x, int y) {
 		this.x = x;
@@ -73,6 +77,7 @@ public class Ogre extends Character{
 			x--;
 		}
 		else if (map.currentMap.keyX == x-1 && map.currentMap.keyY == y) {
+			symbol = '$';
 			map.currentMap.keySymbol = '$';
 			lever = 1;
 			x--;
@@ -88,6 +93,7 @@ public class Ogre extends Character{
 			x++;
 		}
 		else if (map.currentMap.keyX == x+1 && map.currentMap.keyY == y) {
+			symbol = '$';
 			map.currentMap.keySymbol = '$';
 			lever = 1;
 			x++;
@@ -103,6 +109,7 @@ public class Ogre extends Character{
 			y++;
 		}
 		else if (map.currentMap.keyX == x && map.currentMap.keyY == y+1) {
+			symbol = '$';
 			map.currentMap.keySymbol = '$';
 			lever = 1;
 			y++;
@@ -118,6 +125,7 @@ public class Ogre extends Character{
 			y--;
 		}
 		else if (map.currentMap.keyX == x && map.currentMap.keyY == y-1) {
+			symbol = '$';
 			map.currentMap.keySymbol = '$';
 			lever = 1;
 			y--;

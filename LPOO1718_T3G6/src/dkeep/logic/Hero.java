@@ -4,7 +4,11 @@ import dkeep.logic.Character;
 
 public class Hero extends Character{
 	
-	boolean armed = false;
+	public boolean armed = false;
+	
+	public Hero() {
+		
+	}
 	
 	public Hero(int x, int y) {
 		this.x = x;

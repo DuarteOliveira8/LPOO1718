@@ -10,6 +10,10 @@ public class Guard extends Character{
 	int personality; //-1: drunk // 0: normal // 1: suspicious
 	public int characterState = 0;
 	
+	public Guard() {
+		
+	}
+	
 	public Guard(int x, int y) {
 		this.x = x;
 		this.y = y;

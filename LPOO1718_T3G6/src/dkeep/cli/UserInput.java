@@ -18,7 +18,7 @@ public class UserInput {
 	static Hero hero = new Hero(1,1);
 	static Guard guard = new Guard(8,1);
 	static ArrayList<Ogre> ogres = new ArrayList<Ogre>();
-	static int nOgres = 1;//ThreadLocalRandom.current().nextInt(1, 6);
+	static int nOgres = ThreadLocalRandom.current().nextInt(1, 4);
 	
 
 	public static void main(String[] args) {
