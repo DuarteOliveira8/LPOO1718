@@ -54,7 +54,7 @@ public class CurrentMap {
 		}
 	}
 	
-	public void printMap(Hero hero, Guard guard, ArrayList<Ogre> ogres) {
+	public String printMap(Hero hero, Guard guard, ArrayList<Ogre> ogres) {
 		map = copyMap(emptymap);
 		
 		if (doorsOpen) 
@@ -80,12 +80,16 @@ public class CurrentMap {
 		
 		map[hero.y][hero.x] = hero.symbol;
 		
+		String res = new String();
+		
 		for(int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
-				System.out.print(map[i][j] + " ");
+				res += map[i][j] + " ";
 			}
-			System.out.print("\n");
+			res += "\n";
 		}
+		
+		return res;
 	}
 	
 	public void openDoors() {
