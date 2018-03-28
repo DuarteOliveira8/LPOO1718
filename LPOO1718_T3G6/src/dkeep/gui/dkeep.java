@@ -2,6 +2,9 @@ package dkeep.gui;
 
 import dkeep.cli.*;
 import dkeep.logic.*;
+import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import java.awt.EventQueue;
 
@@ -26,8 +29,8 @@ public class dkeep {
 
 	private JFrame frame;
 	private JTextField textField;
+	private GraphicsPanel gamePanel;
 	JLabel lblStatus;
-	JTextArea textArea;
 	JButton btnUp;
 	JButton btnRight;
 	JButton btnDown;
@@ -52,18 +55,19 @@ public class dkeep {
 	/**
 	 * Create the application.
 	 */
-	public dkeep() {
+	public dkeep()  throws IOException{
 		initialize();
 	}
 	
-	static UserInput userInput = new UserInput();
+	static UserInput userInput;
 	
 	public void afterEventHandler() {
 		
 		userInput.gameState = userInput.gameLogic.verifyGameState(userInput.hero, userInput.guard, userInput.ogres, userInput.gameMap);
 		
 		if (userInput.gameState == -1) {
-			textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+			//textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+			gamePanel.repaint();
 			lblStatus.setText("You lost!");
 			btnStatus(false);
 			return;
@@ -73,7 +77,8 @@ public class dkeep {
 			ogre.verifyStun(userInput.hero, userInput.gameMap);
 		
 		if (userInput.gameMap.currentMap.level == 2 && userInput.gameMap.currentMap.onGame == 0) { 
-			textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+			//textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+			gamePanel.repaint();
 			lblStatus.setText("You're on Level 2.");
 			userInput.gameMap.changeMap();
 			userInput.hero.changePosition(1, 8);
@@ -82,7 +87,8 @@ public class dkeep {
 		}
 		
 		if (userInput.gameMap.currentMap.level == 3) {
-			textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+			//textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+			gamePanel.repaint();
 			lblStatus.setText("You won!");
 			btnStatus(false);
 			return;
@@ -93,7 +99,8 @@ public class dkeep {
 		userInput.gameState = userInput.gameLogic.verifyGameState(userInput.hero, userInput.guard, userInput.ogres, userInput.gameMap);
 		
 		if (userInput.gameState == -1){
-			textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+			//textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+			gamePanel.repaint();
 			lblStatus.setText("You lost!");
 			btnStatus(false);
 			return;
@@ -102,17 +109,20 @@ public class dkeep {
 		for (Ogre ogre : userInput.ogres)
 			ogre.verifyStun(userInput.hero, userInput.gameMap);
 		
-		textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+		//textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+		gamePanel.repaint();
 		
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize() throws IOException {
+		
+		userInput = new UserInput();
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 700, 400);
+		frame.setBounds(100, 100, 700, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -124,11 +134,6 @@ public class dkeep {
 		textField.setBounds(160, 13, 51, 30);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
-		
-		textArea = new JTextArea();
-		textArea.setFont(new Font("Courier New", Font.PLAIN, 13));
-		textArea.setBounds(20, 96, 376, 230);
-		frame.getContentPane().add(textArea);
 		
 		JLabel lblGuardPersonality = new JLabel("Guard personality");
 		lblGuardPersonality.setBounds(20, 51, 129, 16);
@@ -192,9 +197,12 @@ public class dkeep {
 		btnRight.setBounds(570, 196, 82, 29);
 		frame.getContentPane().add(btnRight);
 		
+		gamePanel = new GraphicsPanel(userInput);
+		gamePanel.loadImages();
+		
 		JButton btnNewButton = new JButton("New game");
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e){
 				int noOgres = Integer.parseInt(textField.getText());
 				
 				if(noOgres > 5 || noOgres < 1) {
@@ -213,7 +221,10 @@ public class dkeep {
 				lblStatus.setText("You're on Level 1.");
 
 				userInput.initializeGame(noOgres, personality);
-				textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+				//textArea.setText(userInput.gameMap.currentMap.printMap(userInput.hero, userInput.guard, userInput.ogres));
+				gamePanel.setBounds(20, 96, 250, 250);
+				frame.getContentPane().add(gamePanel);
+				gamePanel.repaint();
 				
 			}
 		});
@@ -221,7 +232,7 @@ public class dkeep {
 		frame.getContentPane().add(btnNewButton);
 		
 		lblStatus = new JLabel("You can start a new game.");
-		lblStatus.setBounds(20, 342, 376, 16);
+		lblStatus.setBounds(20, 389, 376, 16);
 		frame.getContentPane().add(lblStatus);
 	}
 	

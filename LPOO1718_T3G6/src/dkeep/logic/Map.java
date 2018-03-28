@@ -3,7 +3,7 @@ import dkeep.logic.CurrentMap;
 
 public class Map {
 	
-	char map1[][] = {
+	public char map1[][] = {
 			{'X','X','X','X','X','X','X','X','X','X'},
 			{'X',' ',' ',' ','I',' ','X',' ',' ','X'},
 			{'X','X','X',' ','X','X','X',' ',' ','X'},
