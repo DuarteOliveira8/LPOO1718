@@ -29,7 +29,11 @@ public class Map {
 			{'X','X','X','X','X','X','X','X','X','X'}
 	};
 	
-	public CurrentMap currentMap = new CurrentMap(map1);
+	public CurrentMap currentMap;
+	
+	public Map() {
+		currentMap = new CurrentMap(map1);
+	}
 	
 	public void changeMap() {
 		currentMap.initializeLevel(2, map2);

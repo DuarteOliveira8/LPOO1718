@@ -25,6 +25,7 @@ public class Hero extends Character{
 		}
 		else if (map.currentMap.emptymap[y][x-1] == 'I' && symbol == 'K') {
 			symbol = 'H';
+			lever = 0;
 			map.currentMap.doorsOpen = true;
 		}
 		else if (map.currentMap.keyX == x-1 && map.currentMap.keyY == y) {
@@ -59,6 +60,7 @@ public class Hero extends Character{
 		}
 		else if (map.currentMap.emptymap[y][x+1] == 'I' && symbol == 'K') {
 			symbol = 'H';
+			lever = 0;
 			map.currentMap.doorsOpen = true;
 		}
 		else if (map.currentMap.keyX == x+1 && map.currentMap.keyY == y) {
@@ -94,6 +96,7 @@ public class Hero extends Character{
 		}
 		else if (map.currentMap.emptymap[y+1][x] == 'I' && symbol == 'K') {
 			symbol = 'H';
+			lever = 0;
 			map.currentMap.doorsOpen = true;
 		}
 		else if (map.currentMap.keyX == x && map.currentMap.keyY == y+1) {
@@ -129,6 +132,7 @@ public class Hero extends Character{
 		}
 		else if (map.currentMap.emptymap[y-1][x] == 'I' && symbol == 'K') {
 			symbol = 'H';
+			lever = 0;
 			map.currentMap.doorsOpen = true;
 		}
 		else if (map.currentMap.keyX == x && map.currentMap.keyY == y-1) {
