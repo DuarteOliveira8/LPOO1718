@@ -14,6 +14,11 @@ public class CurrentMap {
 	public int keyX, keyY;
 	public int xClub, yClub;
 	
+	public int heroX2 = 1, heroY2 = 8;
+	public int ogreX2 = 4, ogreY2 = 1;
+	public int keyX2 = 8, keyY2 = 1;
+	public int clubX2 = 2, clubY2 = 8;
+	
 	private char[][] copyMap(char[][] map) {
 		char[][] newMap = new char[map.length][];
 		
@@ -40,17 +45,19 @@ public class CurrentMap {
 			this.map = copyMap(map);
 			this.emptymap = copyMap(map);
 			
-			keyX = 8;
-			keyY = 1;
+			keyX = keyX2;
+			keyY = keyY2;
 			keySymbol = 'k';
 			
 			doorsOpen = false;
 			
+			xClub = clubX2;
+			yClub = clubY2;
 			
-			do{
-				xClub = ThreadLocalRandom.current().nextInt(1, 9);
-				yClub = ThreadLocalRandom.current().nextInt(1, 9);
-			}while((xClub == 1 && yClub == 8) || (xClub == 8 && yClub == 1) || (xClub == 4 && yClub == 1));
+//			do{
+//				xClub = ThreadLocalRandom.current().nextInt(1, 9);
+//				yClub = ThreadLocalRandom.current().nextInt(1, 9);
+//			}while((xClub == 1 && yClub == 8) || (xClub == 8 && yClub == 1) || (xClub == 4 && yClub == 1));
 		}
 	}
 	

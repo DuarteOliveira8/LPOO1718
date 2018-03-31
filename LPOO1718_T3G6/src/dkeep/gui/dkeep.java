@@ -9,6 +9,7 @@ public class dkeep {
 	
 	private Game game;
 	private Settings settings;
+	private Custom custom;
 	private GameData gameData;
 
 	private JFrame frame;
@@ -34,7 +35,6 @@ public class dkeep {
 	 */
 	public dkeep()  throws IOException{
 		initialize();
-		//gamePanel.requestFocusInWindow();
 	}
 
 	/**
@@ -53,6 +53,11 @@ public class dkeep {
 		frame.getContentPane().add(game);
 		gameData.game = game;
 		
+		custom = new Custom(frame, gameData);
+		custom.setBounds(0, 0, 750, 650);
+		frame.getContentPane().add(custom);
+		gameData.custom = custom;
+		
 		settings = new Settings(frame, gameData);
 		settings.setBounds(0, 0, 750, 650);
 		frame.getContentPane().add(settings);
@@ -60,5 +65,6 @@ public class dkeep {
 		
 		gameData.settings.setVisible(false);
 		gameData.game.setVisible(true);
+		gameData.custom.setVisible(false);
 	}
 }

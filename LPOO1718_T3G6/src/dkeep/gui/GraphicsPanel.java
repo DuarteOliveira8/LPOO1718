@@ -25,8 +25,6 @@ public class GraphicsPanel extends JPanel {
 					g.drawImage(gameData.woodIcon, i * 50, j * 50, 50, 50, this);
 				else if(gameData.gameMap.currentMap.emptymap[j][i] == 'I')
 						g.drawImage(gameData.closedDoor, i * 50, j * 50, 50, 50, this);
-				else if(gameData.gameMap.currentMap.emptymap[j][i] == 'S')
-					g.drawImage(gameData.closedDoor, i * 50, j * 50, 50, 50, this);	
 		
 		if(gameData.gameMap.currentMap.doorsOpen)
 			openDoors(g);
@@ -52,8 +50,8 @@ public class GraphicsPanel extends JPanel {
 		if (!gameData.hero.armed && gameData.gameMap.currentMap.level == 2)
 			g.drawImage(gameData.swordIcon, gameData.gameMap.currentMap.xClub*50, gameData.gameMap.currentMap.yClub*50, 50, 50, this);
 		
-		//if(!gameData.hero.armed && gameData.gameMap.currentMap.level == 1)
-			g.drawImage(gameData.heroIcon, gameData.hero.x*50, gameData.hero.y*50, 50, 50, this);
+		
+		g.drawImage(gameData.heroIcon, gameData.hero.x*50, gameData.hero.y*50, 50, 50, this);
 		
 	}
 	

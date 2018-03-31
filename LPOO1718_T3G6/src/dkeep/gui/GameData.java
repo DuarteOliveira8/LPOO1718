@@ -52,11 +52,13 @@ public class GameData {
 	
 	JPanel game;
 	JPanel settings;
+	JPanel custom;
 	
 	public GameData() throws IOException {
 		noOgres = 1;
 		personality = 0;
 		loadImages();
+		gameMap = new Map();
 	}
 	
 	public void loadImages() throws IOException{
@@ -90,7 +92,7 @@ public class GameData {
 		ogres = new ArrayList<Ogre>();
 		
 		for(int i = 0; i < noOgres; i++) {
-			ogres.add(new Ogre(4,1));
+			ogres.add(new Ogre(gameMap.currentMap.ogreX2,gameMap.currentMap.ogreY2));
 		}
 		
 		guard.personality = personality;

@@ -46,7 +46,7 @@ public class Settings extends JPanel {
 		add(comboBox);
 		
 		JLabel lblStatus = new JLabel("Choose your settings.");
-		lblStatus.setBounds(22, 612, 165, 16);
+		lblStatus.setBounds(22, 612, 422, 16);
 		add(lblStatus);
 		
 		JButton btnSave = new JButton("Save");
@@ -71,7 +71,6 @@ public class Settings extends JPanel {
 		
 		btnSave.setBounds(16, 127, 100, 30);
 		add(btnSave);
-		
 	}
 
 }

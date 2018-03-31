@@ -38,10 +38,24 @@ public class Game extends JPanel implements KeyListener {
 			public void actionPerformed(ActionEvent e) {
 				gameData.game.setVisible(false);
 				gameData.settings.setVisible(true);
+				gameData.custom.setVisible(false);
+				
 			}
 		});
 		btnSettings.setBounds(155, 28, 109, 29);
 		add(btnSettings);
+		
+		JButton btnCustomize = new JButton("Customize");
+		btnCustomize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gameData.game.setVisible(false);
+				gameData.settings.setVisible(false);
+				gameData.custom.setVisible(true);
+				
+			}
+		});
+		btnCustomize.setBounds(294, 28, 109, 29);
+		add(btnCustomize);
 		requestFocusInWindow();
 
 	}
@@ -63,7 +77,7 @@ public class Game extends JPanel implements KeyListener {
 			gamePanel.repaint();
 			lblStatus.setText("You're on Level 2.");
 			gameData.gameMap.changeMap();
-			gameData.hero.changePosition(1, 8);
+			gameData.hero.changePosition(gameData.gameMap.currentMap.heroX2, gameData.gameMap.currentMap.heroY2);
 			gameData.gameMap.currentMap.onGame = 1;
 			
 		}
@@ -186,7 +200,7 @@ public class Game extends JPanel implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (gameData.gameState != -1) {
+		if (gameData.gameState != -1 && gameData.gameMap.currentMap.level < 3) {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
 				gameData.hero.moveUp(gameData.gameMap);
