@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Settings extends JPanel {
+public class Settings extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	GameData gameData;

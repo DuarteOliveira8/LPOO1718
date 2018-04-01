@@ -19,12 +19,12 @@ public class GraphicsPanel extends JPanel {
 		
 		for (int i = 0; i < gameData.gameMap.currentMap.emptymap.length; i++)
 			for (int j = 0; j < gameData.gameMap.currentMap.emptymap[i].length; j++)
-				if(gameData.gameMap.currentMap.emptymap[j][i] == 'X')
-					g.drawImage(gameData.wallIcon, i * 50, j * 50, 50, 50, this);
-				else if(gameData.gameMap.currentMap.emptymap[j][i] == ' ')
-					g.drawImage(gameData.woodIcon, i * 50, j * 50, 50, 50, this);
-				else if(gameData.gameMap.currentMap.emptymap[j][i] == 'I')
-						g.drawImage(gameData.closedDoor, i * 50, j * 50, 50, 50, this);
+				if(gameData.gameMap.currentMap.emptymap[i][j] == 'X')
+					g.drawImage(gameData.wallIcon, j * 50, i * 50, 50, 50, this);
+				else if(gameData.gameMap.currentMap.emptymap[i][j] == ' ')
+					g.drawImage(gameData.woodIcon, j * 50, i * 50, 50, 50, this);
+				else if(gameData.gameMap.currentMap.emptymap[i][j] == 'I')
+						g.drawImage(gameData.closedDoor, j * 50, i * 50, 50, 50, this);
 		
 		if(gameData.gameMap.currentMap.doorsOpen)
 			openDoors(g);

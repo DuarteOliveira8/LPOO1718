@@ -24,6 +24,13 @@ public class GameData {
 	public Guard guard;
 	public ArrayList<Ogre> ogres;
 	
+	public int heroX2 = 1, heroY2 = 8;
+	public int ogreX2 = 4, ogreY2 = 1;
+	public int keyX2 = 8, keyY2 = 1;
+	public int clubX2 = 2, clubY2 = 8;
+	
+	char[][] customMap;
+	
 	BufferedImage heroIcon;
 	BufferedImage guardIcon;
 	BufferedImage ogreIcon;
@@ -59,6 +66,7 @@ public class GameData {
 		personality = 0;
 		loadImages();
 		gameMap = new Map();
+		customMap = gameMap.map2;
 	}
 	
 	public void loadImages() throws IOException{
@@ -91,9 +99,9 @@ public class GameData {
 		gameState = 0;
 		ogres = new ArrayList<Ogre>();
 		
-		for(int i = 0; i < noOgres; i++) {
-			ogres.add(new Ogre(gameMap.currentMap.ogreX2,gameMap.currentMap.ogreY2));
-		}
+//		for(int i = 0; i < noOgres; i++) {
+//			ogres.add(new Ogre(gameMap.currentMap.ogreX2,gameMap.currentMap.ogreY2));
+//		}
 		
 		guard.personality = personality;
 	}
@@ -134,6 +142,18 @@ public class GameData {
 			heroIcon = heroArmedWithKey;
 		else if(hero.armed && gameMap.currentMap.level == 2 && hero.lever == 0)
 			heroIcon = heroArmed;
+	}
+	
+	public void copyCustomMap() {
+		gameMap.map2 = customMap;
+		gameMap.currentMap.heroX2 = heroX2;
+		gameMap.currentMap.heroY2 = heroY2;
+		gameMap.currentMap.ogreX2 = ogreX2;
+		gameMap.currentMap.ogreY2 = ogreY2;
+		gameMap.currentMap.clubX2 = clubX2;
+		gameMap.currentMap.clubY2 = clubY2;
+		gameMap.currentMap.keyX2 = keyX2;
+		gameMap.currentMap.keyY2 = keyY2;
 	}
 
 }

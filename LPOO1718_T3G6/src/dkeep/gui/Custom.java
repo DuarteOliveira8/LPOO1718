@@ -1,9 +1,6 @@
 package dkeep.gui;
 
 import java.awt.Graphics;
-import java.io.IOException;
-
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
@@ -18,6 +15,8 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 	private JTextField textField_1;
 	BufferedImage iconOnMouse;
 	char charSelected;
+	int x = 0, y = 0;
+	int width = 0, height = 0;
 	
 	public Custom(JFrame frame, GameData gameData) {
 		addMouseListener(this);
@@ -44,7 +43,7 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 		btnSave.setBounds(599, 620, 100, 30);
 		add(btnSave);
 		
-		JLabel lblCustomizeTheKeep = new JLabel("Length");
+		JLabel lblCustomizeTheKeep = new JLabel("Height");
 		lblCustomizeTheKeep.setBounds(20, 6, 54, 47);
 		add(lblCustomizeTheKeep);
 		
@@ -146,20 +145,37 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 		});
 		btnSword.setBounds(631, 554, 100, 30);
 		add(btnSword);
+		
+		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (Integer.parseInt(textField.getText()) >= 7 && Integer.parseInt(textField.getText()) <= 10 && Integer.parseInt(textField_1.getText()) >= 7 && Integer.parseInt(textField_1.getText()) <= 10) {
+					height = Integer.parseInt(textField.getText());
+					width = Integer.parseInt(textField_1.getText());
+					label.setText("Customize the keep level using the buttons on the right");
+					gameData.customMap = createNewMap(height, width);
+					repaint();
+				}
+				else
+					label.setText("The height and width must be between 7 and 10");
+			}
+		});
+		btnOk.setBounds(152, 25, 54, 30);
+		add(btnOk);
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		for (int i = 0; i < gameData.gameMap.map2.length; i++)
-			for (int j = 0; j < gameData.gameMap.map2[i].length; j++)
-				if(gameData.gameMap.map2[j][i] == 'X')
-					g.drawImage(gameData.wallIcon, i * 50 + 20, j * 50 + 96, 50, 50, this);
-				else if(gameData.gameMap.map2[j][i] == ' ')
-					g.drawImage(gameData.woodIcon, i * 50 + 20, j * 50 + 96, 50, 50, this);
-				else if(gameData.gameMap.map2[j][i] == 'I')
-					g.drawImage(gameData.closedDoor, i * 50 + 20, j * 50 + 96, 50, 50, this);
+		for (int i = 0; i < gameData.customMap.length; i++)
+			for (int j = 0; j < gameData.customMap[i].length; j++)
+				if(gameData.customMap[i][j] == 'X')
+					g.drawImage(gameData.wallIcon, j * 50 + 20, i * 50 + 96, 50, 50, this);
+				else if(gameData.customMap[i][j] == ' ')
+					g.drawImage(gameData.woodIcon, j * 50 + 20, i * 50 + 96, 50, 50, this);
+				else if(gameData.customMap[i][j] == 'I')
+					g.drawImage(gameData.closedDoor, j * 50 + 20, i * 50 + 96, 50, 50, this);
 		
 		g.drawImage(gameData.wallIcon, 551, 96, 50, 50, this);
 		g.drawImage(gameData.woodIcon, 551, 170, 50, 50, this);
@@ -168,14 +184,11 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 		g.drawImage(gameData.normalOgre, 551, 396, 50, 50, this);
 		g.drawImage(gameData.keyIcon, 551, 471, 50, 50, this);
 		g.drawImage(gameData.swordIcon, 551, 546, 50, 50, this);
-		
 
-		g.drawImage(gameData.heroNotArmed, gameData.gameMap.currentMap.heroX2*50 + 20, gameData.gameMap.currentMap.heroY2*50 + 96, 50, 50, this);
-		g.drawImage(gameData.normalOgre, gameData.gameMap.currentMap.ogreX2*50 + 20, gameData.gameMap.currentMap.ogreY2*50 + 96, 50, 50, this);
-		g.drawImage(gameData.keyIcon, gameData.gameMap.currentMap.keyX2*50 + 20, gameData.gameMap.currentMap.keyY2*50 + 96, 50, 50, this);
-		g.drawImage(gameData.swordIcon, gameData.gameMap.currentMap.clubX2*50 + 20, gameData.gameMap.currentMap.clubY2*50 + 96, 50, 50, this);
-		
-		
+		g.drawImage(gameData.heroNotArmed, gameData.heroX2*50 + 20, gameData.heroY2*50 + 96, 50, 50, this);
+		g.drawImage(gameData.normalOgre, gameData.ogreX2*50 + 20, gameData.ogreY2*50 + 96, 50, 50, this);
+		g.drawImage(gameData.keyIcon, gameData.keyX2*50 + 20, gameData.keyY2*50 + 96, 50, 50, this);
+		g.drawImage(gameData.swordIcon, gameData.clubX2*50 + 20, gameData.clubY2*50 + 96, 50, 50, this);
 		
 		g.drawImage(iconOnMouse, 316, 20, 50, 50, this);
 		
@@ -195,6 +208,10 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		x = e.getX();
+		y = e.getY();
+		changeMap(Math.floor((x-20)/50), Math.floor((y-96)/50));
+		repaint();
 	}
 
 	@Override
@@ -207,5 +224,53 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+	
+	public void changeMap(double x, double y) {
+		if(charSelected == 'X' || charSelected == 'I' || charSelected == ' ')
+			if (x >= 0 && x <= 9 && y >= 0 && y <= 9)
+				gameData.customMap[(int) y][(int) x] = charSelected;
+		
+		if(charSelected == 'H') {
+			gameData.heroX2 = (int)x;
+			gameData.heroY2 = (int)y;
+		}
+		else if(charSelected == 'O') {
+			gameData.ogreX2 = (int)x;
+			gameData.ogreY2 = (int)y;
+		}
+		else if(charSelected == 'k') {
+			gameData.keyX2 = (int)x;
+			gameData.keyY2 = (int)y;
+		}
+		else if(charSelected == '+') {
+			gameData.clubX2 = (int)x;
+			gameData.clubY2 = (int)y;
+		}
+	}
+	
+	public char[][] createNewMap(int height, int width) {
+		char[][] newMap = new char[height][width];
+		
+		for(int y = 0; y < height; y++)
+			for(int x = 0; x < width; x++) {
+				if(y == 0 || x == 0 || y == height - 1 || x == width - 1)
+					newMap[y][x] = 'X';
+				else
+					newMap[y][x] = ' ';
+			}
+		
+		newMap[1][0] = 'I';
+		
+		gameData.heroX2 = 1;
+		gameData.heroY2 = height - 2;
+		gameData.clubX2 = 2;
+		gameData.clubY2 = height - 2;
+		gameData.ogreX2 = 3;
+		gameData.ogreY2 = 1;
+		gameData.keyX2 = width - 2;
+		gameData.keyY2 = 1;
+	
+		return newMap;
 	}
 }

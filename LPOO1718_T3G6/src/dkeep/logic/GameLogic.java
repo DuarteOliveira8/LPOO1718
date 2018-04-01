@@ -94,7 +94,7 @@ public class GameLogic {
 				if(((hero.x == ogre.x+1 && hero.y == ogre.y) ||
 						(hero.x == ogre.x-1 && hero.y == ogre.y) ||
 						(hero.x == ogre.x && hero.y == ogre.y+1) ||
-						(hero.x == ogre.x && hero.y == ogre.y-1)) && hero.symbol != 'A'){
+						(hero.x == ogre.x && hero.y == ogre.y-1)) && !hero.armed){
 					return -1;
 				}
 				

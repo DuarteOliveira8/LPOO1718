@@ -14,10 +14,10 @@ public class CurrentMap {
 	public int keyX, keyY;
 	public int xClub, yClub;
 	
-	public int heroX2 = 1, heroY2 = 8;
-	public int ogreX2 = 4, ogreY2 = 1;
-	public int keyX2 = 8, keyY2 = 1;
-	public int clubX2 = 2, clubY2 = 8;
+	public int heroX2, heroY2;
+	public int ogreX2, ogreY2;
+	public int keyX2, keyY2;
+	public int clubX2, clubY2;
 	
 	private char[][] copyMap(char[][] map) {
 		char[][] newMap = new char[map.length][];

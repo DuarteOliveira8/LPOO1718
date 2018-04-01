@@ -76,9 +76,14 @@ public class Game extends JPanel implements KeyListener {
 		if (gameData.gameMap.currentMap.level == 2 && gameData.gameMap.currentMap.onGame == 0) { 
 			gamePanel.repaint();
 			lblStatus.setText("You're on Level 2.");
+			gameData.copyCustomMap();
 			gameData.gameMap.changeMap();
 			gameData.hero.changePosition(gameData.gameMap.currentMap.heroX2, gameData.gameMap.currentMap.heroY2);
+			for(int i = 0; i < gameData.noOgres; i++) {
+				gameData.ogres.add(new Ogre(gameData.gameMap.currentMap.ogreX2,gameData.gameMap.currentMap.ogreY2));
+			}
 			gameData.gameMap.currentMap.onGame = 1;
+			
 			
 		}
 		
