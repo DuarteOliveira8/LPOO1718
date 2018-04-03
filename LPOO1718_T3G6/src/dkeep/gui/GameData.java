@@ -99,10 +99,6 @@ public class GameData {
 		gameState = 0;
 		ogres = new ArrayList<Ogre>();
 		
-//		for(int i = 0; i < noOgres; i++) {
-//			ogres.add(new Ogre(gameMap.currentMap.ogreX2,gameMap.currentMap.ogreY2));
-//		}
-		
 		guard.personality = personality;
 	}
 	

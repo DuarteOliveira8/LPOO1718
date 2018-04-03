@@ -47,6 +47,7 @@ public class dkeep {
 		frame.setBounds(100, 100, 750, 675);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 		
 		game = new Game(frame, gameData);
 		game.setBounds(0, 0, 750, 650);

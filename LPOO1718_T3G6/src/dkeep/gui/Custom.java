@@ -3,7 +3,7 @@ package dkeep.gui;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class Custom extends JPanel implements MouseListener, MouseMotionListener{
@@ -16,7 +16,9 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 	BufferedImage iconOnMouse;
 	char charSelected;
 	int x = 0, y = 0;
-	int width = 0, height = 0;
+	int width, height;
+	boolean[][] visited;
+	JLabel label;
 	
 	public Custom(JFrame frame, GameData gameData) {
 		addMouseListener(this);
@@ -25,6 +27,8 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 		this.gameData = gameData;
 		iconOnMouse = gameData.wallIcon;
 		charSelected = 'X';
+		height = 10;
+		width = 10;
 		initialize();
 	}
 	
@@ -34,9 +38,13 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				gameData.settings.setVisible(false);
-				gameData.game.setVisible(true);
-				gameData.custom.setVisible(false);
+				if(verifyCustomMap()) {
+					gameData.settings.setVisible(false);
+					gameData.game.setVisible(true);
+					gameData.custom.setVisible(false);
+				}
+				else
+					label.setText("The custom map must be playable!");
 			}
 		});
 		
@@ -52,7 +60,7 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 		textField.setBounds(86, 16, 54, 26);
 		add(textField);
 		
-		JLabel label = new JLabel("Customize the keep level using the buttons on the right");
+		label = new JLabel("Customize the keep level using the buttons on the right");
 		label.setBounds(20, 594, 397, 81);
 		add(label);
 		
@@ -227,26 +235,33 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 	}
 	
 	public void changeMap(double x, double y) {
-		if(charSelected == 'X' || charSelected == 'I' || charSelected == ' ')
-			if (x >= 0 && x <= 9 && y >= 0 && y <= 9)
-				gameData.customMap[(int) y][(int) x] = charSelected;
 		
-		if(charSelected == 'H') {
-			gameData.heroX2 = (int)x;
-			gameData.heroY2 = (int)y;
+		if (charSelected == 'X' && x >= 0 && x <= 9 && y >= 0 && y <= 9) {
+			gameData.customMap[(int) y][(int) x] = charSelected;
 		}
-		else if(charSelected == 'O') {
-			gameData.ogreX2 = (int)x;
-			gameData.ogreY2 = (int)y;
+		else if (charSelected == 'I' && (x == 0 || x == 9 || y == 0 || y == 9)) {
+			deleteDoors();
+			gameData.customMap[(int) y][(int) x] = charSelected;
 		}
-		else if(charSelected == 'k') {
-			gameData.keyX2 = (int)x;
-			gameData.keyY2 = (int)y;
-		}
-		else if(charSelected == '+') {
-			gameData.clubX2 = (int)x;
-			gameData.clubY2 = (int)y;
-		}
+		else if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
+			if (gameData.gameMap.map2[(int)y][(int)x] != 'X' || gameData.gameMap.map2[(int)y][(int)x] != 'I' ) {
+				if (charSelected == 'H') {
+					gameData.heroX2 = (int) x;
+					gameData.heroY2 = (int) y;
+				} else if (charSelected == 'O') {
+					gameData.ogreX2 = (int) x;
+					gameData.ogreY2 = (int) y;
+				} else if (charSelected == 'k') {
+					gameData.keyX2 = (int) x;
+					gameData.keyY2 = (int) y;
+				} else if (charSelected == '+') {
+					gameData.clubX2 = (int) x;
+					gameData.clubY2 = (int) y;
+				} else if (charSelected == ' ') {
+					gameData.customMap[(int) y][(int) x] = charSelected;
+				}
+			} 
+		} 
 	}
 	
 	public char[][] createNewMap(int height, int width) {
@@ -272,5 +287,70 @@ public class Custom extends JPanel implements MouseListener, MouseMotionListener
 		gameData.keyY2 = 1;
 	
 		return newMap;
+	}
+	
+	void deleteDoors() {
+		for (int i = 0; i < gameData.customMap.length; i++)
+			for (int j = 0; j < gameData.customMap[i].length; j++)
+				if (gameData.customMap[i][j] == 'I')
+					gameData.customMap[i][j] = 'X';
+	}
+	
+	boolean verifyCustomMap() {
+		initializeVisited(gameData.heroX2, gameData.heroY2);
+		if(findGoal(gameData.heroX2, gameData.heroY2, 'k')) {
+			initializeVisited(gameData.keyX2, gameData.keyY2);
+			return findGoal(gameData.keyX2, gameData.keyY2, 'I');
+		}
+		else
+			return false;
+	}
+	
+	boolean findGoal(int x, int y, char c) {
+		if (c == 'I') {
+			if(gameData.customMap[y][x+1] == c || gameData.customMap[y][x-1] == c || gameData.customMap[y+1][x] == c || gameData.customMap[y-1][x] == c)
+				return true;
+		}
+		else if (c == 'k') {
+			if((y+1 == gameData.keyY2 && x == gameData.keyX2) || (y-1 == gameData.keyY2 && x == gameData.keyX2) || (y == gameData.keyY2 && x+1 == gameData.keyX2) || (y == gameData.keyY2 && x-1 == gameData.keyX2))
+				return true;
+		}
+				
+		
+		if(visited[y][x+1] == false && gameData.customMap[y][x+1] == ' '){
+			visited[y][x+1] = true;
+			if(findGoal(x+1,y,c) == true)
+				return true;
+		}
+		
+		if(visited[y][x-1] == false && gameData.customMap[y][x-1] == ' '){
+			visited[y][x-1] = true;
+			if(findGoal(x-1,y,c) == true)
+				return true;
+		}
+		
+		if(visited[y+1][x] == false && gameData.customMap[y+1][x] == ' '){
+			visited[y+1][x] = true;
+			if(findGoal(x,y+1,c) == true)
+				return true;
+		}
+		
+		if(visited[y-1][x] == false && gameData.customMap[y-1][x] == ' '){
+			visited[y-1][x] = true;
+			if(findGoal(x,y-1,c) == true)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	void initializeVisited(int x, int y) {
+		visited = new boolean[height][width];
+		
+		for(int i = 0; i < height; i++)
+			for(int j = 0; j < width; j++)
+				visited[i][j] = false;
+		
+		visited[y][x] = true;
 	}
 }

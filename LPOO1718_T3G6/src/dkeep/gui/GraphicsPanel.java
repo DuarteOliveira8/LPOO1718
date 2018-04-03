@@ -24,7 +24,7 @@ public class GraphicsPanel extends JPanel {
 				else if(gameData.gameMap.currentMap.emptymap[i][j] == ' ')
 					g.drawImage(gameData.woodIcon, j * 50, i * 50, 50, 50, this);
 				else if(gameData.gameMap.currentMap.emptymap[i][j] == 'I')
-						g.drawImage(gameData.closedDoor, j * 50, i * 50, 50, 50, this);
+					g.drawImage(gameData.closedDoor, j * 50, i * 50, 50, 50, this);
 		
 		if(gameData.gameMap.currentMap.doorsOpen)
 			openDoors(g);

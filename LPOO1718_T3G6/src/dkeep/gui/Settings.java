@@ -52,13 +52,17 @@ public class Settings extends JPanel{
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				gameData.noOgres = Integer.parseInt(textField.getText());
 				
-				if(gameData.noOgres > 5 || gameData.noOgres < 1) {
+				try {
+					gameData.noOgres = Integer.parseInt(textField.getText());
+					if(gameData.noOgres > 5 || gameData.noOgres < 1) {
+						throw new IllegalArgumentException();
+					}
+				} catch (IllegalArgumentException ex) {
 					lblStatus.setText("The number of ogres must be between 1 and 5"); //TODO if noOgres is null
-					return;
+					return;	
 				}
-				
+								
 				if(comboBox.getSelectedItem() == "Drunken")
 					gameData.personality = -1;
 				else if(comboBox.getSelectedItem() == "Suspicious")
