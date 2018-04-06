@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import dkeep.cli.*;
 import dkeep.logic.*;
+import dkeep.logic.Character;
 
 public class TestDungeonGameLogic {
 	
@@ -140,4 +141,13 @@ public class TestDungeonGameLogic {
 		gameMap.currentMap.printMap(hero, guard, ogres);
 	}
 
+	@Test
+	public void testChangePositionGuard() {
+		Character c = new Guard();
+		c.changePosition(2, 3);
+		assertEquals(2, c.getX());
+		assertEquals(3, c.getY());
+	
+
+	}
 }
