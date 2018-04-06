@@ -16,3 +16,7 @@ Guided Project
 
 **PIT (Logic Package 62%)**
 <br><img src="https://imgur.com/2ycDbRS.jpg" width="400"><br>
+
+**Documentation**
+<br>
+[Link](https://duarteoliveira8.github.io/LPOO1718_T3G6/docs/index.html)
