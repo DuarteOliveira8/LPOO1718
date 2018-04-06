@@ -77,7 +77,11 @@ public class TestDungeonGameLogic {
 		gameMap.currentMap.keyX = 1;
 		gameMap.currentMap.keyY = 3;
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(2, hero.getY());
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(3, hero.getY());
 		assertEquals(1,hero.lever);
 		assertTrue(gameMap.currentMap.doorsOpen);
 	}
@@ -91,8 +95,14 @@ public class TestDungeonGameLogic {
 		gameMap.currentMap.keyX = 1;
 		gameMap.currentMap.keyY = 3;
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(2, hero.getY());
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(3, hero.getY());
 		hero.moveLeft(gameMap);
+		assertEquals(0, hero.getX());
+		assertEquals(3, hero.getY());
 		assertEquals(2, gameMap.currentMap.level);
 	}
 	
@@ -147,7 +157,85 @@ public class TestDungeonGameLogic {
 		c.changePosition(2, 3);
 		assertEquals(2, c.getX());
 		assertEquals(3, c.getY());
+	}
 	
-
+	@Test
+	public void testMoveNPCGuard() {
+		UserInput userInput = new UserInput();
+		userInput.initializeGame(1, 0);
+		
+		int x = 8, y = 1;
+		
+		assertEquals(8, userInput.guard.getX());
+		assertEquals(1, userInput.guard.getY());
+		
+		for (int i = 0; i < userInput.guard.patrol.length; i++) {
+			userInput.gameLogic.moveNPC(userInput.gameMap, userInput.guard, userInput.ogres);
+			if(userInput.guard.patrol[i] == 'w')
+				y--;
+			else if(userInput.guard.patrol[i] == 'a')
+				x--;
+			else if(userInput.guard.patrol[i] == 's')
+				y++;
+			else if(userInput.guard.patrol[i] == 'd')
+				x++;
+			
+			assertEquals(x, userInput.guard.getX());
+			assertEquals(y, userInput.guard.getY());
+		}
+	}
+	
+	@Test(timeout=1000)
+	public void testGuardPersonalityDrunken() {
+		UserInput userInput = new UserInput();
+		userInput.initializeGame(1, -1);
+		
+		int x = 8, y = 1;
+		
+		assertEquals(x, userInput.guard.getX());
+		assertEquals(y, userInput.guard.getY());
+		
+		while(userInput.guard.characterState == 0) {
+			x = userInput.guard.getX();
+			y = userInput.guard.getY();
+			userInput.gameLogic.moveNPC(userInput.gameMap, userInput.guard, userInput.ogres);
+		}
+		
+		assertEquals(x, userInput.guard.getX());
+		assertEquals(y, userInput.guard.getY());
+	}
+	
+	@Test(timeout=1000)
+	public void testGuardPersonalitySuspicious() {
+		UserInput userInput = new UserInput();
+		userInput.initializeGame(1, 1);
+		
+		int x = 8, y = 1;
+		
+		assertEquals(x, userInput.guard.getX());
+		assertEquals(y, userInput.guard.getY());
+		
+		while(userInput.guard.characterState == 0) {
+			x = userInput.guard.getX();
+			y = userInput.guard.getY();
+			userInput.gameLogic.moveNPC(userInput.gameMap, userInput.guard, userInput.ogres);
+		}
+		
+		if (userInput.guard.patrolreverse[userInput.gameLogic.indiceG] == 'w') {
+			assertEquals(x, userInput.guard.getX());
+			assertEquals(y-1, userInput.guard.getY());
+		}
+		else if (userInput.guard.patrolreverse[userInput.gameLogic.indiceG] == 'a') {
+			assertEquals(x-1, userInput.guard.getX());
+			assertEquals(y, userInput.guard.getY());
+		}
+		else if (userInput.guard.patrolreverse[userInput.gameLogic.indiceG] == 's') {
+			assertEquals(x, userInput.guard.getX());
+			assertEquals(y+1, userInput.guard.getY());
+		}
+		else if (userInput.guard.patrolreverse[userInput.gameLogic.indiceG] == 'd') {
+			assertEquals(x+1, userInput.guard.getX());
+			assertEquals(y, userInput.guard.getY());
+		}
 	}
 }

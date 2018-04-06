@@ -32,6 +32,8 @@ public class TestKeepGameLogic {
 		ogres.add(ogre);
 		assertEquals(0, gameLogic.verifyGameState(hero, guard, ogres, gameMap));
 		hero.moveRight(gameMap);
+		assertEquals(2, hero.getX());
+		assertEquals(1, hero.getY());
 		assertEquals(-1, gameLogic.verifyGameState(hero, guard, ogres, gameMap));
 	}
 	
@@ -46,7 +48,11 @@ public class TestKeepGameLogic {
 		gameMap.currentMap.keyX = 1;
 		gameMap.currentMap.keyY = 3;
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(2, hero.getY());
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(3, hero.getY());
 		assertEquals('K', hero.symbol);
 	}
 	
@@ -58,7 +64,11 @@ public class TestKeepGameLogic {
 		gameMap.currentMap.level = 2;
 		Hero hero = new Hero(1,1);
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(2, hero.getY());
 		hero.moveLeft(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(2, hero.getY());
 		assertFalse(gameMap.currentMap.doorsOpen);
 	}
 	
@@ -73,8 +83,14 @@ public class TestKeepGameLogic {
 		gameMap.currentMap.keyX = 1;
 		gameMap.currentMap.keyY = 3;
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(2, hero.getY());
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(3, hero.getY());
 		hero.moveLeft(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(3, hero.getY());
 		assertTrue(gameMap.currentMap.doorsOpen);
 	}
 	
@@ -89,9 +105,17 @@ public class TestKeepGameLogic {
 		gameMap.currentMap.keyX = 1;
 		gameMap.currentMap.keyY = 3;
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(2, hero.getY());
 		hero.moveDown(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(3, hero.getY());
 		hero.moveLeft(gameMap);
+		assertEquals(1, hero.getX());
+		assertEquals(3, hero.getY());
 		hero.moveLeft(gameMap);
+		assertEquals(0, hero.getX());
+		assertEquals(3, hero.getY());
 		assertEquals(3, gameMap.currentMap.level);
 	}
 	

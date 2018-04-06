@@ -12,11 +12,11 @@ public class GameLogic {
 	/*
 	 * current index of the guard's movements array
 	 */
-	int indiceG = 0;
+	public int indiceG = 0;
 	/*
 	 * index from 0 to 3 to determine if the ogre's random movement is up, down, left or right 
 	 */
-	int indiceO = 0;
+	public int indiceO = 0;
 
 	/*
 	 * function that's in charge of moving the guard or the ogres depending on the current level
