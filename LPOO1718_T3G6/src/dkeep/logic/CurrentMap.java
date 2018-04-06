@@ -4,21 +4,66 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
+/*
+ * Current Map class
+ */
 public class CurrentMap {
+	/*
+	 * array of the empty map
+	 */
 	public char emptymap[][];
+	/*
+	 * array of the current map
+	 */
 	public char map[][];
+	/*
+	 * current level
+	 */
 	public int level = 1;
+	/*
+	 * 1 if the game is being currently played and 0 if it's changing levels or is not being played
+	 */
 	public int onGame = 1;
+	/*
+	 * true if the doors are open and false when they're not
+	 */
 	public boolean doorsOpen = false;
+	/*
+	 * current displayed symbol of the key
+	 */
 	public char keySymbol;
+	/*
+	 * coordinates of the key
+	 */
 	public int keyX, keyY;
+	/*
+	 * coordinates of the club
+	 */
 	public int xClub, yClub;
-	
+	/*
+	 * coordinates of the hero on level 2
+	 */
 	public int heroX2, heroY2;
+	/*
+	 * coordinates of the ogre on level 2
+	 */
 	public int ogreX2, ogreY2;
+	/*
+	 * coordinates of the key on level 2
+	 */
 	public int keyX2, keyY2;
+	/*
+	 * coordinates of the club on level 2
+	 */
 	public int clubX2, clubY2;
 	
+	/*
+	 * function that copies a map and returns it
+	 * 
+	 * @param map map to copy
+	 * 
+	 * @return the map copy
+	 */
 	private char[][] copyMap(char[][] map) {
 		char[][] newMap = new char[map.length][];
 		
@@ -29,10 +74,21 @@ public class CurrentMap {
 		return newMap;
 	}
 	
+	/*
+	 * CurrentMap constructor
+	 * 
+	 * @param map current map
+	 */
 	public CurrentMap(char[][] map) {
 		initializeLevel(1, map);
 	}
 	
+	/*
+	 * initializes all the Current Map variables depending on the current level
+	 * 
+	 * @param level current level
+	 * @param map current map
+	 */
 	public void initializeLevel(int level, char[][] map) {
 		if (level == 1) {
 			this.map = copyMap(map);
@@ -53,14 +109,18 @@ public class CurrentMap {
 			
 			xClub = clubX2;
 			yClub = clubY2;
-			
-//			do{
-//				xClub = ThreadLocalRandom.current().nextInt(1, 9);
-//				yClub = ThreadLocalRandom.current().nextInt(1, 9);
-//			}while((xClub == 1 && yClub == 8) || (xClub == 8 && yClub == 1) || (xClub == 4 && yClub == 1));
-		}
+			}
 	}
 	
+	/*
+	 * function used to print the map to the console
+	 * 
+	 * @param hero current in-game hero
+	 * @param guard current in-game guard
+	 * @param ogres current array of in-game ogres
+	 * 
+	 * @return string of the current map state
+	 */
 	public String printMap(Hero hero, Guard guard, ArrayList<Ogre> ogres) {
 		map = copyMap(emptymap);
 		
@@ -99,6 +159,9 @@ public class CurrentMap {
 		return res;
 	}
 	
+	/*
+	 * function that opens the doors on the wall around the map
+	 */
 	public void openDoors() {
 		for (int i = 0; i < map.length; i++) {
 			if(map[i][0] == 'I')

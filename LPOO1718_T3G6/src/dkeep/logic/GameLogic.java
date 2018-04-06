@@ -5,10 +5,26 @@ import dkeep.logic.Map;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+/*
+ * Game Logic classs
+ */
 public class GameLogic {
+	/*
+	 * current index of the guard's movements array
+	 */
 	int indiceG = 0;
+	/*
+	 * index from 0 to 3 to determine if the ogre's random movement is up, down, left or right 
+	 */
 	int indiceO = 0;
 
+	/*
+	 * function that's in charge of moving the guard or the ogres depending on the current level
+	 * 
+	 * @param gameMap the current game map
+	 * @param guard the in-game level 1 guard
+	 * @param ogres array that has the all the in-game level 2 ogres
+	 */
 	public void moveNPC(Map gameMap, Guard guard, ArrayList<Ogre> ogres) {
 		if (gameMap.currentMap.level == 1) {
 			guard.characterState = ThreadLocalRandom.current().nextInt(0, 2);
@@ -78,6 +94,18 @@ public class GameLogic {
 		}
 	}
 	
+	
+	/*
+	 * function that verifies if the hero has lost the game
+	 * 
+	 * @param hero the in-game hero
+	 * @param guard the in-game level 1 guard
+	 * @param ogres array that has the all the in-game level 2 ogres
+	 * @param map the current game map
+	 * 
+	 * @return -1 if the game was lost or 0 if the hero can continue to play the game
+	 * 
+	 */
 	public int verifyGameState(Hero hero, Guard guard, ArrayList<Ogre> ogres, Map map) {
 		if(map.currentMap.level == 1 && guard.symbol == 'G') {
 			if((hero.x == guard.x+1 && hero.y == guard.y) ||

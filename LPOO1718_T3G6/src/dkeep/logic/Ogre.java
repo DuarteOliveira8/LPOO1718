@@ -4,6 +4,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import dkeep.logic.Character;
 
+/*
+ * Ogre class derived from the Character class
+ */
 public class Ogre extends Character{
 	char movement[] = {'a', 's', 'd', 'w'};
 	char movement2[] = {'d', 'd', 'd', 'd', 's', 's', 's'};

@@ -2,14 +2,28 @@ package dkeep.logic;
 
 import dkeep.logic.Character;
 
+/*
+ * Hero class derived from the Character class
+ */
 public class Hero extends Character{
-	
+	/*
+	 * boolean that's true when hero is armed and false when it's not 
+	 */
 	public boolean armed = false;
 	
+	/*
+	 * Hero empty constructor
+	 */
 	public Hero() {
 		
 	}
 	
+	/*
+	 * Hero constructor
+	 * 
+	 * @param x the current x coordinate
+	 * @param y the current y coordinate
+	 */
 	public Hero(int x, int y) {
 		this.x = x;
 		this.y = y;
