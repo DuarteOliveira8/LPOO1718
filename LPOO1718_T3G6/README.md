@@ -8,7 +8,7 @@ Guided Project
 * **Duarte Filipe Machado de Oliveira** - *up201604948*
 
 **BCH Status Badge**
-<br><img src="https://imgur.com/2RizllL.jpg" width="85"><br>
+<br><img src="https://imgur.com/2RizllL.jpg" width="150"><br>
 
 
 **EclEmma (Logic Package 84.5%)**
