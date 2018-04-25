@@ -135,3 +135,7 @@ idea {
         }
     }
 }
+
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:1.1.0'
+}
