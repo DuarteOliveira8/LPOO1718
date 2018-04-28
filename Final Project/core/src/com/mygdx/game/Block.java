@@ -3,6 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * main class of the game character
+ */
 public class Block extends Actor{
     /**
      * current value of the block's height
@@ -21,7 +24,6 @@ public class Block extends Actor{
 
     /**
      * changes the skin of the block
-     *
      * @param newSkinPath path of the new texture
      */
     public void changeSkin(String newSkinPath){

@@ -2,7 +2,23 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Screen;
 
+/**
+ * represents the main menu of the game
+ */
 public class Menu implements Screen {
+    /**
+     * represents the valuable data of the game
+     */
+    GameData gameData;
+
+    /**
+     * constructor of the Menu class
+     * @param gameData represents the valuable data of the game
+     */
+    public void Menu(GameData gameData){
+        this.gameData = gameData;
+    }
+
     @Override
     public void dispose(){
     }
