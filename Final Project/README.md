@@ -14,7 +14,7 @@ Final Project Intermediate Check-Point
 <br><img src="https://imgur.com/8KxBUat.jpg" width="800"><br>
 
 
-## Team Members
+## GUI
 **Main Menu**
 <br><img src="https://imgur.com/C9LV2QK.jpg" width="900"><br>
 
@@ -29,4 +29,4 @@ Final Project Intermediate Check-Point
 
 **Documentation**
 <br>
-[Link](https://duarteoliveira8.github.io/)
+[Link](http://tugapop.com/DOC/index.html)
