@@ -37,6 +37,6 @@ On this menu, the user can choose what block to use for the game.
 * Test if the game is lost when the block hits an obstacle while dropping from a jump
 * Test if the game is lost when the block hits an obstacle on the top while jumping
 
-## Documentation
+**Documentation**
 <br>
-[Link](http://tugapop.com/DOC/index.html)
+[Link](https://tugapop.com/DOC/index.html)

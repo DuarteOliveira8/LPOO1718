@@ -17,10 +17,16 @@ public class Level extends Stage {
      */
     Texture skin = new Texture("background_desert.png");
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void act (float delta){
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw(){
     }

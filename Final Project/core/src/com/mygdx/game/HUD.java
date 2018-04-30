@@ -20,10 +20,16 @@ public class HUD extends Stage {
         this.gameData = gameData;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void act (float delta){
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw(){
     }

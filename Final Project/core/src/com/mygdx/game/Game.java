@@ -13,12 +13,18 @@ public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
@@ -28,6 +34,9 @@ public class Game extends ApplicationAdapter {
 		batch.end();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void dispose () {
 		batch.dispose();
