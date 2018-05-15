@@ -15,7 +15,24 @@ public class Level extends Stage {
     /**
      * background of the level
      */
-    Texture skin = new Texture("background_desert.png");
+    Texture bg;
+
+    /**
+     * scene of the level
+     */
+    Texture scene;
+
+    /**
+     * scene of the level
+     */
+    Texture floor;
+
+    Level(String bgPath, String scenePath, String floorPath, int distance) {
+        bg = new Texture(bgPath);
+        scene = new Texture(scenePath);
+        floor = new Texture(floorPath);
+        totalDistance = distance;
+    }
 
     /**
      * {@inheritDoc}

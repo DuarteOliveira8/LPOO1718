@@ -16,7 +16,7 @@ public class HUD extends Stage {
      * constructor of the HUD class
      * @param gameData represents the valuable data of the game
      */
-    public void HUD(GameData gameData){
+    HUD(GameData gameData) {
         this.gameData = gameData;
     }
 

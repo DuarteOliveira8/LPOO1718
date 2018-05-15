@@ -1,11 +1,11 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 
 /**
  * class where you can alter game settings including customizing the block
  */
-public class Settings implements Screen{
+public class Settings extends ScreenAdapter{
     /**
      * represents the valuable data of the game
      */
@@ -15,7 +15,7 @@ public class Settings implements Screen{
      * constructor of the Settings class
      * @param gameData represents the valuable data of the game
      */
-    public void Settings(GameData gameData){
+    Settings(GameData gameData){
         this.gameData = gameData;
     }
 

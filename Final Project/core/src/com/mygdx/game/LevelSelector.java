@@ -1,11 +1,11 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 
 /**
  * menu where the player can choose what level to play
  */
-public class LevelSelector implements Screen {
+public class LevelSelector extends ScreenAdapter{
     /**
      * represents the valuable data of the game
      */
@@ -15,7 +15,7 @@ public class LevelSelector implements Screen {
      * constructor of the LevelSelector class
      * @param gameData represents the valuable data of the game
      */
-    public void LevelSelector(GameData gameData){
+    LevelSelector(GameData gameData){
         this.gameData = gameData;
     }
 
