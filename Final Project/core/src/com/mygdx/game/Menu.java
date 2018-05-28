@@ -5,10 +5,14 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.awt.Image;
+
+import static com.mygdx.game.GameData.GameState;
 
 /**
  * represents the main menu of the game
@@ -18,8 +22,6 @@ public class Menu extends ScreenAdapter {
      * represents the valuable data of the game
      */
     GameData gameData;
-
-    private Stage stage;
 
     /**
      * viewport width in meters
@@ -32,7 +34,7 @@ public class Menu extends ScreenAdapter {
     /**
      * allows us to convert from pixels to meters
      */
-    private static final float PIXEL_TO_METER = (float) (16.0/1920.0);
+    private static final float PIXEL_TO_METER = (float) (16.0/Gdx.graphics.getWidth());
     /**
      * the screen's camera
      */
@@ -41,19 +43,41 @@ public class Menu extends ScreenAdapter {
     Button playButton;
     Button lvlButton;
     Button settingsButton;
+    Button exitButton;
+
 
     /**
      * constructor of the Menu class
      * @param gameData represents the valuable data of the game
      */
-    Menu(GameData gameData){
+    Menu(final GameData gameData){
         this.gameData = gameData;
 
-        playButton = new Button(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 - 200, 250, 250, 100, 100, "crossButton.png", "play.png");
-        lvlButton = new Button(Gdx.graphics.getWidth()/2 - 300, Gdx.graphics.getHeight()/2 - 150, 150, 150, 100, 100, "crossButton.png", "lvl.png");
-        settingsButton = new Button(Gdx.graphics.getWidth()/2 + 300 + 75, Gdx.graphics.getHeight()/2 - 150, 150, 150, 100, 100, "crossButton.png", "settings.png");
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
+        playButton = new Button((Gdx.graphics.getWidth()*838)/1920, (Gdx.graphics.getHeight()*280)/1080, (Gdx.graphics.getWidth()*245)/1920, (Gdx.graphics.getHeight()*258)/1080,  "play.png");
+
+        playButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                gameData.gameState = GameState.GAME;
+            }
+        });
+
+        exitButton = new Button((Gdx.graphics.getWidth()*1400)/1920, (Gdx.graphics.getHeight()*25)/1080, (Gdx.graphics.getWidth()*442)/1920, (Gdx.graphics.getHeight()*130)/1080,  "exitbutton.png");
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.exit();
+            }
+        });
+
+        lvlButton = new Button((Gdx.graphics.getWidth()*499)/1920, (Gdx.graphics.getHeight()*300)/1080, (Gdx.graphics.getWidth()*204)/1920, (Gdx.graphics.getHeight()*215)/1080,  "level.png");
+        settingsButton = new Button((Gdx.graphics.getWidth()*1218)/1920, (Gdx.graphics.getHeight()*300)/1080, (Gdx.graphics.getWidth()*204)/1920, (Gdx.graphics.getHeight()*215)/1080,  "settings.png");
+
+
+        gameData.getMenuStage().addActor(playButton);
+        gameData.getMenuStage().addActor(lvlButton);
+        gameData.getMenuStage().addActor(settingsButton);
+        gameData.getMenuStage().addActor(exitButton);
 
         float ratio = ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
         camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_HEIGHT / PIXEL_TO_METER);
@@ -92,20 +116,22 @@ public class Menu extends ScreenAdapter {
         camera.update();
         gameData.getBatch().setProjectionMatrix(camera.combined);
 
-        // Draw the texture
+        // Draw the texture Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080
         gameData.getBatch().begin();
-        gameData.getBatch().draw(gameData.levels.get(0).bg, 0,0);
-        gameData.getBatch().draw(gameData.menuScene, 0, 0);
-        gameData.getBatch().draw(gameData.logo, Gdx.graphics.getWidth() - gameData.logo.getWidth() - 150, Gdx.graphics.getHeight() - 225);
+        gameData.getBatch().draw(gameData.levels.get(0).bg, 0,0,Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.menuScene, 0, 0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.logo, (Gdx.graphics.getWidth()*420)/1920, (Gdx.graphics.getWidth()*737)/1920, (Gdx.graphics.getWidth()*1074)/1920, (Gdx.graphics.getHeight()*218)/1080);
         playButton.draw(gameData.getBatch(),0);
         lvlButton.draw(gameData.getBatch(),0);
         settingsButton.draw(gameData.getBatch(),0);
+        exitButton.draw(gameData.getBatch(),0);
         gameData.getBatch().end();
 
-//        if(button1.hit(Gdx.input.getX(), Gdx.input.getY(), Gdx.input.isTouched()) != null){
-//            hide();
-//            gameData.
-//        }
+
+        /*if(playButton.hit(Gdx.input.getX(), Gdx.input.getY(), Gdx.input.justTouched()) != null){
+            System.out.println("ENTREI");
+            gameData.gameState = GAME;
+        }*/
     }
 
     /**

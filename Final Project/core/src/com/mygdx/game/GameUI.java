@@ -18,6 +18,8 @@ public class GameUI extends ScreenAdapter {
      * represents an instance of the class HUD
      */
     HUD hud;
+
+    int levelNo;
     /**
      * represents the valuable data of the game
      */
@@ -33,7 +35,7 @@ public class GameUI extends ScreenAdapter {
     /**
      * allows us to convert from pixels to meters
      */
-    private static final float PIXEL_TO_METER = (float) (16.0/1920.0);
+    private static final float PIXEL_TO_METER = (float) (16.0/Gdx.graphics.getWidth());
     /**
      * the screen's camera
      */
@@ -47,7 +49,7 @@ public class GameUI extends ScreenAdapter {
         this.gameData = gameData;
         level = gameData.levels.get(levelNo - 1);
         hud = new HUD(gameData);
-
+        this.levelNo = levelNo;
 
         float ratio = ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
         camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_HEIGHT / PIXEL_TO_METER);
@@ -87,8 +89,8 @@ public class GameUI extends ScreenAdapter {
     @Override
     public void render(float delta){
         super.render(delta);
-        infiniteScene = (infiniteScene + 3) % 1920;
-        infiniteFloor = (infiniteFloor + 7) % 1920;
+        infiniteScene = (infiniteScene + (Gdx.graphics.getWidth()*4)/1920) % Gdx.graphics.getWidth();
+        infiniteFloor = (infiniteFloor + (Gdx.graphics.getWidth()*10)/1920) % Gdx.graphics.getWidth();
 
         // Update the camera
         camera.update();
@@ -96,13 +98,13 @@ public class GameUI extends ScreenAdapter {
 
         // Draw the texture
         gameData.getBatch().begin();
-        gameData.getBatch().draw(gameData.levels.get(0).bg, 0,0);
-        gameData.getBatch().draw(gameData.levels.get(0).scene, 0 - infiniteScene,0);
-        gameData.getBatch().draw(gameData.levels.get(0).scene, 1920 - infiniteScene,0);
-        gameData.getBatch().draw(gameData.levels.get(0).floor, 0 - infiniteFloor,0);
-        gameData.getBatch().draw(gameData.levels.get(0).floor, 1920 - infiniteFloor,0);
-        //gameData.getBatch().draw(gameData.block.skin, 250, 204 + gameData.block.y + gameData.block.jumpingY, 100, 100);
-        gameData.getBatch().draw(gameData.block.skinRegion, 250, 204 + gameData.block.y + gameData.block.jumpingY, 50, 50, 100, 100, 1, 1, gameData.block.angle);
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).bg, 0,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).scene, 0 - infiniteScene,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).scene, Gdx.graphics.getWidth() - infiniteScene,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).floor, 0 - infiniteFloor,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).floor, Gdx.graphics.getWidth() - infiniteFloor,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.block.skinRegion, ((Gdx.graphics.getWidth()*250)/1920), ((Gdx.graphics.getHeight()*204)/1080) + gameData.block.y + gameData.block.jumpingY, ((Gdx.graphics.getWidth()*100)/1920)/2, ((Gdx.graphics.getWidth()*100)/1920)/2, ((Gdx.graphics.getWidth()*100)/1920), ((Gdx.graphics.getWidth()*100)/1920), 1, 1, gameData.block.angle);
+        hud.draw();
         gameData.getBatch().end();
 
         if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !gameData.block.isJumping && !gameData.block.isDropping)

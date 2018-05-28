@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,34 +15,30 @@ public class Button extends Actor {
 
     int x;
     int y;
-    int widthImage;
-    int heightImage;
-    int widthContent;
-    int heightContent;
+    int width;
+    int height;
 
-    public Button(int x, int y, int widthImage, int heightImage, int widthContent, int heightContent, String image, String content){
+    public Button(int x, int y, int widthImage, int heightImage, String image){
+
         this.x = x;
         this.y = y;
-        this.widthImage = widthImage;
-        this.heightImage = heightImage;
-        this.widthContent = widthContent;
-        this.heightContent = heightContent;
+        this.width = widthImage;
+        this.height = heightImage;
         this.image = new Texture(image);
-        this.content = new Texture(content);
         imageRegion = new TextureRegion(this.image);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha){
-        batch.draw(imageRegion, x, y, widthImage, heightImage);
-        batch.draw(content, x + widthImage/2 - widthContent/2, y + heightImage/2 - heightContent/2, widthContent, heightContent);
+        batch.draw(imageRegion, x, y, width, height);
     }
 
     @Override
-    public Actor hit(float x, float y, boolean touchable){
-        if(touchable && getTouchable() != Touchable.enabled)
+    public Button hit(float x, float y, boolean touchable){
+
+        if(touchable && (getTouchable() != Touchable.enabled))
             return null;
 
-        return x >= 0 && x < widthImage && y >= 0 && y < heightImage ? this : null;
+        return (x >= this.x && x < this.x + width && y >= this.y && y < this.y + height) ? this : null;
     }
 }
