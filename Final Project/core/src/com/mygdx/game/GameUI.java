@@ -13,17 +13,17 @@ public class GameUI extends ScreenAdapter {
     /**
      * represents an instance of the class Level
      */
-    Level level;
+    private Level level;
     /**
      * represents an instance of the class HUD
      */
-    HUD hud;
+    private HUD hud;
 
-    int levelNo;
+    private int levelNo;
     /**
      * represents the valuable data of the game
      */
-    GameData gameData;
+    private GameData gameData;
     /**
      * viewport width in meters
      */
@@ -98,19 +98,19 @@ public class GameUI extends ScreenAdapter {
 
         // Draw the texture
         gameData.getBatch().begin();
-        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).bg, 0,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).scene, 0 - infiniteScene,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).scene, Gdx.graphics.getWidth() - infiniteScene,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).floor, 0 - infiniteFloor,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).floor, Gdx.graphics.getWidth() - infiniteFloor,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.block.skinRegion, ((Gdx.graphics.getWidth()*250)/1920), ((Gdx.graphics.getHeight()*204)/1080) + gameData.block.y + gameData.block.jumpingY, ((Gdx.graphics.getWidth()*100)/1920)/2, ((Gdx.graphics.getWidth()*100)/1920)/2, ((Gdx.graphics.getWidth()*100)/1920), ((Gdx.graphics.getWidth()*100)/1920), 1, 1, gameData.block.angle);
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getBg(), 0,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getScene(), 0 - infiniteScene,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getScene(), Gdx.graphics.getWidth() - infiniteScene,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getFloor(), 0 - infiniteFloor,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getFloor(), Gdx.graphics.getWidth() - infiniteFloor,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.block.getSkinRegion(), ((Gdx.graphics.getWidth()*250)/1920), ((Gdx.graphics.getHeight()*204)/1080) + gameData.block.getY() + gameData.block.getJumpingY(), ((Gdx.graphics.getWidth()*100)/1920)/2, ((Gdx.graphics.getWidth()*100)/1920)/2, ((Gdx.graphics.getWidth()*100)/1920), ((Gdx.graphics.getWidth()*100)/1920), 1, 1, gameData.block.getAngle());
         hud.draw();
         gameData.getBatch().end();
 
-        if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !gameData.block.isJumping && !gameData.block.isDropping)
-            gameData.block.isJumping = true;
+        if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !gameData.block.isJumping() && !gameData.block.isDropping())
+            gameData.block.setJumping(true);
 
-        if(gameData.block.isJumping || gameData.block.isDropping)
+        if(gameData.block.isJumping() || gameData.block.isDropping())
             gameData.block.jump();
 
     }
@@ -134,5 +134,69 @@ public class GameUI extends ScreenAdapter {
      */
     @Override
     public void show(){
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public HUD getHud() {
+        return hud;
+    }
+
+    public void setHud(HUD hud) {
+        this.hud = hud;
+    }
+
+    public int getLevelNo() {
+        return levelNo;
+    }
+
+    public void setLevelNo(int levelNo) {
+        this.levelNo = levelNo;
+    }
+
+    public GameData getGameData() {
+        return gameData;
+    }
+
+    public void setGameData(GameData gameData) {
+        this.gameData = gameData;
+    }
+
+    public static int getViewportWidth() {
+        return VIEWPORT_WIDTH;
+    }
+
+    public static int getViewportHeight() {
+        return VIEWPORT_HEIGHT;
+    }
+
+    public static float getPixelToMeter() {
+        return PIXEL_TO_METER;
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public int getInfiniteScene() {
+        return infiniteScene;
+    }
+
+    public void setInfiniteScene(int infiniteScene) {
+        this.infiniteScene = infiniteScene;
+    }
+
+    public int getInfiniteFloor() {
+        return infiniteFloor;
+    }
+
+    public void setInfiniteFloor(int infiniteFloor) {
+        this.infiniteFloor = infiniteFloor;
     }
 }

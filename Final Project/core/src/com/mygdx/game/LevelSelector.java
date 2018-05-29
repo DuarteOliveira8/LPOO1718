@@ -9,7 +9,7 @@ public class LevelSelector extends ScreenAdapter{
     /**
      * represents the valuable data of the game
      */
-    GameData gameData;
+    private GameData gameData;
 
     /**
      * constructor of the LevelSelector class
@@ -66,5 +66,13 @@ public class LevelSelector extends ScreenAdapter{
      */
     @Override
     public void show(){
+    }
+
+    public GameData getGameData() {
+        return gameData;
+    }
+
+    public void setGameData(GameData gameData) {
+        this.gameData = gameData;
     }
 }

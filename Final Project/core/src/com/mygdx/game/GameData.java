@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class GameData {
 
     public enum GameState {
-        MENU, GAME, SETTINGS, LEVELS, PAUSE
+        MENU, GAME, SETTINGS, LEVELS, PAUSE, BLOCKSELECTOR
     }
 
-    GameState gameState = GameState.MENU;
+    private GameState gameState = GameState.MENU;
 
-    InputMultiplexer inputMultiplexer;
+    private InputMultiplexer inputMultiplexer;
 
     /**
      * traveled distance
@@ -54,8 +54,11 @@ public class GameData {
 
     private Stage menuStage;
     private Stage hudStage;
+    private Stage settingsStage;
+    private Stage blocksStage;
 
     GameData(){
+
         lives = 3;
         levels = new ArrayList<Level>();
         batch = new SpriteBatch();
@@ -65,12 +68,15 @@ public class GameData {
         levels.add(new Level("darkForestBG.jpg", "darkForestScene.png", "darkForestFloor.png",0));
         levels.add(new Level("cityBG.jpg", "cityScene.png","cityFloor.png",0));
 
+        inputMultiplexer = new InputMultiplexer();
 
         menuStage = new Stage(new ScreenViewport());
         hudStage = new Stage(new ScreenViewport());
+        blocksStage = new Stage(new ScreenViewport());
+        settingsStage = new Stage(new ScreenViewport());
 
-        inputMultiplexer = new InputMultiplexer();
-
+        inputMultiplexer.addProcessor(blocksStage);
+        inputMultiplexer.addProcessor(settingsStage);
         inputMultiplexer.addProcessor(menuStage);
         inputMultiplexer.addProcessor(hudStage);
 
@@ -162,11 +168,28 @@ public class GameData {
         this.menuStage = menuStage;
     }
 
-    public Stage getHUDStage() {
+    public Stage getHudStage() {
         return hudStage;
     }
 
-    public void setHUDStage(Stage hudStage) {
+    public void setHudStage(Stage hudStage) {
         this.hudStage = hudStage;
+    }
+
+    public Stage getBlocksStage() {
+        return blocksStage;
+    }
+
+    public void setBlocksStage(Stage blocksStage) {
+        this.blocksStage = blocksStage;
+    }
+
+    public Stage getSettingsStage() {
+
+        return settingsStage;
+    }
+
+    public void setSettingsStage(Stage settingsStage) {
+        this.settingsStage = settingsStage;
     }
 }

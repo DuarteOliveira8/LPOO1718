@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,37 +12,37 @@ public class Block extends Actor{
     /**
      * current value of the block's height
      */
-    float y;
+    private float y;
 
     /**
      * current value of the block's jump value
      */
-    float jumpingY;
+    private float jumpingY;
 
     /**
      * boolean that determines if the block is going up
      */
-    boolean isJumping;
+    private boolean isJumping;
 
     /**
      * boolean that determines if the block is going down
      */
-    boolean isDropping;
+    private boolean isDropping;
 
     /**
      * current skin on the block
      */
-    Texture skin;
+    private Texture skin;
 
     /**
      * current skin on the block
      */
-    TextureRegion skinRegion;
+    private TextureRegion skinRegion;
 
     /**
      * current angle of the block
      */
-    float angle;
+    private float angle;
 
     Block(String skinPath){
         isJumping = false;
@@ -55,23 +56,15 @@ public class Block extends Actor{
     }
 
     /**
-     * changes the skin of the block
-     * @param newSkinPath path of the new texture
-     */
-    public void changeSkin(String newSkinPath){
-        skin = new Texture(newSkinPath);
-    }
-
-    /**
      * function that's in charge of updating the values of y and angle, while the block is jumping
      */
     public void jump(){
-        if(jumpingY < 200 && isJumping) {
+        if(jumpingY < (300* Gdx.graphics.getHeight())/1080 && isJumping) {
             jumpingY += 10;
             angle = (float) (angle - 4.5) % 360;
         }
 
-        if(jumpingY >= 200) {
+        if(jumpingY >= (300* Gdx.graphics.getHeight())/1080) {
             isDropping = true;
             isJumping = false;
         }
@@ -86,5 +79,63 @@ public class Block extends Actor{
             if(angle % 90 != 0)
                 angle -= angle % 90;
         }
+    }
+
+    @Override
+    public float getY() {
+        return y;
+    }
+
+    @Override
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getJumpingY() {
+        return jumpingY;
+    }
+
+    public void setJumpingY(float jumpingY) {
+        this.jumpingY = jumpingY;
+    }
+
+    public boolean isJumping() {
+        return isJumping;
+    }
+
+    public void setJumping(boolean jumping) {
+        isJumping = jumping;
+    }
+
+    public boolean isDropping() {
+        return isDropping;
+    }
+
+    public void setDropping(boolean dropping) {
+        isDropping = dropping;
+    }
+
+    public Texture getSkin() {
+        return skin;
+    }
+
+    public void setSkin(Texture skin) {
+        this.skin = skin;
+    }
+
+    public TextureRegion getSkinRegion() {
+        return skinRegion;
+    }
+
+    public void setSkinRegion(TextureRegion skinRegion) {
+        this.skinRegion = skinRegion;
+    }
+
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
     }
 }

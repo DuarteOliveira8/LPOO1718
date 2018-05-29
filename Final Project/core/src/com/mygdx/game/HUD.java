@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import static com.badlogic.gdx.scenes.scene2d.Touchable.disabled;
+import static com.badlogic.gdx.scenes.scene2d.Touchable.enabled;
+
 /**
  * class that represents the interface displayed on top of
  * the game where the player can check some important info
@@ -13,9 +16,9 @@ public class HUD extends Stage {
     /**
      * represents the valuable data of the game
      */
-    GameData gameData;
+    private GameData gameData;
 
-    Button pauseButton;
+    private Button pauseButton;
 
     /**
      * constructor of the HUD class
@@ -30,11 +33,19 @@ public class HUD extends Stage {
         pauseButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                gameData.gameState = GameData.GameState.MENU;
+                gameData.setGameState(GameData.GameState.MENU);
             }
         });
 
-        gameData.getHUDStage().addActor(pauseButton);
+        gameData.getHudStage().addActor(pauseButton);
+    }
+
+    public void disableButtons(){
+        pauseButton.setTouchable(disabled);
+    }
+
+    public void enableButtons(){
+        pauseButton.setTouchable(enabled);
     }
 
     /**
@@ -50,5 +61,21 @@ public class HUD extends Stage {
     @Override
     public void draw(){
         pauseButton.draw(gameData.getBatch(),0);
+    }
+
+    public GameData getGameData() {
+        return gameData;
+    }
+
+    public void setGameData(GameData gameData) {
+        this.gameData = gameData;
+    }
+
+    public Button getPauseButton() {
+        return pauseButton;
+    }
+
+    public void setPauseButton(Button pauseButton) {
+        this.pauseButton = pauseButton;
     }
 }

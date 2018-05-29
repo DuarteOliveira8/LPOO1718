@@ -10,22 +10,22 @@ public class Level extends Stage {
     /**
      * total distance of the level
      */
-    int totalDistance;
+    private int totalDistance;
 
     /**
      * background of the level
      */
-    Texture bg;
+    private Texture bg;
 
     /**
      * scene of the level
      */
-    Texture scene;
+    private Texture scene;
 
     /**
      * scene of the level
      */
-    Texture floor;
+    private Texture floor;
 
     Level(String bgPath, String scenePath, String floorPath, int distance) {
         bg = new Texture(bgPath);
@@ -46,5 +46,37 @@ public class Level extends Stage {
      */
     @Override
     public void draw(){
+    }
+
+    public int getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTotalDistance(int totalDistance) {
+        this.totalDistance = totalDistance;
+    }
+
+    public Texture getBg() {
+        return bg;
+    }
+
+    public void setBg(Texture bg) {
+        this.bg = bg;
+    }
+
+    public Texture getScene() {
+        return scene;
+    }
+
+    public void setScene(Texture scene) {
+        this.scene = scene;
+    }
+
+    public Texture getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Texture floor) {
+        this.floor = floor;
     }
 }

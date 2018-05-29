@@ -9,14 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class Button extends Actor {
 
-    Texture image;
-    Texture content;
-    TextureRegion imageRegion;
+    private Texture image;
+    private Texture content;
+    private TextureRegion imageRegion;
 
-    int x;
-    int y;
-    int width;
-    int height;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
 
     public Button(int x, int y, int widthImage, int heightImage, String image){
 
@@ -40,5 +40,65 @@ public class Button extends Actor {
             return null;
 
         return (x >= this.x && x < this.x + width && y >= this.y && y < this.y + height) ? this : null;
+    }
+
+    public Texture getImage() {
+        return image;
+    }
+
+    public void setImage(Texture image) {
+        this.image = image;
+    }
+
+    public Texture getContent() {
+        return content;
+    }
+
+    public void setContent(Texture content) {
+        this.content = content;
+    }
+
+    public TextureRegion getImageRegion() {
+        return imageRegion;
+    }
+
+    public void setImageRegion(TextureRegion imageRegion) {
+        this.imageRegion = imageRegion;
+    }
+
+    @Override
+    public float getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    @Override
+    public float getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    @Override
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    @Override
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
