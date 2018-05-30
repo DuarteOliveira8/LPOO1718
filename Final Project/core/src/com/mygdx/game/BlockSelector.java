@@ -49,6 +49,10 @@ public class BlockSelector extends ScreenAdapter {
     private Texture currentBlock;
 
 
+    private static final float WIDTH_CONVERTER = (float)(Gdx.graphics.getWidth()/1920.0);
+    private static final float HEIGHT_CONVERTER = (float)(Gdx.graphics.getHeight()/1080.0);
+
+
     /**
      * constructor of the Settings class
      * @param gameData represents the valuable data of the game
@@ -60,7 +64,7 @@ public class BlockSelector extends ScreenAdapter {
         blocksPanel = new Texture("blocksPanel.png");
         currentBlock = gameData.getBlock().getSkin();
 
-        block1 = new Button((Gdx.graphics.getWidth()*499)/1920, (Gdx.graphics.getHeight()*431)/1080, (Gdx.graphics.getWidth()*103)/1920, (Gdx.graphics.getHeight()*103)/1080,  "lightForestBlock.png");
+        block1 = new Button((int)(499*WIDTH_CONVERTER), (int)(431*HEIGHT_CONVERTER), (int)(103*WIDTH_CONVERTER), (int)(103*HEIGHT_CONVERTER),  "lightForestBlock.png");
         block1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -70,7 +74,7 @@ public class BlockSelector extends ScreenAdapter {
             }
         });
 
-        block2 = new Button((Gdx.graphics.getWidth()*692)/1920, (Gdx.graphics.getHeight()*431)/1080, (Gdx.graphics.getWidth()*103)/1920, (Gdx.graphics.getHeight()*103)/1080,  "darkForestBlock.png");
+        block2 = new Button((int) (692*WIDTH_CONVERTER), (int) (431*HEIGHT_CONVERTER), (int) (103*WIDTH_CONVERTER), (int) (103*HEIGHT_CONVERTER),  "darkForestBlock.png");
         block2.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -80,7 +84,7 @@ public class BlockSelector extends ScreenAdapter {
             }
         });
 
-        block3 = new Button((Gdx.graphics.getWidth()*885)/1920, (Gdx.graphics.getHeight()*431)/1080, (Gdx.graphics.getWidth()*103)/1920, (Gdx.graphics.getHeight()*103)/1080,  "cityBlock.png");
+        block3 = new Button((int) (885*WIDTH_CONVERTER), (int) (431*HEIGHT_CONVERTER), (int) (103*WIDTH_CONVERTER), (int) (103*HEIGHT_CONVERTER),  "cityBlock.png");
         block3.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -90,7 +94,7 @@ public class BlockSelector extends ScreenAdapter {
             }
         });
 
-        backButton = new Button((Gdx.graphics.getWidth()*1400)/1920, (Gdx.graphics.getHeight()*17)/1080, (Gdx.graphics.getWidth()*441)/1920, (Gdx.graphics.getHeight()*130)/1080,  "backButton.png");
+        backButton = new Button((int) (1400*WIDTH_CONVERTER), (int) (17*HEIGHT_CONVERTER), (int) (441*WIDTH_CONVERTER), (int) (130*HEIGHT_CONVERTER),  "backButton.png");
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -143,11 +147,11 @@ public class BlockSelector extends ScreenAdapter {
 
         // Draw the texture Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080
         gameData.getBatch().begin();
-        gameData.getBatch().draw(gameData.levels.get(0).getBg(), 0,0,Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.levels.get(0).getBg(), 0,0,Gdx.graphics.getWidth(), (int)(1440*HEIGHT_CONVERTER));
         gameData.getBatch().draw(gameData.menuScene, 0, 0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(blocksText, (Gdx.graphics.getWidth()*533)/1920, (Gdx.graphics.getWidth()*877)/1920, (Gdx.graphics.getWidth()*860)/1920, (Gdx.graphics.getHeight()*153)/1080);
-        gameData.getBatch().draw(blocksPanel, (Gdx.graphics.getWidth()*361)/1920, (Gdx.graphics.getWidth()*246)/1920, (Gdx.graphics.getWidth()*1199)/1920, (Gdx.graphics.getHeight()*493)/1080);
-        gameData.getBatch().draw(currentBlock, (Gdx.graphics.getWidth()*1241)/1920, (Gdx.graphics.getWidth()*392)/1920, (Gdx.graphics.getWidth()*222)/1920, (Gdx.graphics.getHeight()*222)/1080);
+        gameData.getBatch().draw(blocksText, (int)(533*WIDTH_CONVERTER), (int)(877*HEIGHT_CONVERTER), (int)(860*WIDTH_CONVERTER), (int)(153*HEIGHT_CONVERTER));
+        gameData.getBatch().draw(blocksPanel, (int)(361*WIDTH_CONVERTER), (int)(246*HEIGHT_CONVERTER), (int)(1199*WIDTH_CONVERTER), (int)(493*HEIGHT_CONVERTER));
+        gameData.getBatch().draw(currentBlock, (int)(1241*WIDTH_CONVERTER), (int)(392*HEIGHT_CONVERTER), (int)(222*WIDTH_CONVERTER), (int)(222*HEIGHT_CONVERTER));
         block1.draw(gameData.getBatch(),0);
         block2.draw(gameData.getBatch(),0);
         block3.draw(gameData.getBatch(),0);

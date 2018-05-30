@@ -41,6 +41,9 @@ public class GameUI extends ScreenAdapter {
      */
     private final OrthographicCamera camera;
 
+    private static final float WIDTH_CONVERTER = (float)(Gdx.graphics.getWidth()/1920.0);
+    private static final float HEIGHT_CONVERTER = (float)(Gdx.graphics.getHeight()/1080.0);
+
     /**
      * constructor of the GameUI class
      * @param gameData represents the valuable data of the game
@@ -98,12 +101,12 @@ public class GameUI extends ScreenAdapter {
 
         // Draw the texture
         gameData.getBatch().begin();
-        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getBg(), 0,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getScene(), 0 - infiniteScene,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getScene(), Gdx.graphics.getWidth() - infiniteScene,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getFloor(), 0 - infiniteFloor,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getFloor(), Gdx.graphics.getWidth() - infiniteFloor,0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.block.getSkinRegion(), ((Gdx.graphics.getWidth()*250)/1920), ((Gdx.graphics.getHeight()*204)/1080) + gameData.block.getY() + gameData.block.getJumpingY(), ((Gdx.graphics.getWidth()*100)/1920)/2, ((Gdx.graphics.getWidth()*100)/1920)/2, ((Gdx.graphics.getWidth()*100)/1920), ((Gdx.graphics.getWidth()*100)/1920), 1, 1, gameData.block.getAngle());
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getBg(), 0,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getScene(), 0 - infiniteScene,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getScene(), Gdx.graphics.getWidth() - infiniteScene,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getFloor(), 0 - infiniteFloor,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        gameData.getBatch().draw(gameData.levels.get(levelNo - 1).getFloor(), Gdx.graphics.getWidth() - infiniteFloor,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        gameData.getBatch().draw(gameData.block.getSkinRegion(), (int) (250*WIDTH_CONVERTER), 204*HEIGHT_CONVERTER + gameData.block.getY() + gameData.block.getJumpingY(), (100*WIDTH_CONVERTER)/2, (100*WIDTH_CONVERTER)/2, 100*WIDTH_CONVERTER, 100*WIDTH_CONVERTER, 1, 1, gameData.block.getAngle());
         hud.draw();
         gameData.getBatch().end();
 

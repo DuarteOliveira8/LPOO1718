@@ -44,6 +44,10 @@ public class Block extends Actor{
      */
     private float angle;
 
+    private static final float JUMP_MAX_HEIGHT = 300 * Gdx.graphics.getHeight()/1080;
+    private static final float JUMP_DELTA = 15 * Gdx.graphics.getHeight()/1080;
+    private static final double ROTATION_DELTA = 4.5;
+
     Block(String skinPath){
         isJumping = false;
         isDropping = false;
@@ -52,26 +56,25 @@ public class Block extends Actor{
         angle = 0;
         skin = new Texture(skinPath);
         skinRegion = new TextureRegion(skin);
-        //this.addListener()
     }
 
     /**
      * function that's in charge of updating the values of y and angle, while the block is jumping
      */
     public void jump(){
-        if(jumpingY < (300* Gdx.graphics.getHeight())/1080 && isJumping) {
-            jumpingY += 10;
-            angle = (float) (angle - 4.5) % 360;
+        if(jumpingY < JUMP_MAX_HEIGHT && isJumping) {
+            jumpingY += JUMP_DELTA;
+            angle = (float) (angle - ROTATION_DELTA);
         }
 
-        if(jumpingY >= (300* Gdx.graphics.getHeight())/1080) {
+        if(jumpingY >= JUMP_MAX_HEIGHT) {
             isDropping = true;
             isJumping = false;
         }
 
         if(jumpingY > 0 && isDropping) {
-            jumpingY -= 10;
-            angle = (float) (angle - 4.5) % 360;
+            jumpingY -= JUMP_DELTA;
+            angle = (float) (angle - ROTATION_DELTA);
         }
 
         if(jumpingY <=0) {

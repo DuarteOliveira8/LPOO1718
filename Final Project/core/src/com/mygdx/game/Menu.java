@@ -44,6 +44,9 @@ public class Menu extends ScreenAdapter {
     private Button exitButton;
 
 
+    private static final float WIDTH_CONVERTER = (float)(Gdx.graphics.getWidth()/1920.0);
+    private static final float HEIGHT_CONVERTER = (float)(Gdx.graphics.getHeight()/1080.0);
+
     /**
      * constructor of the Menu class
      * @param gameData represents the valuable data of the game
@@ -51,7 +54,7 @@ public class Menu extends ScreenAdapter {
     Menu(final GameData gameData){
         this.gameData = gameData;
 
-        playButton = new Button((Gdx.graphics.getWidth()*838)/1920, (Gdx.graphics.getHeight()*280)/1080, (Gdx.graphics.getWidth()*245)/1920, (Gdx.graphics.getHeight()*258)/1080,  "play.png");
+        playButton = new Button((int)(838*WIDTH_CONVERTER), (int)(280*HEIGHT_CONVERTER), (int)(245*WIDTH_CONVERTER), (int)(258*HEIGHT_CONVERTER),  "play.png");
 
         playButton.addListener(new ClickListener() {
             @Override
@@ -60,16 +63,16 @@ public class Menu extends ScreenAdapter {
             }
         });
 
-        exitButton = new Button((Gdx.graphics.getWidth()*1400)/1920, (Gdx.graphics.getHeight()*25)/1080, (Gdx.graphics.getWidth()*442)/1920, (Gdx.graphics.getHeight()*130)/1080,  "exitbutton.png");
+        exitButton = new Button((int)(1400*WIDTH_CONVERTER), (int)(25*HEIGHT_CONVERTER), (int)(442*WIDTH_CONVERTER), (int)(130*HEIGHT_CONVERTER),  "exitbutton.png");
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.exit();
             }
         });
-        lvlButton = new Button((Gdx.graphics.getWidth()*499)/1920, (Gdx.graphics.getHeight()*300)/1080, (Gdx.graphics.getWidth()*204)/1920, (Gdx.graphics.getHeight()*215)/1080,  "level.png");
+        lvlButton = new Button((int)(499*WIDTH_CONVERTER), (int)(300*HEIGHT_CONVERTER), (int)(204*WIDTH_CONVERTER), (int)(215*HEIGHT_CONVERTER),  "level.png");
 
-        settingsButton = new Button((Gdx.graphics.getWidth()*1218)/1920, (Gdx.graphics.getHeight()*300)/1080, (Gdx.graphics.getWidth()*204)/1920, (Gdx.graphics.getHeight()*215)/1080,  "settings.png");
+        settingsButton = new Button((int)(1218*WIDTH_CONVERTER), (int)(300*HEIGHT_CONVERTER), (int)(204*WIDTH_CONVERTER), (int)(215*HEIGHT_CONVERTER),  "settings.png");
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -121,9 +124,9 @@ public class Menu extends ScreenAdapter {
 
         // Draw the texture Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080
         gameData.getBatch().begin();
-        gameData.getBatch().draw(gameData.levels.get(0).getBg(), 0,0,Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.menuScene, 0, 0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.logo, (Gdx.graphics.getWidth()*420)/1920, (Gdx.graphics.getWidth()*737)/1920, (Gdx.graphics.getWidth()*1074)/1920, (Gdx.graphics.getHeight()*218)/1080);
+        gameData.getBatch().draw(gameData.levels.get(0).getBg(), 0,0,Gdx.graphics.getWidth(), 1440*HEIGHT_CONVERTER);
+        gameData.getBatch().draw(gameData.menuScene, 0, 0, Gdx.graphics.getWidth(), 1440*HEIGHT_CONVERTER);
+        gameData.getBatch().draw(gameData.logo, 420*WIDTH_CONVERTER, 737*HEIGHT_CONVERTER, 1074*WIDTH_CONVERTER, 218*HEIGHT_CONVERTER);
         playButton.draw(gameData.getBatch(),0);
         lvlButton.draw(gameData.getBatch(),0);
         settingsButton.draw(gameData.getBatch(),0);

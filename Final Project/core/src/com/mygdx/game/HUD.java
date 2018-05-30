@@ -20,6 +20,10 @@ public class HUD extends Stage {
 
     private Button pauseButton;
 
+
+    private static final float WIDTH_CONVERTER = (float)(Gdx.graphics.getWidth()/1920.0);
+    private static final float HEIGHT_CONVERTER = (float)(Gdx.graphics.getHeight()/1080.0);
+
     /**
      * constructor of the HUD class
      * @param gameData represents the valuable data of the game
@@ -28,7 +32,7 @@ public class HUD extends Stage {
 
         this.gameData = gameData;
 
-        pauseButton = new Button((Gdx.graphics.getWidth()*1790)/1920, (Gdx.graphics.getHeight()*944)/1080, (Gdx.graphics.getWidth()*110)/1920, (Gdx.graphics.getHeight()*116)/1080, "pause.png");
+        pauseButton = new Button((int)(1790*WIDTH_CONVERTER), (int)(944*HEIGHT_CONVERTER), (int)(110*WIDTH_CONVERTER), (int)(116*HEIGHT_CONVERTER), "pause.png");
 
         pauseButton.addListener(new ClickListener() {
             @Override

@@ -46,6 +46,10 @@ public class Settings extends ScreenAdapter{
     private Texture settingsPanel;
 
 
+    private static final float WIDTH_CONVERTER = (float)(Gdx.graphics.getWidth()/1920.0);
+    private static final float HEIGHT_CONVERTER = (float)(Gdx.graphics.getHeight()/1080.0);
+
+
     /**
      * constructor of the Settings class
      * @param gameData represents the valuable data of the game
@@ -56,7 +60,7 @@ public class Settings extends ScreenAdapter{
         settingsPanel = new Texture("settingsPanel.png");
         settingsText = new Texture("settingsText.png");
 
-        blocksButton = new Button((Gdx.graphics.getWidth()*740)/1920, (Gdx.graphics.getHeight()*604)/1080, (Gdx.graphics.getWidth()*441)/1920, (Gdx.graphics.getHeight()*130)/1080,  "blocksButton.png");
+        blocksButton = new Button((int)(740*WIDTH_CONVERTER), (int)(604*HEIGHT_CONVERTER), (int)(441*WIDTH_CONVERTER), (int)(130*HEIGHT_CONVERTER),  "blocksButton.png");
         blocksButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -64,7 +68,7 @@ public class Settings extends ScreenAdapter{
             }
         });
 
-        tutorialButton = new Button((Gdx.graphics.getWidth()*695)/1920, (Gdx.graphics.getHeight()*453)/1080, (Gdx.graphics.getWidth()*532)/1920, (Gdx.graphics.getHeight()*130)/1080,  "tutorialButton.png");
+        tutorialButton = new Button((int)(695*WIDTH_CONVERTER), (int)(453*HEIGHT_CONVERTER), (int)(532*WIDTH_CONVERTER), (int)(130*HEIGHT_CONVERTER),  "tutorialButton.png");
         tutorialButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -72,7 +76,7 @@ public class Settings extends ScreenAdapter{
             }
         });
 
-        backButton = new Button((Gdx.graphics.getWidth()*739)/1920, (Gdx.graphics.getHeight()*305)/1080, (Gdx.graphics.getWidth()*441)/1920, (Gdx.graphics.getHeight()*130)/1080,  "backButtonSettings.png");
+        backButton = new Button((int)(739*WIDTH_CONVERTER), (int)(305*HEIGHT_CONVERTER), (int)(441*WIDTH_CONVERTER), (int)(130*HEIGHT_CONVERTER),  "backButtonSettings.png");
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -124,10 +128,10 @@ public class Settings extends ScreenAdapter{
 
         // Draw the texture Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080
         gameData.getBatch().begin();
-        gameData.getBatch().draw(gameData.levels.get(0).getBg(), 0,0,Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(gameData.menuScene, 0, 0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
-        gameData.getBatch().draw(settingsText, (Gdx.graphics.getWidth()*453)/1920, (Gdx.graphics.getWidth()*815)/1920, (Gdx.graphics.getWidth()*1012)/1920, (Gdx.graphics.getHeight()*208)/1080);
-        gameData.getBatch().draw(settingsPanel, (Gdx.graphics.getWidth()*670)/1920, (Gdx.graphics.getWidth()*251)/1920, (Gdx.graphics.getWidth()*582)/1920, (Gdx.graphics.getHeight()*513)/1080);
+        gameData.getBatch().draw(gameData.levels.get(0).getBg(), 0,0,Gdx.graphics.getWidth(), 1440*HEIGHT_CONVERTER);
+        gameData.getBatch().draw(gameData.menuScene, 0, 0, Gdx.graphics.getWidth(), 1440*HEIGHT_CONVERTER);
+        gameData.getBatch().draw(settingsText, 453*WIDTH_CONVERTER, 815*HEIGHT_CONVERTER, 1012*WIDTH_CONVERTER, 208*HEIGHT_CONVERTER);
+        gameData.getBatch().draw(settingsPanel, 670*WIDTH_CONVERTER, 251*HEIGHT_CONVERTER, 582*WIDTH_CONVERTER, 513*HEIGHT_CONVERTER);
         backButton.draw(gameData.getBatch(),0);
         tutorialButton.draw(gameData.getBatch(),0);
         blocksButton.draw(gameData.getBatch(),0);
