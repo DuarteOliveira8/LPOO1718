@@ -58,6 +58,11 @@ public class Game extends ApplicationAdapter {
 				blockSelector.enableButtons();
 				blockSelector.render(120);
 				break;
+			case LEVELSELECTOR:
+				disableAllButtons();
+				levelSelector.enableButtons();
+				levelSelector.render(120);
+				break;
 			default:
 				break;
 		}

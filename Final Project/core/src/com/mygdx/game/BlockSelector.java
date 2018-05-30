@@ -48,7 +48,6 @@ public class BlockSelector extends ScreenAdapter {
     private Texture blocksPanel;
     private Texture currentBlock;
 
-
     private static final float WIDTH_CONVERTER = (float)(Gdx.graphics.getWidth()/1920.0);
     private static final float HEIGHT_CONVERTER = (float)(Gdx.graphics.getHeight()/1080.0);
 
@@ -147,8 +146,8 @@ public class BlockSelector extends ScreenAdapter {
 
         // Draw the texture Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080
         gameData.getBatch().begin();
-        gameData.getBatch().draw(gameData.levels.get(0).getBg(), 0,0,Gdx.graphics.getWidth(), (int)(1440*HEIGHT_CONVERTER));
-        gameData.getBatch().draw(gameData.menuScene, 0, 0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
+        gameData.getBatch().draw(gameData.getLevels().get(0).getBg(), 0,0,Gdx.graphics.getWidth(), (int)(1440*HEIGHT_CONVERTER));
+        gameData.getBatch().draw(gameData.getMenuScene(), 0, 0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
         gameData.getBatch().draw(blocksText, (int)(533*WIDTH_CONVERTER), (int)(877*HEIGHT_CONVERTER), (int)(860*WIDTH_CONVERTER), (int)(153*HEIGHT_CONVERTER));
         gameData.getBatch().draw(blocksPanel, (int)(361*WIDTH_CONVERTER), (int)(246*HEIGHT_CONVERTER), (int)(1199*WIDTH_CONVERTER), (int)(493*HEIGHT_CONVERTER));
         gameData.getBatch().draw(currentBlock, (int)(1241*WIDTH_CONVERTER), (int)(392*HEIGHT_CONVERTER), (int)(222*WIDTH_CONVERTER), (int)(222*HEIGHT_CONVERTER));

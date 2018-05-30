@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class GameData {
 
     public enum GameState {
-        MENU, GAME, SETTINGS, LEVELS, PAUSE, BLOCKSELECTOR
+        MENU, GAME, SETTINGS, LEVELS, PAUSE, BLOCKSELECTOR, LEVELSELECTOR;
     }
 
     private GameState gameState = GameState.MENU;
@@ -23,29 +24,29 @@ public class GameData {
     private InputMultiplexer inputMultiplexer;
 
     /**
-     * traveled distance
-     */
-    int distance;
-    /**
      * number of lives (out of 3) the player has
      */
-    int lives;
+    private int lives;
     /**
      * main character
      */
-    Block  block;
+    private Block  block;
     /**
      * array that stores all the levels from the game
      */
-    ArrayList<Level> levels;
+    private ArrayList<Level> levels;
+    /**
+     * current level number
+     */
+    int currentLevelNo;
     /**
      * scene texture of the main menu
      */
-    Texture menuScene;
+    private Texture menuScene;
     /**
      * scene texture of the main menu
      */
-    Texture logo;
+    private Texture logo;
 
     /**
      * the batch where the textures are drawn
@@ -56,6 +57,7 @@ public class GameData {
     private Stage hudStage;
     private Stage settingsStage;
     private Stage blocksStage;
+    private Stage levelSelectorStage;
 
     GameData(){
 
@@ -64,9 +66,9 @@ public class GameData {
         batch = new SpriteBatch();
         loadTextures();
         block = new Block("lightForestBlock.png");
-        levels.add(new Level("lightForestBG.jpg", "lightForestScene.png", "lightForestFloor.png", 0));
-        levels.add(new Level("darkForestBG.jpg", "darkForestScene.png", "darkForestFloor.png",0));
-        levels.add(new Level("cityBG.jpg", "cityScene.png","cityFloor.png",0));
+        levels.add(new Level("lightForestBG.jpg", "lightForestScene.png", "lightForestFloor.png", 0, Touchable.enabled));
+        levels.add(new Level("cityBG.jpg", "cityScene.png","cityFloor.png",0, Touchable.disabled));
+        levels.add(new Level("darkForestBG.jpg", "darkForestScene.png", "darkForestFloor.png",0, Touchable.disabled));
 
         inputMultiplexer = new InputMultiplexer();
 
@@ -74,11 +76,13 @@ public class GameData {
         hudStage = new Stage(new ScreenViewport());
         blocksStage = new Stage(new ScreenViewport());
         settingsStage = new Stage(new ScreenViewport());
+        levelSelectorStage = new Stage(new ScreenViewport());
 
         inputMultiplexer.addProcessor(blocksStage);
         inputMultiplexer.addProcessor(settingsStage);
         inputMultiplexer.addProcessor(menuStage);
         inputMultiplexer.addProcessor(hudStage);
+        inputMultiplexer.addProcessor(levelSelectorStage);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
@@ -106,14 +110,6 @@ public class GameData {
 
     public void setInputMultiplexer(InputMultiplexer inputMultiplexer) {
         this.inputMultiplexer = inputMultiplexer;
-    }
-
-    public int getDistance() {
-        return distance;
-    }
-
-    public void setDistance(int distance) {
-        this.distance = distance;
     }
 
     public int getLives() {
@@ -191,5 +187,25 @@ public class GameData {
 
     public void setSettingsStage(Stage settingsStage) {
         this.settingsStage = settingsStage;
+    }
+
+    public Stage getLevelSelectorStage() {
+        return levelSelectorStage;
+    }
+
+    public void setLevelSelectorStage(Stage levelSelectorStage) {
+        this.levelSelectorStage = levelSelectorStage;
+    }
+
+    public int getCurrentLevelNo() {
+        return currentLevelNo;
+    }
+
+    public void setCurrentLevelNo(int currentLevelNo) {
+        this.currentLevelNo = currentLevelNo;
+    }
+
+    public Level getCurrentLevel(){
+        return levels.get(currentLevelNo - 1);
     }
 }

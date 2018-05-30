@@ -2,15 +2,21 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 /**
  * class that represents a different level from the game
  */
-public class Level extends Stage {
+public class Level {
+
+    /**
+     * traveled distance
+     */
+    private int distance;
     /**
      * total distance of the level
      */
-    private int totalDistance;
+    private int maxDistance;
 
     /**
      * background of the level
@@ -27,33 +33,28 @@ public class Level extends Stage {
      */
     private Texture floor;
 
-    Level(String bgPath, String scenePath, String floorPath, int distance) {
+    /**
+     * defines if the level is available
+     */
+    Touchable levelLock;
+
+
+    Level(String bgPath, String scenePath, String floorPath, int distance, Touchable isEnabled) {
         bg = new Texture(bgPath);
         scene = new Texture(scenePath);
         floor = new Texture(floorPath);
-        totalDistance = distance;
+        maxDistance = distance;
+        distance = 0;
+        levelLock = isEnabled;
+
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void act (float delta){
+    public int getMaxDistance() {
+        return maxDistance;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void draw(){
-    }
-
-    public int getTotalDistance() {
-        return totalDistance;
-    }
-
-    public void setTotalDistance(int totalDistance) {
-        this.totalDistance = totalDistance;
+    public void setMaxlDistance(int maxDistance) {
+        this.maxDistance = maxDistance;
     }
 
     public Texture getBg() {
@@ -78,5 +79,25 @@ public class Level extends Stage {
 
     public void setFloor(Texture floor) {
         this.floor = floor;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public void setMaxDistance(int maxDistance) {
+        this.maxDistance = maxDistance;
+    }
+
+    public Touchable getLevelLock() {
+        return levelLock;
+    }
+
+    public void setLevelLock(Touchable levelLock) {
+        this.levelLock = levelLock;
     }
 }
