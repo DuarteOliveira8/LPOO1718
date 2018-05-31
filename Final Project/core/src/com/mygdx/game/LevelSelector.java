@@ -51,23 +51,29 @@ public class LevelSelector extends ScreenAdapter{
         level1Button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                System.out.println(gameData.getCurrentLevelNo());
                 gameData.setCurrentLevelNo(1);
+                System.out.println(gameData.getCurrentLevelNo());
             }
         });
 
         level2Button = new Button((int)(680*WIDTH_CONVERTER), (int)(290*HEIGHT_CONVERTER), (int)(561*WIDTH_CONVERTER), (int)(520*HEIGHT_CONVERTER),  "cityLevel.png");
-        level1Button.addListener(new ClickListener() {
+        level2Button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                System.out.println(gameData.getCurrentLevelNo());
                 gameData.setCurrentLevelNo(2);
+                System.out.println(gameData.getCurrentLevelNo());
             }
         });
 
         level3Button = new Button((int)(1313*WIDTH_CONVERTER), (int)(290*HEIGHT_CONVERTER), (int)(561*WIDTH_CONVERTER), (int)(520*HEIGHT_CONVERTER),  "darkForestLevel.png");
-        level1Button.addListener(new ClickListener() {
+        level3Button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                System.out.println(gameData.getCurrentLevelNo());
                 gameData.setCurrentLevelNo(3);
+                System.out.println(gameData.getCurrentLevelNo());
             }
         });
 
@@ -114,13 +120,21 @@ public class LevelSelector extends ScreenAdapter{
         super.render(delta);
 
         gameData.getBatch().begin();
-        gameData.getBatch().draw(gameData.getLevels().get(0).getBg(), 0,0,Gdx.graphics.getWidth(), (int)(1440*HEIGHT_CONVERTER));
+        gameData.getBatch().draw(gameData.getLevels().get(0).getLevelScenario().getBg(), 0,0,Gdx.graphics.getWidth(), (int)(1440*HEIGHT_CONVERTER));
         gameData.getBatch().draw(gameData.getMenuScene(), 0, 0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
         gameData.getBatch().draw(levelsText, (int)(577*WIDTH_CONVERTER), (int)(880*HEIGHT_CONVERTER), (int)(768*WIDTH_CONVERTER), (int)(156*HEIGHT_CONVERTER));
         level1Button.draw(gameData.getBatch(),0);
         level2Button.draw(gameData.getBatch(),0);
         level3Button.draw(gameData.getBatch(),0);
         backButton.draw(gameData.getBatch(),0);
+
+        if(level2Button.getTouchable() == disabled)
+            gameData.getBatch().draw(locked, (int)(693*WIDTH_CONVERTER), (int)(303*HEIGHT_CONVERTER), (int)(534*WIDTH_CONVERTER), (int)(393*HEIGHT_CONVERTER));
+
+
+        if(level3Button.getTouchable() == disabled)
+            gameData.getBatch().draw(locked, (int)(1325*WIDTH_CONVERTER), (int)(303*HEIGHT_CONVERTER), (int)(534*WIDTH_CONVERTER), (int)(393*HEIGHT_CONVERTER));
+
         gameData.getBatch().end();
     }
 

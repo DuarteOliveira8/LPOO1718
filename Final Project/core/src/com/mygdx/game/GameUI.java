@@ -56,8 +56,9 @@ public class GameUI extends ScreenAdapter {
         this.levelNo = levelNo;
 
         float ratio = ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
-        camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_HEIGHT / PIXEL_TO_METER);
-        camera.position.set(new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 0)); // middle of the viewport
+        //camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_HEIGHT / PIXEL_TO_METER);
+        camera = new OrthographicCamera(Gdx.graphics.getWidth() / WIDTH_CONVERTER, Gdx.graphics.getHeight() / HEIGHT_CONVERTER);
+        camera.position.set(new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0)); // middle of the viewport
     }
 
     /**
@@ -93,23 +94,32 @@ public class GameUI extends ScreenAdapter {
     @Override
     public void render(float delta){
         super.render(delta);
-        infiniteScene = (infiniteScene + (Gdx.graphics.getWidth()*4)/1920) % Gdx.graphics.getWidth();
-        infiniteFloor = (infiniteFloor + (Gdx.graphics.getWidth()*10)/1920) % Gdx.graphics.getWidth();
+        infiniteScene = (int) (infiniteScene + 4*WIDTH_CONVERTER) % Gdx.graphics.getWidth();
+        infiniteFloor = (int) (infiniteFloor + 10*WIDTH_CONVERTER) % Gdx.graphics.getWidth();
 
-        // Update the camera
-        camera.update();
-        gameData.getBatch().setProjectionMatrix(camera.combined);
+        level = gameData.getCurrentLevel();
 
         // Draw the texture
         gameData.getBatch().begin();
-        gameData.getBatch().draw(level.getBg(), 0,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
-        gameData.getBatch().draw(level.getScene(), 0 - infiniteScene,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
-        gameData.getBatch().draw(level.getScene(), Gdx.graphics.getWidth() - infiniteScene,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
-        gameData.getBatch().draw(level.getFloor(), 0 - infiniteFloor,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
-        gameData.getBatch().draw(level.getFloor(), Gdx.graphics.getWidth() - infiniteFloor,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
-        gameData.getBatch().draw(gameData.getBlock().getSkinRegion(), (int) (250*WIDTH_CONVERTER), 204*HEIGHT_CONVERTER + gameData.getBlock().getY() + gameData.getBlock().getJumpingY(), (100*WIDTH_CONVERTER)/2, (100*WIDTH_CONVERTER)/2, 100*WIDTH_CONVERTER, 100*WIDTH_CONVERTER, 1, 1, gameData.getBlock().getAngle());
+        gameData.getBatch().draw(level.getLevelScenario().getBg(), 0,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        gameData.getBatch().draw(level.getLevelScenario().getScene(), 0 - infiniteScene,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        gameData.getBatch().draw(level.getLevelScenario().getScene(), Gdx.graphics.getWidth() - infiniteScene,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        gameData.getBatch().draw(level.getLevelScenario().getFloor(), 0 - infiniteFloor,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        gameData.getBatch().draw(level.getLevelScenario().getFloor(), Gdx.graphics.getWidth() - infiniteFloor,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        gameData.getBatch().draw(gameData.getBlock().getSkinRegion(), (int) (250*WIDTH_CONVERTER), 204*HEIGHT_CONVERTER + gameData.getBlock().getY() + gameData.getBlock().getJumpingY(),   (100*WIDTH_CONVERTER)/2, (100*WIDTH_CONVERTER)/2, 100*WIDTH_CONVERTER, 100*WIDTH_CONVERTER, 1, 1, gameData.getBlock().getAngle());
         hud.draw();
         gameData.getBatch().end();
+
+        // Update the camera
+        camera.update();
+        level.getLevelScenario().getMapRenderer().setView(camera);
+        camera.position.x += 14*WIDTH_CONVERTER;
+
+        level.getLevelScenario().getMapRenderer().render();
+
+        level.getLevelScenario().getDebugRenderer().render(gameData.getWorld(), camera.combined);
+
+        gameData.getWorld().step(1/60f,6,2);
 
         if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !gameData.getBlock().isJumping() && !gameData.getBlock().isDropping())
             gameData.getBlock().setJumping(true);

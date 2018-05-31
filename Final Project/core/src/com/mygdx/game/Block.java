@@ -3,16 +3,32 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
  * main class of the game character
  */
-public class Block extends Actor{
+public class Block{
     /**
      * current value of the block's height
      */
     private float y;
+
+    /**
+     * current value of the block's height
+     */
+    private float x;
 
     /**
      * current value of the block's jump value
@@ -48,7 +64,14 @@ public class Block extends Actor{
     private static final float JUMP_DELTA = 15 * Gdx.graphics.getHeight()/1080;
     private static final double ROTATION_DELTA = 4.5;
 
-    Block(String skinPath){
+
+    private static final float WIDTH_CONVERTER = (float)(Gdx.graphics.getWidth()/1920.0);
+    private static final float HEIGHT_CONVERTER = (float)(Gdx.graphics.getHeight()/1080.0);
+
+    private World world;
+    private Body body;
+
+    Block(String skinPath, World world){
         isJumping = false;
         isDropping = false;
         y = 0;
@@ -56,6 +79,22 @@ public class Block extends Actor{
         angle = 0;
         skin = new Texture(skinPath);
         skinRegion = new TextureRegion(skin);
+
+        this.world = world;
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(250*WIDTH_CONVERTER, 204*HEIGHT_CONVERTER);
+        bodyDef.position.set(250, 204);
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        body = world.createBody(bodyDef);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        //shape.setAsBox(100*WIDTH_CONVERTER,100*HEIGHT_CONVERTER, new Vector2((100*WIDTH_CONVERTER)/2, (100*HEIGHT_CONVERTER)/2), angle);
+        shape.setAsBox(100*WIDTH_CONVERTER,100*HEIGHT_CONVERTER);
+        //shape.setAsBox(100,100);
+
+        fixtureDef.shape = shape;
+        body.createFixture(fixtureDef);
     }
 
     /**
@@ -84,14 +123,20 @@ public class Block extends Actor{
         }
     }
 
-    @Override
     public float getY() {
         return y;
     }
 
-    @Override
     public void setY(float y) {
         this.y = y;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
     }
 
     public float getJumpingY() {

@@ -23,7 +23,7 @@ public class Game extends ApplicationAdapter {
 	public void create () {
 	    gameData = new GameData();
 	    menu = new Menu(gameData);
-	    gameUI = new GameUI(gameData, 3);
+	    gameUI = new GameUI(gameData, 1);
 	    levelSelector = new LevelSelector(gameData);
 	    settings = new Settings(gameData);
 		blockSelector = new BlockSelector(gameData);
@@ -77,6 +77,7 @@ public class Game extends ApplicationAdapter {
 		gameUI.getHud().disableButtons();
 	    settings.disableButtons();
 	    blockSelector.disableButtons();
+	    levelSelector.disableButtons();
     }
 
 	/**

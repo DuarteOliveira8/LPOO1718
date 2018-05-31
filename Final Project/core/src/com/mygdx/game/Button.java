@@ -35,7 +35,6 @@ public class Button extends Actor {
 
     @Override
     public Button hit(float x, float y, boolean touchable){
-
         if(touchable && (getTouchable() != Touchable.enabled))
             return null;
 

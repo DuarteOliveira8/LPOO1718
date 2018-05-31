@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -59,16 +61,24 @@ public class GameData {
     private Stage blocksStage;
     private Stage levelSelectorStage;
 
+    private World world;
+
     GameData(){
 
         lives = 3;
         levels = new ArrayList<Level>();
         batch = new SpriteBatch();
         loadTextures();
-        block = new Block("lightForestBlock.png");
-        levels.add(new Level("lightForestBG.jpg", "lightForestScene.png", "lightForestFloor.png", 0, Touchable.enabled));
-        levels.add(new Level("cityBG.jpg", "cityScene.png","cityFloor.png",0, Touchable.disabled));
-        levels.add(new Level("darkForestBG.jpg", "darkForestScene.png", "darkForestFloor.png",0, Touchable.disabled));
+        world = new World(new Vector2(0,0), true);
+        block = new Block("lightForestBlock.png", world);
+
+        LevelScenario lightForestScenario = new LevelScenario("lightForestBG.jpg", "lightForestScene.png", "lightForestFloor.png");
+        LevelScenario cityScenario = new LevelScenario("cityBG.jpg", "cityScene.png","cityFloor.png");
+        LevelScenario darkForestScenario = new LevelScenario("darkForestBG.jpg", "darkForestScene.png", "darkForestFloor.png");
+
+        levels.add(new Level(lightForestScenario, world, 0, Touchable.enabled));
+        levels.add(new Level(cityScenario, world, 0, Touchable.enabled));
+        levels.add(new Level(darkForestScenario, world, 0, Touchable.enabled));
 
         inputMultiplexer = new InputMultiplexer();
 
@@ -207,5 +217,13 @@ public class GameData {
 
     public Level getCurrentLevel(){
         return levels.get(currentLevelNo - 1);
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
     }
 }

@@ -1,6 +1,22 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
@@ -16,69 +32,72 @@ public class Level {
     /**
      * total distance of the level
      */
+    private int mapDistance;
+    /**
+     * current record
+     */
     private int maxDistance;
-
-    /**
-     * background of the level
-     */
-    private Texture bg;
-
-    /**
-     * scene of the level
-     */
-    private Texture scene;
-
-    /**
-     * scene of the level
-     */
-    private Texture floor;
 
     /**
      * defines if the level is available
      */
     Touchable levelLock;
 
+    LevelScenario levelScenario;
 
-    Level(String bgPath, String scenePath, String floorPath, int distance, Touchable isEnabled) {
-        bg = new Texture(bgPath);
-        scene = new Texture(scenePath);
-        floor = new Texture(floorPath);
-        maxDistance = distance;
+
+    Level(LevelScenario levelScenario, World world, int distance, Touchable isEnabled) {
+        mapDistance = distance;
         distance = 0;
         levelLock = isEnabled;
+        this.levelScenario = levelScenario;
+
+        BodyDef bodyDef = new BodyDef();
+        PolygonShape shape = new PolygonShape();
+        FixtureDef fixtureDef = new FixtureDef();
+        Body body;
+
+        //RECTANGLES
+        for(MapObject object : levelScenario.getMap().getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+            bodyDef.position.set(rectangle.getX() + rectangle.getWidth()/2, rectangle.getY() + rectangle.getHeight()/2);
+
+            body = world.createBody(bodyDef);
+
+            shape.setAsBox(rectangle.getWidth()/2, rectangle.getHeight()/2);
+            fixtureDef.shape = shape;
+            body.createFixture(fixtureDef);
+        }
+
+        //TRIANGLES
+        for(MapObject object : levelScenario.getMap().getLayers().get(2).getObjects().getByType(PolygonMapObject.class)){
+            Polygon polygon = ((PolygonMapObject) object).getPolygon();
+
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+            bodyDef.position.set(polygon.getX(),polygon.getY());
+
+            body = world.createBody(bodyDef);
+
+            shape.set(polygon.getVertices());
+            fixtureDef.shape = shape;
+            body.createFixture(fixtureDef);
+        }
+
 
     }
 
-    public int getMaxDistance() {
-        return maxDistance;
+    public void start(){
+        distance = 0;
     }
 
-    public void setMaxlDistance(int maxDistance) {
-        this.maxDistance = maxDistance;
+    public int getMapDistance() {
+        return mapDistance;
     }
 
-    public Texture getBg() {
-        return bg;
-    }
-
-    public void setBg(Texture bg) {
-        this.bg = bg;
-    }
-
-    public Texture getScene() {
-        return scene;
-    }
-
-    public void setScene(Texture scene) {
-        this.scene = scene;
-    }
-
-    public Texture getFloor() {
-        return floor;
-    }
-
-    public void setFloor(Texture floor) {
-        this.floor = floor;
+    public void setMapDistance(int mapDistance) {
+        this.mapDistance = mapDistance;
     }
 
     public int getDistance() {
@@ -89,15 +108,27 @@ public class Level {
         this.distance = distance;
     }
 
-    public void setMaxDistance(int maxDistance) {
-        this.maxDistance = maxDistance;
-    }
-
     public Touchable getLevelLock() {
         return levelLock;
     }
 
     public void setLevelLock(Touchable levelLock) {
         this.levelLock = levelLock;
+    }
+
+    public int getMaxDistance() {
+        return maxDistance;
+    }
+
+    public void setMaxDistance(int maxDistance) {
+        this.maxDistance = maxDistance;
+    }
+
+    public LevelScenario getLevelScenario() {
+        return levelScenario;
+    }
+
+    public void setLevelScenario(LevelScenario levelScenario) {
+        this.levelScenario = levelScenario;
     }
 }

@@ -128,7 +128,7 @@ public class Settings extends ScreenAdapter{
 
         // Draw the texture Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080
         gameData.getBatch().begin();
-        gameData.getBatch().draw(gameData.getLevels().get(0).getBg(), 0,0,Gdx.graphics.getWidth(), 1440*HEIGHT_CONVERTER);
+        gameData.getBatch().draw(gameData.getLevels().get(0).getLevelScenario().getBg(), 0,0,Gdx.graphics.getWidth(), 1440*HEIGHT_CONVERTER);
         gameData.getBatch().draw(gameData.getMenuScene(), 0, 0, Gdx.graphics.getWidth(), 1440*HEIGHT_CONVERTER);
         gameData.getBatch().draw(settingsText, 453*WIDTH_CONVERTER, 815*HEIGHT_CONVERTER, 1012*WIDTH_CONVERTER, 208*HEIGHT_CONVERTER);
         gameData.getBatch().draw(settingsPanel, 670*WIDTH_CONVERTER, 251*HEIGHT_CONVERTER, 582*WIDTH_CONVERTER, 513*HEIGHT_CONVERTER);
