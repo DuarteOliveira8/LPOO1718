@@ -58,29 +58,33 @@ public class Level {
         Body body;
 
         //RECTANGLES
-        for(MapObject object : levelScenario.getMap().getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
+        for(MapObject object : levelScenario.getMap().getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
 
             bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set(rectangle.getX() + rectangle.getWidth()/2, rectangle.getY() + rectangle.getHeight()/2);
+            bodyDef.position.set((rectangle.getX() + rectangle.getWidth()/2) / GameUI.PPM, (rectangle.getY() + rectangle.getHeight()/2) / GameUI.PPM);
 
             body = world.createBody(bodyDef);
 
-            shape.setAsBox(rectangle.getWidth()/2, rectangle.getHeight()/2);
+            shape.setAsBox(rectangle.getWidth()/2 / GameUI.PPM, rectangle.getHeight()/2 / GameUI.PPM);
             fixtureDef.shape = shape;
             body.createFixture(fixtureDef);
         }
 
         //TRIANGLES
-        for(MapObject object : levelScenario.getMap().getLayers().get(2).getObjects().getByType(PolygonMapObject.class)){
-            Polygon polygon = ((PolygonMapObject) object).getPolygon();
+        for(MapObject object : levelScenario.getMap().getLayers().get(4).getObjects().getByType(PolygonMapObject.class))
+            new TriangleObstacle(world, levelScenario.getMap(), ((PolygonMapObject) object).getPolygon());
+
+        //FLOOR
+        for(MapObject object : levelScenario.getMap().getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
 
             bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set(polygon.getX(),polygon.getY());
+            bodyDef.position.set((rectangle.getX() + rectangle.getWidth()/2) / GameUI.PPM, (rectangle.getY() + rectangle.getHeight()/2) / GameUI.PPM);
 
             body = world.createBody(bodyDef);
 
-            shape.set(polygon.getVertices());
+            shape.setAsBox(rectangle.getWidth()/2 / GameUI.PPM, rectangle.getHeight()/2 / GameUI.PPM);
             fixtureDef.shape = shape;
             body.createFixture(fixtureDef);
         }

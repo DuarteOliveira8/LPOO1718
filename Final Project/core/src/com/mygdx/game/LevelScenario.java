@@ -34,8 +34,8 @@ public class LevelScenario {
         floor = new Texture(floorPath);
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("teste1.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map);
+        map = mapLoader.load("teste.tmx");
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / GameUI.PPM);
 
         debugRenderer = new Box2DDebugRenderer();
     }

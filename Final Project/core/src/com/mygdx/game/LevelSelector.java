@@ -81,7 +81,7 @@ public class LevelSelector extends ScreenAdapter{
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                gameData.setGameState(GameData.GameState.SETTINGS);
+                gameData.setGameState(GameData.GameState.MENU);
             }
         });
 

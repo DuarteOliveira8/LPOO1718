@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Circle;
@@ -19,7 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 /**
  * main class of the game character
  */
-public class Block{
+public class Block extends Sprite {
+    public enum State {DROPPING, JUMPING, SLIDING}
+
     /**
      * current value of the block's height
      */
@@ -36,16 +39,6 @@ public class Block{
     private float jumpingY;
 
     /**
-     * boolean that determines if the block is going up
-     */
-    private boolean isJumping;
-
-    /**
-     * boolean that determines if the block is going down
-     */
-    private boolean isDropping;
-
-    /**
      * current skin on the block
      */
     private Texture skin;
@@ -54,6 +47,11 @@ public class Block{
      * current skin on the block
      */
     private TextureRegion skinRegion;
+
+    /**
+     * current state of the block
+     */
+    State currentState;
 
     /**
      * current angle of the block
@@ -68,30 +66,35 @@ public class Block{
     private static final float WIDTH_CONVERTER = (float)(Gdx.graphics.getWidth()/1920.0);
     private static final float HEIGHT_CONVERTER = (float)(Gdx.graphics.getHeight()/1080.0);
 
+
+    /**
+     * allows us to convert from pixels to meters
+     */
+    private static final float PIXEL_TO_METER = (float) (16.0/Gdx.graphics.getWidth());
+
     private World world;
     private Body body;
 
     Block(String skinPath, World world){
-        isJumping = false;
-        isDropping = false;
+        currentState = State.SLIDING;
         y = 0;
         jumpingY = 0;
         angle = 0;
-        skin = new Texture(skinPath);
-        skinRegion = new TextureRegion(skin);
+        //skin = new Texture(skinPath);
+        //skinRegion = new TextureRegion(skin, 0, 0, 500, 500);
+
+        //setBounds(0, 0, 100*WIDTH_CONVERTER, 100*HEIGHT_CONVERTER);
+        //setRegion(skinRegion);
 
         this.world = world;
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(250*WIDTH_CONVERTER, 204*HEIGHT_CONVERTER);
-        bodyDef.position.set(250, 204);
+        bodyDef.position.set((250 + 50) / GameUI.PPM, (204 + 50) / GameUI.PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        //shape.setAsBox(100*WIDTH_CONVERTER,100*HEIGHT_CONVERTER, new Vector2((100*WIDTH_CONVERTER)/2, (100*HEIGHT_CONVERTER)/2), angle);
-        shape.setAsBox(100*WIDTH_CONVERTER,100*HEIGHT_CONVERTER);
-        //shape.setAsBox(100,100);
+        shape.setAsBox(50 / GameUI.PPM,50 / GameUI.PPM);
 
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef);
@@ -101,26 +104,32 @@ public class Block{
      * function that's in charge of updating the values of y and angle, while the block is jumping
      */
     public void jump(){
-        if(jumpingY < JUMP_MAX_HEIGHT && isJumping) {
-            jumpingY += JUMP_DELTA;
-            angle = (float) (angle - ROTATION_DELTA);
-        }
+        currentState = State.JUMPING;
 
-        if(jumpingY >= JUMP_MAX_HEIGHT) {
-            isDropping = true;
-            isJumping = false;
-        }
+        if(currentState == State.JUMPING) {
+            body.applyLinearImpulse(new Vector2(0, 1f), body.getWorldCenter(), true);
+    }
 
-        if(jumpingY > 0 && isDropping) {
+        currentState = State.SLIDING;
+/*
+        if(jumpingY >= JUMP_MAX_HEIGHT)
+            currentState = State.DROPPING;
+
+        if(jumpingY > 0 && currentState == State.DROPPING) {
             jumpingY -= JUMP_DELTA;
             angle = (float) (angle - ROTATION_DELTA);
         }
 
         if(jumpingY <=0) {
-            isDropping = false;
+            currentState = State.SLIDING;
             if(angle % 90 != 0)
                 angle -= angle % 90;
         }
+        */
+    }
+
+    public void update(){
+        setPosition((body.getPosition().x)*WIDTH_CONVERTER - getWidth()/2, (body.getPosition().y)*HEIGHT_CONVERTER - getHeight()/2);
     }
 
     public float getY() {
@@ -147,22 +156,6 @@ public class Block{
         this.jumpingY = jumpingY;
     }
 
-    public boolean isJumping() {
-        return isJumping;
-    }
-
-    public void setJumping(boolean jumping) {
-        isJumping = jumping;
-    }
-
-    public boolean isDropping() {
-        return isDropping;
-    }
-
-    public void setDropping(boolean dropping) {
-        isDropping = dropping;
-    }
-
     public Texture getSkin() {
         return skin;
     }
@@ -185,5 +178,49 @@ public class Block{
 
     public void setAngle(float angle) {
         this.angle = angle;
+    }
+
+    public State getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
+    }
+
+    public static float getJumpMaxHeight() {
+        return JUMP_MAX_HEIGHT;
+    }
+
+    public static float getJumpDelta() {
+        return JUMP_DELTA;
+    }
+
+    public static double getRotationDelta() {
+        return ROTATION_DELTA;
+    }
+
+    public static float getWidthConverter() {
+        return WIDTH_CONVERTER;
+    }
+
+    public static float getHeightConverter() {
+        return HEIGHT_CONVERTER;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    public Body getBody() {
+        return body;
+    }
+
+    public void setBody(Body body) {
+        this.body = body;
     }
 }

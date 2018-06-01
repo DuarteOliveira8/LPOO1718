@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -32,14 +33,13 @@ public class GameUI extends ScreenAdapter {
      * viewport width in meters
      */
     private static final int VIEWPORT_HEIGHT = 9;
-    /**
-     * allows us to convert from pixels to meters
-     */
-    private static final float PIXEL_TO_METER = (float) (16.0/Gdx.graphics.getWidth());
+
     /**
      * the screen's camera
      */
     private final OrthographicCamera camera;
+
+    public static final float PPM = 500f;
 
     private static final float WIDTH_CONVERTER = (float)(Gdx.graphics.getWidth()/1920.0);
     private static final float HEIGHT_CONVERTER = (float)(Gdx.graphics.getHeight()/1080.0);
@@ -57,8 +57,8 @@ public class GameUI extends ScreenAdapter {
 
         float ratio = ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
         //camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_HEIGHT / PIXEL_TO_METER);
-        camera = new OrthographicCamera(Gdx.graphics.getWidth() / WIDTH_CONVERTER, Gdx.graphics.getHeight() / HEIGHT_CONVERTER);
-        camera.position.set(new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0)); // middle of the viewport
+        camera = new OrthographicCamera((Gdx.graphics.getWidth() / WIDTH_CONVERTER) / GameUI.PPM, Gdx.graphics.getHeight() / HEIGHT_CONVERTER / GameUI.PPM);
+        camera.position.set(new Vector3((Gdx.graphics.getWidth()/2)/WIDTH_CONVERTER / GameUI.PPM, (Gdx.graphics.getHeight()/2)/HEIGHT_CONVERTER / GameUI.PPM, 0)); // middle of the viewport
     }
 
     /**
@@ -104,28 +104,31 @@ public class GameUI extends ScreenAdapter {
         gameData.getBatch().draw(level.getLevelScenario().getBg(), 0,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
         gameData.getBatch().draw(level.getLevelScenario().getScene(), 0 - infiniteScene,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
         gameData.getBatch().draw(level.getLevelScenario().getScene(), Gdx.graphics.getWidth() - infiniteScene,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
-        gameData.getBatch().draw(level.getLevelScenario().getFloor(), 0 - infiniteFloor,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
-        gameData.getBatch().draw(level.getLevelScenario().getFloor(), Gdx.graphics.getWidth() - infiniteFloor,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
-        gameData.getBatch().draw(gameData.getBlock().getSkinRegion(), (int) (250*WIDTH_CONVERTER), 204*HEIGHT_CONVERTER + gameData.getBlock().getY() + gameData.getBlock().getJumpingY(),   (100*WIDTH_CONVERTER)/2, (100*WIDTH_CONVERTER)/2, 100*WIDTH_CONVERTER, 100*WIDTH_CONVERTER, 1, 1, gameData.getBlock().getAngle());
+        //gameData.getBlock().draw(gameData.getBatch());
         hud.draw();
         gameData.getBatch().end();
 
         // Update the camera
+        level.getLevelScenario().getMapRenderer().render();
+        level.getLevelScenario().getDebugRenderer().render(gameData.getWorld(), camera.combined);
         camera.update();
         level.getLevelScenario().getMapRenderer().setView(camera);
-        camera.position.x += 14*WIDTH_CONVERTER;
+        camera.position.x += 10 / PPM;
 
-        level.getLevelScenario().getMapRenderer().render();
+        gameData.getBlock().update();
 
-        level.getLevelScenario().getDebugRenderer().render(gameData.getWorld(), camera.combined);
 
         gameData.getWorld().step(1/60f,6,2);
 
-        if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !gameData.getBlock().isJumping() && !gameData.getBlock().isDropping())
-            gameData.getBlock().setJumping(true);
+        //gameData.getBlock().getBody().setLinearVelocity(1,0);
+        gameData.getBlock().getBody().setLinearVelocity(1.233f,gameData.getBlock().getBody().getLinearVelocity().y);
 
-        if(gameData.getBlock().isJumping() || gameData.getBlock().isDropping())
-            gameData.getBlock().jump();
+
+        if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+            gameData.getBlock().getBody().applyLinearImpulse(new Vector2(0, 3f), gameData.getBlock().getBody().getWorldCenter(), true);
+
+        //if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !(gameData.getBlock().getCurrentState() == Block.State.JUMPING))
+        //   gameData.getBlock().jump();
 
     }
 
@@ -188,10 +191,6 @@ public class GameUI extends ScreenAdapter {
 
     public static int getViewportHeight() {
         return VIEWPORT_HEIGHT;
-    }
-
-    public static float getPixelToMeter() {
-        return PIXEL_TO_METER;
     }
 
     public OrthographicCamera getCamera() {

@@ -69,7 +69,7 @@ public class GameData {
         levels = new ArrayList<Level>();
         batch = new SpriteBatch();
         loadTextures();
-        world = new World(new Vector2(0,0), true);
+        world = new World(new Vector2(0,-9.81f), true);
         block = new Block("lightForestBlock.png", world);
 
         LevelScenario lightForestScenario = new LevelScenario("lightForestBG.jpg", "lightForestScene.png", "lightForestFloor.png");
