@@ -1,10 +1,15 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.utils.Array;
+
+import java.awt.Polygon;
 
 public class LevelScenario {
     /**
@@ -94,5 +99,17 @@ public class LevelScenario {
 
     public void setDebugRenderer(Box2DDebugRenderer debugRenderer) {
         this.debugRenderer = debugRenderer;
+    }
+
+    public Array<RectangleMapObject> getSquarePlatformLayer(){
+        return map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class);
+    }
+
+    public Array<PolygonMapObject> getTriangleObstacleLayer(){
+        return map.getLayers().get(4).getObjects().getByType(PolygonMapObject.class);
+    }
+
+    public Array<RectangleMapObject> getFloorLayer(){
+        return map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class);
     }
 }

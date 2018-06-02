@@ -77,8 +77,8 @@ public class GameData {
         LevelScenario darkForestScenario = new LevelScenario("darkForestBG.jpg", "darkForestScene.png", "darkForestFloor.png");
 
         levels.add(new Level(lightForestScenario, world, 0, Touchable.enabled));
-        levels.add(new Level(cityScenario, world, 0, Touchable.enabled));
-        levels.add(new Level(darkForestScenario, world, 0, Touchable.enabled));
+        //levels.add(new Level(cityScenario, world, 0, Touchable.enabled));
+        //levels.add(new Level(darkForestScenario, world, 0, Touchable.enabled));
 
         inputMultiplexer = new InputMultiplexer();
 
@@ -95,6 +95,8 @@ public class GameData {
         inputMultiplexer.addProcessor(levelSelectorStage);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
+
+        world.setContactListener(new GameContactListener(this));
     }
 
     public void loadTextures(){

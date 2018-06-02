@@ -80,11 +80,11 @@ public class Block extends Sprite {
         y = 0;
         jumpingY = 0;
         angle = 0;
-        //skin = new Texture(skinPath);
-        //skinRegion = new TextureRegion(skin, 0, 0, 500, 500);
+        skin = new Texture(skinPath);
+        skinRegion = new TextureRegion(skin, 0, 0, 500, 500);
 
-        //setBounds(0, 0, 100*WIDTH_CONVERTER, 100*HEIGHT_CONVERTER);
-        //setRegion(skinRegion);
+        setBounds(0, 0, 100*WIDTH_CONVERTER, 100*HEIGHT_CONVERTER);
+        setRegion(skinRegion);
 
         this.world = world;
         BodyDef bodyDef = new BodyDef();
@@ -96,40 +96,25 @@ public class Block extends Sprite {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(50 / GameUI.PPM,50 / GameUI.PPM);
 
+
+        fixtureDef.friction = 0;
+
         fixtureDef.shape = shape;
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef).setUserData("block");
     }
 
     /**
      * function that's in charge of updating the values of y and angle, while the block is jumping
      */
     public void jump(){
-        currentState = State.JUMPING;
-
-        if(currentState == State.JUMPING) {
-            body.applyLinearImpulse(new Vector2(0, 1f), body.getWorldCenter(), true);
-    }
-
-        currentState = State.SLIDING;
-/*
-        if(jumpingY >= JUMP_MAX_HEIGHT)
-            currentState = State.DROPPING;
-
-        if(jumpingY > 0 && currentState == State.DROPPING) {
-            jumpingY -= JUMP_DELTA;
-            angle = (float) (angle - ROTATION_DELTA);
+        if(currentState == State.SLIDING) {
+            body.setLinearVelocity(GameUI.CAMERA_DELTA / GameUI.PPM / GameUI.FPS, 3f);
+            currentState = State.JUMPING;
         }
-
-        if(jumpingY <=0) {
-            currentState = State.SLIDING;
-            if(angle % 90 != 0)
-                angle -= angle % 90;
-        }
-        */
     }
 
     public void update(){
-        setPosition((body.getPosition().x)*WIDTH_CONVERTER - getWidth()/2, (body.getPosition().y)*HEIGHT_CONVERTER - getHeight()/2);
+        setPosition((0.6f*GameUI.PPM)*WIDTH_CONVERTER - getWidth()/2, body.getPosition().y*GameUI.PPM*HEIGHT_CONVERTER - getHeight()/2);
     }
 
     public float getY() {

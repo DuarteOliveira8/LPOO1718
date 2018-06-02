@@ -40,6 +40,8 @@ public class GameUI extends ScreenAdapter {
     private final OrthographicCamera camera;
 
     public static final float PPM = 500f;
+    public static final float FPS = 1/60f;
+    public static final float CAMERA_DELTA = 13f;
 
     private static final float WIDTH_CONVERTER = (float)(Gdx.graphics.getWidth()/1920.0);
     private static final float HEIGHT_CONVERTER = (float)(Gdx.graphics.getHeight()/1080.0);
@@ -104,6 +106,7 @@ public class GameUI extends ScreenAdapter {
         gameData.getBatch().draw(level.getLevelScenario().getBg(), 0,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
         gameData.getBatch().draw(level.getLevelScenario().getScene(), 0 - infiniteScene,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
         gameData.getBatch().draw(level.getLevelScenario().getScene(), Gdx.graphics.getWidth() - infiniteScene,0, Gdx.graphics.getWidth(), ((int) (1440*HEIGHT_CONVERTER)));
+        //gameData.getBlock().update();
         //gameData.getBlock().draw(gameData.getBatch());
         hud.draw();
         gameData.getBatch().end();
@@ -113,22 +116,26 @@ public class GameUI extends ScreenAdapter {
         level.getLevelScenario().getDebugRenderer().render(gameData.getWorld(), camera.combined);
         camera.update();
         level.getLevelScenario().getMapRenderer().setView(camera);
-        camera.position.x += 10 / PPM;
+        camera.position.x += CAMERA_DELTA / PPM;
 
+
+        gameData.getBatch().begin();
         gameData.getBlock().update();
+        gameData.getBlock().draw(gameData.getBatch());
+        gameData.getBatch().end();
 
 
-        gameData.getWorld().step(1/60f,6,2);
 
-        //gameData.getBlock().getBody().setLinearVelocity(1,0);
-        gameData.getBlock().getBody().setLinearVelocity(1.233f,gameData.getBlock().getBody().getLinearVelocity().y);
+        gameData.getWorld().step(FPS,3,3);
+
+        gameData.getBlock().getBody().setLinearVelocity(CAMERA_DELTA/PPM/FPS,gameData.getBlock().getBody().getLinearVelocity().y);
 
 
-        if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
-            gameData.getBlock().getBody().applyLinearImpulse(new Vector2(0, 3f), gameData.getBlock().getBody().getWorldCenter(), true);
+        //if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+           // gameData.getBlock().getBody().setLinearVelocity(CAMERA_DELTA/PPM/FPS, 3f);
 
-        //if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !(gameData.getBlock().getCurrentState() == Block.State.JUMPING))
-        //   gameData.getBlock().jump();
+        if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !(gameData.getBlock().getCurrentState() == Block.State.JUMPING))
+            gameData.getBlock().jump();
 
     }
 

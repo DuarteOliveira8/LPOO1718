@@ -57,39 +57,14 @@ public class Level {
         FixtureDef fixtureDef = new FixtureDef();
         Body body;
 
-        //RECTANGLES
-        for(MapObject object : levelScenario.getMap().getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+        for(MapObject object : levelScenario.getSquarePlatformLayer())
+            new SquarePlatform(world, levelScenario.getMap(), ((RectangleMapObject) object).getRectangle());
 
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set((rectangle.getX() + rectangle.getWidth()/2) / GameUI.PPM, (rectangle.getY() + rectangle.getHeight()/2) / GameUI.PPM);
-
-            body = world.createBody(bodyDef);
-
-            shape.setAsBox(rectangle.getWidth()/2 / GameUI.PPM, rectangle.getHeight()/2 / GameUI.PPM);
-            fixtureDef.shape = shape;
-            body.createFixture(fixtureDef);
-        }
-
-        //TRIANGLES
-        for(MapObject object : levelScenario.getMap().getLayers().get(4).getObjects().getByType(PolygonMapObject.class))
+        for(MapObject object : levelScenario.getTriangleObstacleLayer())
             new TriangleObstacle(world, levelScenario.getMap(), ((PolygonMapObject) object).getPolygon());
 
-        //FLOOR
-        for(MapObject object : levelScenario.getMap().getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set((rectangle.getX() + rectangle.getWidth()/2) / GameUI.PPM, (rectangle.getY() + rectangle.getHeight()/2) / GameUI.PPM);
-
-            body = world.createBody(bodyDef);
-
-            shape.setAsBox(rectangle.getWidth()/2 / GameUI.PPM, rectangle.getHeight()/2 / GameUI.PPM);
-            fixtureDef.shape = shape;
-            body.createFixture(fixtureDef);
-        }
-
-
+        for(MapObject object : levelScenario.getFloorLayer())
+            new SquarePlatform(world, levelScenario.getMap(), ((RectangleMapObject) object).getRectangle());
     }
 
     public void start(){

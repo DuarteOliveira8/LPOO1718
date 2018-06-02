@@ -24,6 +24,10 @@ public class TriangleObstacle {
         PolygonShape shape = new PolygonShape();
         FixtureDef fixtureDef = new FixtureDef();
 
+        this.polygon = polygon;
+
+        fixtureDef.friction = 0;
+
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(polygon.getX() / GameUI.PPM, polygon.getY() / GameUI.PPM);
 
@@ -37,7 +41,7 @@ public class TriangleObstacle {
 
         shape.set(polygon.getVertices());
         fixtureDef.shape = shape;
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef).setUserData("triangle");
 
     }
 }
