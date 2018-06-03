@@ -32,11 +32,6 @@ public class Block extends Sprite {
      * current state of the block
      */
     private State currentState;
-    //TODO
-    /**
-     * detects if the block is still jumping
-     */
-    private boolean stillJump;
     /**
      * block's box2d body
      */
@@ -87,12 +82,9 @@ public class Block extends Sprite {
      */
     public void initializeBlock(){
         body.setTransform((250 + 50) / GameUI.PPM, (204 + 50) / GameUI.PPM, 0);
-        setPosition((body.getPosition().x),(body.getPosition().y));
         body.setLinearVelocity(0,0);
         angle = 0;
         currentState = State.SLIDING;
-        //TODO
-        stillJump = false;
     }
 
     /**
@@ -106,13 +98,12 @@ public class Block extends Sprite {
     }
 
     public void move(){
-        //TODO
-        if (currentState == State.JUMPING || stillJump) {
-            body.setTransform(body.getPosition(), body.getAngle() + (float) (-5 * Math.PI) / 180);
-            angle -= 5;
+        if (currentState == State.JUMPING) {
+            body.setTransform(body.getPosition(), body.getAngle() + (float) (-4.5 * Math.PI) / 180);
+            angle -= 4.5;
         }
         else {
-            body.setTransform(body.getPosition(), Math.round(body.getAngle()/90)*90);
+            body.setTransform(body.getPosition(), 0);
             angle = 0;
         }
 
@@ -125,8 +116,8 @@ public class Block extends Sprite {
      */
     public void drawBlock(SpriteBatch batch){
         batch.begin();
-        //TODO
-        if(currentState == State.SLIDING && !stillJump)
+
+        if(currentState == State.SLIDING)
             batch.draw(skinRegion, getX(), getY(), getWidth()/2, getHeight()/2, getWidth(), getHeight(), 1, 1, 0);
         else
             batch.draw(skinRegion, getX(), getY(), getWidth()/2, getHeight()/2, getWidth(), getHeight(), 1, 1, angle);
@@ -139,7 +130,7 @@ public class Block extends Sprite {
      */
     public void land(){
         currentState = State.SLIDING;
-        body.getPosition().x += 30;
+        body.setAngularVelocity(0);
     }
 
     /**
@@ -147,6 +138,7 @@ public class Block extends Sprite {
      */
     public void update(){
         setPosition((0.6f*GameUI.PPM)*WIDTH_CONVERTER - getWidth()/2, body.getPosition().y*GameUI.PPM*HEIGHT_CONVERTER - getHeight()/2);
+
     }
 
     /**
@@ -168,10 +160,5 @@ public class Block extends Sprite {
      */
     public State getCurrentState() {
         return currentState;
-    }
-
-    //TODO
-    public void setStillJump(boolean stillJump) {
-        this.stillJump = stillJump;
     }
 }
