@@ -63,7 +63,7 @@ public class GameData {
      * functions that loads all the level scenarios and creates the levels, storing them in the array
      */
     private void loadLevels(){
-        currentLevelNo = 1;
+        currentLevelNo = 2;
         LevelScenario lightForestScenario = new LevelScenario("lightForestBG.jpg", "lightForestScene.png", "level1.tmx");
         LevelScenario cityScenario = new LevelScenario("cityBG.jpg", "cityScene.png","level2.tmx");
         LevelScenario darkForestScenario = new LevelScenario("darkForestBG.jpg", "darkForestScene.png", "level3.tmx");
