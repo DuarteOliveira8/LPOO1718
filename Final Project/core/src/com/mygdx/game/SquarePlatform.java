@@ -72,5 +72,12 @@ public class SquarePlatform {
         fixtureDef.shape = leftSide;
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef).setUserData("leftSide");
+
+        EdgeShape bottomSide = new EdgeShape();
+        bottomSide.set(new Vector2(-rectangle.getWidth()/2 / GameUI.PPM, (-rectangle.getHeight()/2 - 1)/ GameUI.PPM), new Vector2(rectangle.getWidth()/2 / GameUI.PPM, (-rectangle.getHeight()/2 - 1)/ GameUI.PPM));
+
+        fixtureDef.shape = bottomSide;
+        fixtureDef.isSensor = true;
+        body.createFixture(fixtureDef).setUserData("leftSide");
     }
 }

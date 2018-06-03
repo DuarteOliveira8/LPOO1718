@@ -113,6 +113,9 @@ public class LevelSelector extends Menu{
             gameData.getBatch().draw(textures.get("locked"), (int)(1325*WIDTH_CONVERTER), (int)(303*HEIGHT_CONVERTER), (int)(534*WIDTH_CONVERTER), (int)(393*HEIGHT_CONVERTER));
     }
 
+    /**
+     * draws the corresponding progress bar to each level
+     */
     private void drawProgressBar(){
         for(int i = 0; i < gameData.getLevels().size(); i++){
             gameData.getBatch().draw(textures.get("progressBar"), (int)((66 + i*628)*WIDTH_CONVERTER), (int)(696*HEIGHT_CONVERTER), (int)(534*gameData.getLevels().get(i).getMaxPercentage()*HEIGHT_CONVERTER), (int)(13*WIDTH_CONVERTER));

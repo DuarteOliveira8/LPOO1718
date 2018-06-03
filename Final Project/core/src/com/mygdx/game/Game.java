@@ -66,6 +66,7 @@ public class Game extends ApplicationAdapter {
 		menus.put(PAUSED, new PauseMenu(gameData));
 		menus.put(GAMEOVER, new GameOverMenu(gameData));
 		menus.put(LEVELCOMPLETE, new LevelComplete(gameData));
+		menus.put(TUTORIAL, new Tutorial(gameData));
 	}
 
 	/**

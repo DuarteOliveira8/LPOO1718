@@ -59,7 +59,7 @@ public class Settings extends Menu{
         buttons.get("tutorial").addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                gameData.setGameState(MENU);
+                gameData.setGameState(TUTORIAL);
                 gameData.setTransitioning(true);
             }
         });
