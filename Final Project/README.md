@@ -7,7 +7,8 @@ Our project consists on an application that runs on android and desktop. It's a 
 
 ## Development documentation
 ### UML diagram
-    <br><img src="https://imgur.com/5xAjKD3.jpg" width="900"><br>
+
+<br><img src="https://imgur.com/5xAjKD3.jpg" width="900"><br>
 
 ### Design patterns
     We used the STATE design pattern in our project to find a solution for two problems. The block's state during the game and the application's state to cycle through the menus and game.
