@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -37,15 +36,8 @@ public class GameContactListener implements ContactListener {
             Gdx.input.vibrate(100);
             gameData.setTransitioning(true);
         }
-        else {
-            //TODO
-            if ((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)))
-                gameData.getCurrentLevel().getBlock().setStillJump(true);
-            else
-                gameData.getCurrentLevel().getBlock().setStillJump(false);
-
+        else
             gameData.getCurrentLevel().getBlock().land();
-        }
     }
     /**
      * {@inheritDoc}
