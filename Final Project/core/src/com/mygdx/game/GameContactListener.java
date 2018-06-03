@@ -38,7 +38,6 @@ public class GameContactListener implements ContactListener {
             gameData.setTransitioning(true);
         }
         else {
-            //TODO
             if ((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)))
                 gameData.getCurrentLevel().getBlock().setStillJump(true);
             else
@@ -51,7 +50,8 @@ public class GameContactListener implements ContactListener {
      * {@inheritDoc}
      */
     @Override
-    public void endContact(Contact contact) { }
+    public void endContact(Contact contact) {
+    }
 
     /**
      * {@inheritDoc}

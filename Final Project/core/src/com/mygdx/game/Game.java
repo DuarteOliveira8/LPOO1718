@@ -116,4 +116,11 @@ public class Game extends ApplicationAdapter {
 		for(Map.Entry<GameState, Menu> menu : menus.entrySet())
 			menu.getValue().disableButtons();
     }
+
+	/**
+	 * @return returns the game's data
+	 */
+	public GameData getGameData(){
+		return gameData;
+	}
 }

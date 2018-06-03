@@ -95,7 +95,6 @@ public class GameUI extends ScreenAdapter {
      */
     private void renderMap(){
         gameData.getCurrentLevel().getLevelScenario().getMapRenderer().render();
-        gameData.getCurrentLevel().getLevelScenario().getDebugRenderer().render(gameData.getCurrentLevel().getWorld(), camera.combined);
         gameData.getCurrentLevel().getBlock().update();
     }
 

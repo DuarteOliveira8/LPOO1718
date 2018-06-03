@@ -32,7 +32,6 @@ public class Block extends Sprite {
      * current state of the block
      */
     private State currentState;
-    //TODO
     /**
      * detects if the block is still jumping
      */
@@ -41,10 +40,6 @@ public class Block extends Sprite {
      * block's box2d body
      */
     private Body body;
-    /**
-     * block's sprite angle
-     */
-    private float angle;
 
     /**
      * Block constructor
@@ -89,9 +84,7 @@ public class Block extends Sprite {
         body.setTransform((250 + 50) / GameUI.PPM, (204 + 50) / GameUI.PPM, 0);
         setPosition((body.getPosition().x),(body.getPosition().y));
         body.setLinearVelocity(0,0);
-        angle = 0;
         currentState = State.SLIDING;
-        //TODO
         stillJump = false;
     }
 
@@ -106,16 +99,6 @@ public class Block extends Sprite {
     }
 
     public void move(){
-        //TODO
-        if (currentState == State.JUMPING || stillJump) {
-            body.setTransform(body.getPosition(), body.getAngle() + (float) (-5 * Math.PI) / 180);
-            angle -= 5;
-        }
-        else {
-            body.setTransform(body.getPosition(), Math.round(body.getAngle()/90)*90);
-            angle = 0;
-        }
-
         body.setLinearVelocity((GameUI.CAMERA_DELTA * WIDTH_CONVERTER)/GameUI.PPM/GameUI.FPS,body.getLinearVelocity().y);
     }
 
@@ -125,12 +108,7 @@ public class Block extends Sprite {
      */
     public void drawBlock(SpriteBatch batch){
         batch.begin();
-        //TODO
-        if(currentState == State.SLIDING && !stillJump)
-            batch.draw(skinRegion, getX(), getY(), getWidth()/2, getHeight()/2, getWidth(), getHeight(), 1, 1, 0);
-        else
-            batch.draw(skinRegion, getX(), getY(), getWidth()/2, getHeight()/2, getWidth(), getHeight(), 1, 1, angle);
-
+        batch.draw(skinRegion, getX(), getY(), getWidth(), getHeight());
         batch.end();
     }
 
@@ -170,8 +148,17 @@ public class Block extends Sprite {
         return currentState;
     }
 
-    //TODO
+    /**
+     * @param stillJump new value
+     */
     public void setStillJump(boolean stillJump) {
         this.stillJump = stillJump;
+    }
+
+    /**
+     * @param currentState new State
+     */
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
     }
 }
