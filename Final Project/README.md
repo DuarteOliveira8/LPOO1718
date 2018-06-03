@@ -11,7 +11,7 @@ On PC, open the jar file should be enough.
 ## Development documentation
 ### UML diagram
 
-<br><img src="https://imgur.com/5xAjKD3.jpg" width="900"><br>
+<center><br><img src="https://imgur.com/5xAjKD3.jpg" width="900"><br><center>
 
 ### Design patterns
 We used the STATE design pattern in our project to find a solution for two problems. The block's state during the game and the application's state to cycle through the menus and game.
@@ -35,21 +35,21 @@ The work was distributed equally between both members. We always worked together
 The instructions for our application are very straight forward.
 
 MAIN MENU
-<br><img src="https://imgur.com/dR90IuF.png" width="500"><br>
+<center><br><img src="https://imgur.com/dR90IuF.png" width="500"><br><center>
 
 To play the game click on the play button (centre) of the main menu. It's a platforming game in which you have to jump to avoid obstacles and the tutorial is on the settings menu.
 The square moves on its own. You must click on the screen or on the spacebar, in case you are using the desktop application, to jump. To win the game reach the end of the map by avoiding the obstacles and jumping on the platforms.
 
 
-<br><img src="https://imgur.com/nnSan8n.png width="500"><br>
+<center><br><img src="https://imgur.com/nnSan8n.png" width="500"><br><center>
 
 There is also a level picker menu on the left button of the main menu in which you can click on the level you want to play next. The first level is unlocked but the other two levels have to be unlocked by completing the previous ones.
 
-<br><img src="https://imgur.com/38H9jHx.png width="500"><br>
+<center><br><img src="https://imgur.com/38H9jHx.png" width="500"><br><center>
 
 You can also go to the settings menu on the right button of the main menu to see the game tutorial, as previously said, and to change the block's skin. Each skin is themed after his own level.
 
 
-<br><img src="https://imgur.com/DAO2Lpy.png width="500"><br>
+<center><br><img src="https://imgur.com/DAO2Lpy.png" width="500"><br><center>
 
-<br><img src="https://imgur.com/vPBpDUg.png width="500"><br>
+<center><br><img src="https://imgur.com/vPBpDUg.png" width="500"><br><center>
