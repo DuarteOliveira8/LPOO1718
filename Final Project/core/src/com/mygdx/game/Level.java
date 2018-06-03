@@ -7,10 +7,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
+import static com.mygdx.game.GameData.GameState.LEVELCOMPLETE;
+
 /**
  * class that represents each game level
  */
 public class Level {
+    /**
+     * traveled distance
+     */
+    private float distance;
     /**
      * total level distance
      */
@@ -35,6 +41,10 @@ public class Level {
      * level's block character
      */
     private Block block;
+    /**
+     * game valuable data
+     */
+    GameData gameData;
 
     /**
      * Level constructor
@@ -47,6 +57,8 @@ public class Level {
         this.mapDistance = mapDistance;
         levelLock = isEnabled;
         this.levelScenario = levelScenario;
+        this.gameData = gameData;
+        distance = 0;
 
         world = new World(new Vector2(0,-9.81f), true);
         block = new Block("lightForestBlock.png", world);
@@ -67,6 +79,35 @@ public class Level {
         for(MapObject object : levelScenario.getFloorLayer())
             new SquarePlatform(world, ((RectangleMapObject) object).getRectangle());
     }
+
+    /**
+     * check if the score is greater than the max score, updating if necessary
+     */
+    public void checkMaxScore(){
+        if(getDistance() > getMaxDistance())
+            maxDistance = distance;
+    }
+
+
+    /**
+     * check if the player has won the level
+     */
+    public void checkWin(){
+        if(getDistance() > getMapDistance()) {
+            gameData.setGameState(LEVELCOMPLETE);
+            checkMaxScore();
+            gameData.setTransitioning(true);
+        }
+    }
+    /**
+     * @return the max score percentage
+     */
+    public float getMaxPercentage(){return maxDistance/mapDistance;}
+
+    /**
+     * @return the achieved score percentage
+     */
+    public float getScorePercentage(){return distance/mapDistance;}
 
     /**
      * @return the level availability
@@ -122,5 +163,27 @@ public class Level {
      */
     public void unlockLevel(){
         levelLock = Touchable.enabled;
+    }
+
+    /**
+     * @param distance the new distance
+     */
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
+
+    /**
+     * @return current distance
+     */
+    public float getDistance() {
+        return distance;
+    }
+
+    /**
+     * adds distance
+     * @param distance the distance to be added
+     */
+    public void addDistance(float distance){
+        this.distance += distance;
     }
 }

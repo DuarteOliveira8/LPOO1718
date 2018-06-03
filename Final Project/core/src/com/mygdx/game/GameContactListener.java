@@ -32,6 +32,8 @@ public class GameContactListener implements ContactListener {
     public void beginContact(Contact contact) {
         if(contact.getFixtureA().getUserData() == "triangle" || contact.getFixtureB().getUserData() == "triangle" || contact.getFixtureA().getUserData() == "leftSide" || contact.getFixtureB().getUserData() == "leftSide") {
             gameData.setGameState(GAMEOVER);
+            gameData.getCurrentLevel().checkMaxScore();
+            Gdx.input.vibrate(100);
             gameData.setTransitioning(true);
         }
         else

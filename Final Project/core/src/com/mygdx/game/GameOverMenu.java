@@ -28,6 +28,7 @@ public class GameOverMenu extends Menu {
     protected void createTextures(){
         textures.put("scorePanel", new Texture("scorePanel.png"));
         textures.put("gameOverText", new Texture("gameOver.png"));
+        textures.put("progressBar", new Texture("progressBar.png"));
     }
 
     /**
@@ -71,6 +72,8 @@ public class GameOverMenu extends Menu {
         gameData.getBatch().begin();
         gameData.getBatch().draw(textures.get("scorePanel"), (int)(669*WIDTH_CONVERTER), (int)(357*HEIGHT_CONVERTER), (int)(582*WIDTH_CONVERTER), (int)(365*HEIGHT_CONVERTER));
         gameData.getBatch().draw(textures.get("gameOverText"), (int)(259*WIDTH_CONVERTER), (int)(817*HEIGHT_CONVERTER), (int)(1393*WIDTH_CONVERTER), (int)(156*HEIGHT_CONVERTER));
+        gameData.getBatch().draw(textures.get("progressBar"), (int)(690*WIDTH_CONVERTER), (int)(411*HEIGHT_CONVERTER), (int)(538*gameData.getCurrentLevel().getMaxPercentage()*WIDTH_CONVERTER), (int)(20*HEIGHT_CONVERTER));
+        gameData.getBatch().draw(textures.get("progressBar"), (int)(690*WIDTH_CONVERTER), (int)(570*HEIGHT_CONVERTER), (int)(538*gameData.getCurrentLevel().getScorePercentage()*WIDTH_CONVERTER), (int)(20*HEIGHT_CONVERTER));
         drawButtons();
         gameData.getBatch().end();
     }

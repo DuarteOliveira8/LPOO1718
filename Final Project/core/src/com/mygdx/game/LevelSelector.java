@@ -95,15 +95,30 @@ public class LevelSelector extends Menu{
         gameData.getBatch().draw(textures.get("scene"), 0, 0, Gdx.graphics.getWidth(), (Gdx.graphics.getHeight()*1440)/1080);
         gameData.getBatch().draw(textures.get("levelsText"), (int)(577*WIDTH_CONVERTER), (int)(880*HEIGHT_CONVERTER), (int)(768*WIDTH_CONVERTER), (int)(156*HEIGHT_CONVERTER));
         drawButtons();
+        drawLevelLocks();
+        drawProgressBar();
 
+
+        gameData.getBatch().end();
+    }
+
+    /**
+     * draws an overlay if the level is locked
+     */
+    private void drawLevelLocks(){
         if(buttons.get("level2").getTouchable() == disabled)
             gameData.getBatch().draw(textures.get("locked"), (int)(693*WIDTH_CONVERTER), (int)(303*HEIGHT_CONVERTER), (int)(534*WIDTH_CONVERTER), (int)(393*HEIGHT_CONVERTER));
 
-
         if(buttons.get("level3").getTouchable() == disabled)
             gameData.getBatch().draw(textures.get("locked"), (int)(1325*WIDTH_CONVERTER), (int)(303*HEIGHT_CONVERTER), (int)(534*WIDTH_CONVERTER), (int)(393*HEIGHT_CONVERTER));
+    }
 
-        gameData.getBatch().end();
+    private void drawProgressBar(){
+        for(int i = 0; i < gameData.getLevels().size(); i++){
+            gameData.getBatch().draw(textures.get("progressBar"), (int)((66 + i*628)*WIDTH_CONVERTER), (int)(696*HEIGHT_CONVERTER), (int)(534*gameData.getLevels().get(i).getMaxPercentage()*HEIGHT_CONVERTER), (int)(13*WIDTH_CONVERTER));
+            if(gameData.getLevels().get(i).getMaxPercentage() >= 1)
+                gameData.getBatch().draw(textures.get("won"), (int)((53 + i*629)*WIDTH_CONVERTER), (int)(290*HEIGHT_CONVERTER), (int)(560*WIDTH_CONVERTER), (int)(519*HEIGHT_CONVERTER));
+        }
     }
 
     /**

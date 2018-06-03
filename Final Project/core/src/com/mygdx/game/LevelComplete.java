@@ -3,7 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import static com.mygdx.game.GameData.GameState.*;
 

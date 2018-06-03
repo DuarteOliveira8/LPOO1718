@@ -85,13 +85,13 @@ public class Block extends Sprite {
      */
     public void jump(){
         if(currentState == State.SLIDING) {
-            body.setLinearVelocity(GameUI.CAMERA_DELTA / GameUI.PPM / GameUI.FPS, 3f);
+            body.setLinearVelocity((GameUI.CAMERA_DELTA * WIDTH_CONVERTER) / GameUI.PPM / GameUI.FPS, 3f);
             currentState = State.JUMPING;
         }
     }
 
     public void slide(){
-        body.setLinearVelocity(GameUI.CAMERA_DELTA/GameUI.PPM/GameUI.FPS,body.getLinearVelocity().y);
+        body.setLinearVelocity((GameUI.CAMERA_DELTA * WIDTH_CONVERTER)/GameUI.PPM/GameUI.FPS,body.getLinearVelocity().y);
     }
 
     /**

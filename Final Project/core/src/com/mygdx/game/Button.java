@@ -64,10 +64,26 @@ public class Button extends Actor {
      * {@inheritDoc}
      */
     @Override
-    public Button hit(float x, float y, boolean touchable){
-        if(touchable && (getTouchable() != Touchable.enabled))
+    public Button hit(float x, float y, boolean touchable) {
+        if (touchable && (getTouchable() != Touchable.enabled))
             return null;
 
         return (x >= this.x && x < this.x + width && y >= this.y && y < this.y + height) ? this : null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+   @Override
+   public float getX(){
+        return x;
+   }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public float getY(){
+        return y;
     }
 }

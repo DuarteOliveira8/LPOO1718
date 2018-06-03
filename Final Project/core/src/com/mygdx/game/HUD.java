@@ -24,10 +24,6 @@ public class HUD extends Stage {
      */
     private Button pauseButton;
     /**
-     * traveled distance
-     */
-    private float distance;
-    /**
      * texture of the progress bar frame
      */
     private Texture progressBarFrame;
@@ -43,7 +39,6 @@ public class HUD extends Stage {
      */
     HUD(final GameData gameData) {
         this.gameData = gameData;
-        distance = 0;
         loadTextures();
 
         pauseButton = new Button((int)(1790*WIDTH_CONVERTER), (int)(944*HEIGHT_CONVERTER), (int)(110*WIDTH_CONVERTER), (int)(116*HEIGHT_CONVERTER), "pause.png");
@@ -86,28 +81,10 @@ public class HUD extends Stage {
     public void draw(){
         pauseButton.draw(gameData.getBatch(),0);
         gameData.getBatch().draw(progressBarFrame, 685*WIDTH_CONVERTER, 1037*HEIGHT_CONVERTER, 551*WIDTH_CONVERTER, 31*HEIGHT_CONVERTER);
-        gameData.getBatch().draw(progressBar, 691*WIDTH_CONVERTER, 1043*HEIGHT_CONVERTER, (538*(distance/gameData.getCurrentLevel().getMapDistance()))*WIDTH_CONVERTER, 19*HEIGHT_CONVERTER);
+        gameData.getBatch().draw(progressBar, 691*WIDTH_CONVERTER, 1043*HEIGHT_CONVERTER, 538*gameData.getCurrentLevel().getScorePercentage()*WIDTH_CONVERTER, 19*HEIGHT_CONVERTER);
     }
 
-    /**
-     * @param distance the new distance
-     */
-    public void setDistance(float distance) {
-        this.distance = distance;
-    }
-
-    /**
-     * @return current distance
-     */
-    public float getDistance() {
-        return distance;
-    }
-
-    /**
-     * adds distance
-     * @param distance the distance to be added
-     */
-    public void addDistance(float distance){
-        this.distance += distance;
+    public Button getPauseButton() {
+        return pauseButton;
     }
 }

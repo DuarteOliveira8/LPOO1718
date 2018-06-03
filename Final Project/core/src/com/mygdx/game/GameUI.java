@@ -36,7 +36,7 @@ public class GameUI extends ScreenAdapter {
     /**
      * game camera movement per render
      */
-    public static final float CAMERA_DELTA = 13f;
+    public static final float CAMERA_DELTA = 13f/WIDTH_CONVERTER;
     /**
      * value used to draw the game scene with a parallax effect
      */
@@ -64,7 +64,7 @@ public class GameUI extends ScreenAdapter {
         if(gameData.getGameState() == GAME) {
             checkInput();
             update();
-            checkWin();
+            gameData.getCurrentLevel().checkWin();
         }
 
         renderMap();
@@ -116,28 +116,20 @@ public class GameUI extends ScreenAdapter {
 
         camera.update();
         gameData.getCurrentLevel().getLevelScenario().getMapRenderer().setView(camera);
-        camera.position.x += CAMERA_DELTA / PPM;
-        hud.addDistance(CAMERA_DELTA);
+        camera.position.x += (CAMERA_DELTA / PPM) * WIDTH_CONVERTER;
+        gameData.getCurrentLevel().addDistance(CAMERA_DELTA*WIDTH_CONVERTER);
 
         gameData.getCurrentLevel().getWorld().step(FPS,3,3);
         gameData.getCurrentLevel().getBlock().slide();
-    }
-
-    private void checkWin(){
-        if(hud.getDistance() > gameData.getCurrentLevel().getMapDistance()) {
-            gameData.setGameState(LEVELCOMPLETE);
-            if(hud.getDistance() > gameData.getCurrentLevel().getMaxDistance())
-                gameData.getCurrentLevel().setMaxDistance(hud.getDistance());
-            gameData.setTransitioning(true);
-        }
     }
 
     /**
      * function that checks for input in order to make the block jump
      */
     private void checkInput(){
-        if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !(gameData.getCurrentLevel().getBlock().getCurrentState() == Block.State.JUMPING))
-            gameData.getCurrentLevel().getBlock().jump();
+        if(!(Gdx.input.getX() > hud.getPauseButton().getX() && (Gdx.graphics.getHeight() - Gdx.input.getY()) > hud.getPauseButton().getY()))
+            if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !(gameData.getCurrentLevel().getBlock().getCurrentState() == Block.State.JUMPING))
+                gameData.getCurrentLevel().getBlock().jump();
     }
 
     /**
@@ -146,7 +138,7 @@ public class GameUI extends ScreenAdapter {
     public void startLevel(){
         camera.position.set(new Vector3((Gdx.graphics.getWidth()/2)/WIDTH_CONVERTER / GameUI.PPM, (Gdx.graphics.getHeight()/2)/HEIGHT_CONVERTER / GameUI.PPM, 0));
         gameData.getCurrentLevel().getBlock().initializeBlock();
-        hud.setDistance(0f);
+        gameData.getCurrentLevel().setDistance(0f);
     }
 
     /**
