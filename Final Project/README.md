@@ -1,42 +1,38 @@
-# LPOO1718_T3G6
+# GeoDash
+Our project consists on an application that runs on android and desktop. It's a platforming game in which you have to jump to avoid obstacles.
 
-Final Project Intermediate Check-Point
+## Setup and installation procedure
+  To install the development environment, first, download our code from GitHub and open Android Studio and choose the option to import project. Locate the folder you just downloaded and click "ok". If a message pops up to update Gradle, refuse it! The development environment should now be ready.
+  To install ...
 
-## Team Members
+## Development documentation
+### UML diagram
+    <br><img src="https://imgur.com/5xAjKD3.jpg" width="900"><br>
 
-* **Cláudio Fischer Lemos** - *up201603542*
-* **Duarte Filipe Machado de Oliveira** - *up201604948*
+### Design patterns
+    We used the STATE design pattern in our project to find a solution for two problems. The block's state during the game and the application's state to cycle through the menus and game.
+    The block has two states: JUMPING and SLIDING. The first one is used to define when the block is on the air and the second state is for when the block is on the ground. This help solve the problem when the block's is on the air and you want to prevent the user from jumping again.
+    The application's state is more complex. It has one state for every screen on the app to cycle through them when the user clicks on the buttons that call for a change of scenery. There's one more state called NEWGAME used for when the user clicks on the play button on the main menu, the retry and restart buttons on the game over and pause menus and the next level on the level complete menu. This state calls for the start game function and changes the state to GAME right after.
+    We also use the TEMPLATE METHOD design pattern for the menus. All the menus are the same. They all have buttons and background images so we created an abstract class to help with elements created for every menu.
 
-## UML
-<br><img src="https://imgur.com/lC7OtVT.jpg" width="600"><br>
+### Major difficulties along the way
+    We didn't have many difficulties along the way. LibGDX was very easy to learn and very useful. But one difficulty we can both agree on is how hard it was to understand box2d. We spent most of our time trying to figure out how it works but once it was implemented, it was very useful to work with, specially for game collisions.
 
-## Design of behavioural aspects
-<br><img src="https://imgur.com/8KxBUat.jpg" width="800"><br>
+### Lessons learned
+    With this project, we definitely learned how important it is to keep our code clean and organized and to better understand what we are doing and to discover bugs and problems with our application. This has changed us on how we look at organization and will definitely help with future projects!
 
-## GUI
-**Main Menu:**
-The Main Menu is the first thing to appear when the user opens the app. It has three options: level selector, play the game and settings.
-<br><img src="https://imgur.com/C9LV2QK.jpg" width="900"><br>
+### Overall time spent developing
+    We spent from one to two weeks developing the game. We wish we could spend more time on it to make our application the best it could be.
 
-**Game:**
-When the game starts, the block is fixed while the scene moves, and the user clicks on the screen to make the block jump and surpass from the obstacles. When the block jumps, it also rotates. The HUD is present throughout the whole game, and it shows two elements: the percentage of distance the player has achieved; and the pause button where the player can choose to resume or leave the level.
-<br><img src="https://imgur.com/OmSpVpj.jpg" width="900"><br>
+### Work distribution amongst team members
+    The work was distributed equally between both members. We always worked together.
 
-**Level Selector:**
-The user can choose which level to play on the level selector menu. In this menu, all the levels available to play are displayed and if the user has played the level previously, it shows the percentage of the best run and/or if the level was completed.
-<br><img src="https://imgur.com/Dix7XA7.jpg" width="900"><br>
-
-**Settings:**
-On this menu, the user can choose what block to use for the game.
-<br><img src="https://imgur.com/HWMxoJg.jpg" width="900"><br>
-
-## Expected test cases
-* Test if the block jumps (y value changes) when the user clicks the screen
-* Test if the block rotates when jumping
-* Test if the game is lost when the block hits an obstacle from the side
-* Test if the game is lost when the block hits an obstacle while dropping from a jump
-* Test if the game is lost when the block hits an obstacle on the top while jumping
-
-**Documentation**
-<br>
-[Link](https://tugapop.com/DOC/index.html)
+## User manual
+  The instructions for our application are very straight forward.
+  To play the game click on the play button (center) of the main menu. It's a platforming game in which you have to jump to avoid obstacles and the tutorial is on the settings menu.
+  The square moves on its own. You must click on the screen or on the spacebar, in case you are using the desktop application, to jump. To win the game reach the end of the map by avoiding the obstacles and jumping on the platforms.
+    insert image here...
+  There is also a level picker menu on the left button of the main menu in which you can click on the level you want to play next. The first level is unlocked but the other two levels have to be unlocked by completing the previous ones.
+    insert image here...
+  You can also go to the settings menu on the right button of the main menu to see the game tutorial, as previously said, and to change the block's skin. Each skin is themed after his own level.
+    insert image here...
