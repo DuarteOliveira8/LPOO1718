@@ -64,11 +64,11 @@ public class GameData {
      */
     private void loadLevels(){
         currentLevelNo = 1;
-        LevelScenario lightForestScenario = new LevelScenario("lightForestBG.jpg", "lightForestScene.png", "teste.tmx");
-        LevelScenario cityScenario = new LevelScenario("cityBG.jpg", "cityScene.png","teste.tmx");
-        LevelScenario darkForestScenario = new LevelScenario("darkForestBG.jpg", "darkForestScene.png", "teste.tmx");
+        LevelScenario lightForestScenario = new LevelScenario("lightForestBG.jpg", "lightForestScene.png", "level1.tmx");
+        LevelScenario cityScenario = new LevelScenario("cityBG.jpg", "cityScene.png","level2.tmx");
+        LevelScenario darkForestScenario = new LevelScenario("darkForestBG.jpg", "darkForestScene.png", "level3.tmx");
         levels.add(new Level(this, lightForestScenario, 11000, Touchable.enabled));
-        levels.add(new Level(this, cityScenario, 11000, Touchable.disabled));
+        levels.add(new Level(this, cityScenario, 22000, Touchable.disabled));
         levels.add(new Level(this, darkForestScenario,  11000, Touchable.disabled));
 
     }

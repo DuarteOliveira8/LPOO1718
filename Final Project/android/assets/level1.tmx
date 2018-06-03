@@ -54,6 +54,6 @@
   </object>
  </objectgroup>
  <objectgroup name="floor">
-  <object id="70" x="0" y="880" width="10000" height="200"/>
+  <object id="70" x="0" y="882.473" width="10000" height="197.527"/>
  </objectgroup>
 </map>
