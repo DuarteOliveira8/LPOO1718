@@ -1,4 +1,0 @@
-#Sun Jun 03 23:19:50 WEST 2018
-base.0=/Users/claudiolemos/Documents/GitHub/LPOO1718_T3G6/Final Project/android/build/intermediates/transforms/dex/debug/folders/1000/1f/main
-renamed.0=classes.dex
-file.0=/Users/claudiolemos/Documents/GitHub/LPOO1718_T3G6/Final Project/android/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
