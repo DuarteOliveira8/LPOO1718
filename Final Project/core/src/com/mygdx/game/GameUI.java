@@ -62,13 +62,13 @@ public class GameUI extends ScreenAdapter {
         drawScenario();
 
         if(gameData.getGameState() == GAME) {
-            checkInput();
             update();
+            checkInput();
             gameData.getCurrentLevel().checkWin();
         }
 
         renderMap();
-        drawBlock();
+        gameData.getCurrentLevel().getBlock().drawBlock(gameData.getBatch());
         drawHUD();
     }
 
@@ -100,15 +100,6 @@ public class GameUI extends ScreenAdapter {
     }
 
     /**
-     * function that draws the block
-     */
-    private void drawBlock(){
-        gameData.getBatch().begin();
-        gameData.getCurrentLevel().getBlock().draw(gameData.getBatch());
-        gameData.getBatch().end();
-    }
-
-    /**
      * function that updates the camera and the block's movement
      */
     private void update(){
@@ -120,7 +111,7 @@ public class GameUI extends ScreenAdapter {
         gameData.getCurrentLevel().addDistance(CAMERA_DELTA*WIDTH_CONVERTER);
 
         gameData.getCurrentLevel().getWorld().step(FPS,3,3);
-        gameData.getCurrentLevel().getBlock().slide();
+        gameData.getCurrentLevel().getBlock().move();
     }
 
     /**

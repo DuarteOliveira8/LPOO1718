@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -35,6 +36,10 @@ public class Block extends Sprite {
      * block's box2d body
      */
     private Body body;
+    /**
+     * block's sprite angle
+     */
+    private float angle;
 
     /**
      * Block constructor
@@ -78,6 +83,8 @@ public class Block extends Sprite {
     public void initializeBlock(){
         body.setTransform((250 + 50) / GameUI.PPM, (204 + 50) / GameUI.PPM, 0);
         body.setLinearVelocity(0,0);
+        angle = 0;
+        currentState = State.SLIDING;
     }
 
     /**
@@ -90,8 +97,32 @@ public class Block extends Sprite {
         }
     }
 
-    public void slide(){
+    public void move(){
+        if (currentState == State.JUMPING) {
+            body.setTransform(body.getPosition(), body.getAngle() + (float) (-4.5 * Math.PI) / 180);
+            angle -= 4.5;
+        }
+        else {
+            body.setTransform(body.getPosition(), 0);
+            angle = 0;
+        }
+
         body.setLinearVelocity((GameUI.CAMERA_DELTA * WIDTH_CONVERTER)/GameUI.PPM/GameUI.FPS,body.getLinearVelocity().y);
+    }
+
+    /**
+     * function that draws the block
+     * @param batch the batch where the block will be drawn
+     */
+    public void drawBlock(SpriteBatch batch){
+        batch.begin();
+
+        if(currentState == State.SLIDING)
+            batch.draw(skinRegion, getX(), getY(), getWidth()/2, getHeight()/2, getWidth(), getHeight(), 1, 1, 0);
+        else
+            batch.draw(skinRegion, getX(), getY(), getWidth()/2, getHeight()/2, getWidth(), getHeight(), 1, 1, angle);
+
+        batch.end();
     }
 
     /**
@@ -107,6 +138,7 @@ public class Block extends Sprite {
      */
     public void update(){
         setPosition((0.6f*GameUI.PPM)*WIDTH_CONVERTER - getWidth()/2, body.getPosition().y*GameUI.PPM*HEIGHT_CONVERTER - getHeight()/2);
+
     }
 
     /**

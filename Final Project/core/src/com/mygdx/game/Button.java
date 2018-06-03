@@ -31,7 +31,7 @@ public class Button extends Actor {
      */
     private int width;
     /**
-     * button image heifht
+     * button image height
      */
     private int height;
 
