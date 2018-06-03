@@ -9,106 +9,92 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 
-import java.awt.Polygon;
-
 public class LevelScenario {
     /**
      * background of the level
      */
     private Texture bg;
-
     /**
      * scene of the level
      */
     private Texture scene;
+    /**
+     * loads the map file
+     */
+    private TmxMapLoader mapLoader;
+    /**
+     * stores the Tiled map
+     */
+    private TiledMap map;
+    /**
+     * map renderer
+     */
+    private OrthogonalTiledMapRenderer mapRenderer;
+    /**
+     * map debug renderer
+     */
+    private Box2DDebugRenderer debugRenderer;
 
     /**
-     * scene of the level
+     * LevelScenario constructor
+     * @param bgPath Level background texture
+     * @param scenePath Level scene texture
+     * @param mapPath Tiled map filepath
      */
-    private Texture floor;
-
-
-    private TmxMapLoader mapLoader;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    Box2DDebugRenderer debugRenderer;
-
-    public LevelScenario(String bgPath, String scenePath, String floorPath){
+    public LevelScenario(String bgPath, String scenePath, String mapPath){
         bg = new Texture(bgPath);
         scene = new Texture(scenePath);
-        floor = new Texture(floorPath);
-
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("teste.tmx");
+        map = mapLoader.load(mapPath);
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / GameUI.PPM);
-
         debugRenderer = new Box2DDebugRenderer();
     }
 
+    /**
+     * @return level background
+     */
     public Texture getBg() {
         return bg;
     }
 
-    public void setBg(Texture bg) {
-        this.bg = bg;
-    }
-
+    /**
+     * @return level scene
+     */
     public Texture getScene() {
         return scene;
     }
 
-    public void setScene(Texture scene) {
-        this.scene = scene;
-    }
-
-    public Texture getFloor() {
-        return floor;
-    }
-
-    public void setFloor(Texture floor) {
-        this.floor = floor;
-    }
-
-    public TmxMapLoader getMapLoader() {
-        return mapLoader;
-    }
-
-    public void setMapLoader(TmxMapLoader mapLoader) {
-        this.mapLoader = mapLoader;
-    }
-
-    public TiledMap getMap() {
-        return map;
-    }
-
-    public void setMap(TiledMap map) {
-        this.map = map;
-    }
-
+    /**
+     * @return map renderer
+     */
     public OrthogonalTiledMapRenderer getMapRenderer() {
         return mapRenderer;
     }
 
-    public void setMapRenderer(OrthogonalTiledMapRenderer mapRenderer) {
-        this.mapRenderer = mapRenderer;
-    }
-
+    /**
+     * @return map debug renderer
+     */
     public Box2DDebugRenderer getDebugRenderer() {
         return debugRenderer;
     }
 
-    public void setDebugRenderer(Box2DDebugRenderer debugRenderer) {
-        this.debugRenderer = debugRenderer;
-    }
-
+    /**
+     * @return the array that stores the platforms from the corresponding map layer
+     */
     public Array<RectangleMapObject> getSquarePlatformLayer(){
         return map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class);
     }
 
+    /**
+     * @return the array that stores the triangle obstacles from the corresponding map layer
+     */
     public Array<PolygonMapObject> getTriangleObstacleLayer(){
         return map.getLayers().get(4).getObjects().getByType(PolygonMapObject.class);
     }
 
+    /**
+     * @return the array that stores the floor from the corresponding map layer
+     */
     public Array<RectangleMapObject> getFloorLayer(){
         return map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class);
     }

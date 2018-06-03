@@ -1,46 +1,57 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import static com.mygdx.game.GameData.GameState.*;
 
+/**
+ * class used for game collisions
+ */
 public class GameContactListener implements ContactListener {
+    /**
+     * contains the game's data
+     */
     private GameData gameData;
 
+    /**
+     * GameContactListener consrtuctor
+     * @param gameData game's data
+     */
     public GameContactListener(GameData gameData){
         super();
         this.gameData = gameData;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void beginContact(Contact contact) {
-        Fixture fixA = contact.getFixtureA();
-        Fixture fixB = contact.getFixtureB();
-
-        if(fixA.getUserData() == "triangle" || fixB.getUserData() == "triangle")
-            gameData.setGameState(GameData.GameState.MENU);
-        else if(fixA.getUserData() == "leftSide" || fixB.getUserData() == "leftSide")
-            gameData.setGameState(GameData.GameState.MENU);
-        else {
-            gameData.getBlock().setCurrentState(Block.State.SLIDING);
-            gameData.getBlock().getBody().setAngularVelocity(0);
+        if(contact.getFixtureA().getUserData() == "triangle" || contact.getFixtureB().getUserData() == "triangle" || contact.getFixtureA().getUserData() == "leftSide" || contact.getFixtureB().getUserData() == "leftSide") {
+            gameData.setGameState(GAMEOVER);
+            gameData.setTransitioning(true);
         }
+        else
+            gameData.getCurrentLevel().getBlock().land();
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void endContact(Contact contact) {
+    public void endContact(Contact contact) { }
 
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {
+    public void preSolve(Contact contact, Manifold oldManifold) { }
 
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void postSolve(Contact contact, ContactImpulse impulse) {
-
-    }
+    public void postSolve(Contact contact, ContactImpulse impulse) { }
 }

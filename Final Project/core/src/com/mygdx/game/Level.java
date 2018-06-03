@@ -1,113 +1,126 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 /**
- * class that represents a different level from the game
+ * class that represents each game level
  */
 public class Level {
-
     /**
-     * traveled distance
-     */
-    private int distance;
-    /**
-     * total distance of the level
+     * total level distance
      */
     private int mapDistance;
     /**
      * current record
      */
-    private int maxDistance;
+    private float maxDistance;
+    /**
+     * defines if the level is available to be played
+     */
+    private Touchable levelLock;
+    /**
+     * level's scenario
+     */
+    private LevelScenario levelScenario;
+    /**
+     * level's box2d world
+     */
+    private World world;
+    /**
+     * level's block character
+     */
+    private Block block;
 
     /**
-     * defines if the level is available
+     * Level constructor
+     * @param gameData valuable game data
+     * @param levelScenario the scenario of the game
+     * @param mapDistance the level's total distance
+     * @param isEnabled defines if the level is available to play
      */
-    Touchable levelLock;
-
-    LevelScenario levelScenario;
-
-
-    Level(LevelScenario levelScenario, World world, int distance, Touchable isEnabled) {
-        mapDistance = distance;
-        distance = 0;
+    Level(GameData gameData, LevelScenario levelScenario, int mapDistance, Touchable isEnabled) {
+        this.mapDistance = mapDistance;
         levelLock = isEnabled;
         this.levelScenario = levelScenario;
 
-        BodyDef bodyDef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fixtureDef = new FixtureDef();
-        Body body;
+        world = new World(new Vector2(0,-9.81f), true);
+        block = new Block("lightForestBlock.png", world);
+        loadObstacles();
+        world.setContactListener(new GameContactListener(gameData));
+    }
 
+    /**
+     * loads the level's obstacles (the platforms, the triangles and the floor)
+     */
+    private void loadObstacles(){
         for(MapObject object : levelScenario.getSquarePlatformLayer())
-            new SquarePlatform(world, levelScenario.getMap(), ((RectangleMapObject) object).getRectangle());
+            new SquarePlatform(world, ((RectangleMapObject) object).getRectangle());
 
         for(MapObject object : levelScenario.getTriangleObstacleLayer())
-            new TriangleObstacle(world, levelScenario.getMap(), ((PolygonMapObject) object).getPolygon());
+            new TriangleObstacle(world, ((PolygonMapObject) object).getPolygon());
 
         for(MapObject object : levelScenario.getFloorLayer())
-            new SquarePlatform(world, levelScenario.getMap(), ((RectangleMapObject) object).getRectangle());
+            new SquarePlatform(world, ((RectangleMapObject) object).getRectangle());
     }
 
-    public void start(){
-        distance = 0;
-    }
-
-    public int getMapDistance() {
-        return mapDistance;
-    }
-
-    public void setMapDistance(int mapDistance) {
-        this.mapDistance = mapDistance;
-    }
-
-    public int getDistance() {
-        return distance;
-    }
-
-    public void setDistance(int distance) {
-        this.distance = distance;
-    }
-
+    /**
+     * @return the level availability
+     */
     public Touchable getLevelLock() {
         return levelLock;
     }
 
-    public void setLevelLock(Touchable levelLock) {
-        this.levelLock = levelLock;
-    }
-
-    public int getMaxDistance() {
-        return maxDistance;
-    }
-
-    public void setMaxDistance(int maxDistance) {
-        this.maxDistance = maxDistance;
-    }
-
+    /**
+     * @return the level scenario
+     */
     public LevelScenario getLevelScenario() {
         return levelScenario;
     }
 
-    public void setLevelScenario(LevelScenario levelScenario) {
-        this.levelScenario = levelScenario;
+    /**
+     * @return the level's world
+     */
+    public World getWorld() {
+        return world;
+    }
+
+    /**
+     * @return the level's block
+     */
+    public Block getBlock() {
+        return block;
+    }
+
+    /**
+     * @return the map's distance
+     */
+    public int getMapDistance() {
+        return mapDistance;
+    }
+
+    /**
+     * @param maxDistance the new max distance
+     */
+    public void setMaxDistance(float maxDistance) {
+        this.maxDistance = maxDistance;
+    }
+
+    /**
+     * @return the max distance
+     */
+    public float getMaxDistance() {
+        return maxDistance;
+    }
+
+    /**
+     * unlocks a level
+     */
+    public void unlockLevel(){
+        levelLock = Touchable.enabled;
     }
 }

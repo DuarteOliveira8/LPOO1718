@@ -3,19 +3,28 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
+import com.mygdx.game.GameData.GameState;
+import java.util.Map;
+import java.util.TreeMap;
+import static com.mygdx.game.GameData.GameState.*;
 
 
 /**
  * main class of the application
  */
 public class Game extends ApplicationAdapter {
+	/**
+	 * contains the game's data
+	 */
     private GameData gameData;
-    private Menu menu;
+	/**
+	 * the game UI
+	 */
     private GameUI gameUI;
-    private LevelSelector levelSelector;
-    private Settings settings;
-	private BlockSelector blockSelector;
+	/**
+	 * array that stores all the program's menus
+	 */
+	protected Map<GameState,Menu> menus;
 
 	/**
 	 * {@inheritDoc}
@@ -23,11 +32,9 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create () {
 	    gameData = new GameData();
-	    menu = new Menu(gameData);
-	    gameUI = new GameUI(gameData, 1);
-	    levelSelector = new LevelSelector(gameData);
-	    settings = new Settings(gameData);
-		blockSelector = new BlockSelector(gameData);
+	    gameUI = new GameUI(gameData);
+	    menus = new TreeMap<GameState, Menu>();
+	    loadMenus();
 	}
 
 	/**
@@ -35,99 +42,77 @@ public class Game extends ApplicationAdapter {
 	 */
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor( 1, 0, 0, 1 );
-		Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
+		checkTransition();
 
-		switch (gameData.getGameState()) {
-			case MENU:
-				disableAllButtons();
-			    menu.enableButtons();
-				menu.render(120);
-				break;
-			case LEVELS:
-				levelSelector.render(120);
-				break;
-			case GAME:
-				disableAllButtons();
-                gameUI.getHud().enableButtons();
-				gameUI.render(120);
-				break;
-			case SETTINGS:
-				disableAllButtons();
-                settings.enableButtons();
-				settings.render(120);
-				break;
-			case BLOCKSELECTOR:
-				disableAllButtons();
-				blockSelector.enableButtons();
-				blockSelector.render(120);
-				break;
-			case LEVELSELECTOR:
-				disableAllButtons();
-				levelSelector.enableButtons();
-				levelSelector.render(120);
-				break;
-			default:
-				break;
-		}
+		if(gameData.getGameState() == GAME)
+			renderGame();
+		else if(gameData.getGameState() == NEWGAME)
+			newGame();
+		else
+			renderMenus();
 
 		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
 			Gdx.app.exit();
-
 	}
-
-	public void disableAllButtons(){
-	    menu.disableButtons();
-		gameUI.getHud().disableButtons();
-	    settings.disableButtons();
-	    blockSelector.disableButtons();
-	    levelSelector.disableButtons();
-    }
 
 	/**
-	 * {@inheritDoc}
+	 * function that loads all the menus and stores them into the array
 	 */
-	@Override
-	public void dispose () {
+	private void loadMenus(){
+		menus.put(MENU, new MainMenu(gameData));
+		menus.put(LEVELSELECTOR, new LevelSelector(gameData));
+		menus.put(SETTINGS, new Settings(gameData));
+		menus.put(BLOCKSELECTOR, new BlockSelector(gameData));
+		menus.put(PAUSED, new PauseMenu(gameData));
+		menus.put(GAMEOVER, new GameOverMenu(gameData));
+		menus.put(LEVELCOMPLETE, new LevelComplete(gameData));
 	}
 
-    public GameData getGameData() {
-        return gameData;
-    }
+	/**
+	 * function that checks when a transition from one menu to another is ocurring, disabling all the buttons and enabling the ones from the new menu
+	 */
+	private void checkTransition(){
+		if(gameData.isTransitioning()) {
+			disableAllButtons();
+			if(gameData.getGameState() == NEWGAME || gameData.getGameState() == GAME)
+				gameUI.getHud().enableButtons();
+			else if (gameData.getGameState() != NEWGAME)
+				menus.get(gameData.getGameState()).enableButtons();
+			gameData.setTransitioning(false);
+		}
+	}
 
-    public void setGameData(GameData gameData) {
-        this.gameData = gameData;
-    }
+	/**
+	 * function that renders the game UI
+	 */
+	private void renderGame(){
+		gameUI.render(60);
+	}
 
-    public Menu getMenu() {
-        return menu;
-    }
+	/**
+	 * function that renders the menus
+	 */
+	private void renderMenus(){
+		if(gameData.getGameState() == PAUSED || gameData.getGameState() == GAMEOVER || gameData.getGameState() == LEVELCOMPLETE)
+			renderGame();
+		menus.get(gameData.getGameState()).enableButtons();
+		menus.get(gameData.getGameState()).render(60);
+	}
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
+	/**
+	 * function that starts a new Game
+	 */
+	private void newGame(){
+		gameUI.startLevel();
+		gameData.setGameState(GAME);
+	}
 
-    public GameUI getGameUI() {
-        return gameUI;
-    }
-
-    public void setGameUI(GameUI gameUI) {
-        this.gameUI = gameUI;
-    }
-
-    public LevelSelector getLevelSelector() {
-        return levelSelector;
-    }
-
-    public void setLevelSelector(LevelSelector levelSelector) {
-        this.levelSelector = levelSelector;
-    }
-
-    public Settings getSettings() {
-        return settings;
-    }
-
-    public void setSettings(Settings settings) {
-        this.settings = settings;
+	/**
+	 * function that disables all the menu's buttons
+	 */
+	private void disableAllButtons(){
+		gameUI.getHud().disableButtons();
+		for(Map.Entry<GameState, Menu> menu : menus.entrySet())
+			menu.getValue().disableButtons();
     }
 }

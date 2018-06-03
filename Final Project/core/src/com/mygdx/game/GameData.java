@@ -4,35 +4,28 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-
 import java.util.ArrayList;
+import static com.mygdx.game.GameData.GameState.*;
+
 
 /**
  * represents all the important info and data to the game
  */
 public class GameData {
-
-    public enum GameState {
-        MENU, GAME, SETTINGS, LEVELS, PAUSE, BLOCKSELECTOR, LEVELSELECTOR;
-    }
-
-    private GameState gameState = GameState.MENU;
-
+    /**
+     * enum types used to the define the current state of the program
+     */
+    public enum GameState {MENU, GAME, SETTINGS, PAUSED, BLOCKSELECTOR, LEVELSELECTOR, GAMEOVER, NEWGAME, LEVELCOMPLETE;}
+    /**
+     * current state of the app
+     */
+    private GameState gameState;
+    /**
+     * allows us to have different input processors for each screen
+     */
     private InputMultiplexer inputMultiplexer;
-
-    /**
-     * number of lives (out of 3) the player has
-     */
-    private int lives;
-    /**
-     * main character
-     */
-    private Block  block;
     /**
      * array that stores all the levels from the game
      */
@@ -40,192 +33,128 @@ public class GameData {
     /**
      * current level number
      */
-    int currentLevelNo;
+    private int currentLevelNo;
     /**
-     * scene texture of the main menu
+     * the program's batch where the textures are drawn
      */
-    private Texture menuScene;
+    private SpriteBatch batch;
     /**
-     * scene texture of the main menu
+     *
      */
-    private Texture logo;
+    private boolean isTransitioning;
 
     /**
-     * the batch where the textures are drawn
+     * GameData constructor
      */
-    SpriteBatch batch;
-
-    private Stage menuStage;
-    private Stage hudStage;
-    private Stage settingsStage;
-    private Stage blocksStage;
-    private Stage levelSelectorStage;
-
-    private World world;
-
     GameData(){
-
-        lives = 3;
         levels = new ArrayList<Level>();
         batch = new SpriteBatch();
-        loadTextures();
-        world = new World(new Vector2(0,-9.81f), true);
-        block = new Block("lightForestBlock.png", world);
+        isTransitioning = false;
 
-        LevelScenario lightForestScenario = new LevelScenario("lightForestBG.jpg", "lightForestScene.png", "lightForestFloor.png");
-        LevelScenario cityScenario = new LevelScenario("cityBG.jpg", "cityScene.png","cityFloor.png");
-        LevelScenario darkForestScenario = new LevelScenario("darkForestBG.jpg", "darkForestScene.png", "darkForestFloor.png");
+        gameState = MENU;
 
-        levels.add(new Level(lightForestScenario, world, 0, Touchable.enabled));
-        //levels.add(new Level(cityScenario, world, 0, Touchable.enabled));
-        //levels.add(new Level(darkForestScenario, world, 0, Touchable.enabled));
+        loadLevels();
 
         inputMultiplexer = new InputMultiplexer();
-
-        menuStage = new Stage(new ScreenViewport());
-        hudStage = new Stage(new ScreenViewport());
-        blocksStage = new Stage(new ScreenViewport());
-        settingsStage = new Stage(new ScreenViewport());
-        levelSelectorStage = new Stage(new ScreenViewport());
-
-        inputMultiplexer.addProcessor(blocksStage);
-        inputMultiplexer.addProcessor(settingsStage);
-        inputMultiplexer.addProcessor(menuStage);
-        inputMultiplexer.addProcessor(hudStage);
-        inputMultiplexer.addProcessor(levelSelectorStage);
-
         Gdx.input.setInputProcessor(inputMultiplexer);
-
-        world.setContactListener(new GameContactListener(this));
     }
 
-    public void loadTextures(){
-        menuScene = new Texture("menuScene.png");
-        logo = new Texture("logo.png");
+    /**
+     * functions that loads all the level scenarios and creates the levels, storing them in the array
+     */
+    private void loadLevels(){
+        currentLevelNo = 1;
+        LevelScenario lightForestScenario = new LevelScenario("lightForestBG.jpg", "lightForestScene.png", "teste.tmx");
+        LevelScenario cityScenario = new LevelScenario("cityBG.jpg", "cityScene.png","teste.tmx");
+        LevelScenario darkForestScenario = new LevelScenario("darkForestBG.jpg", "darkForestScene.png", "teste.tmx");
+        levels.add(new Level(this, lightForestScenario, 11000, Touchable.enabled));
+        levels.add(new Level(this, cityScenario, 11000, Touchable.disabled));
+        levels.add(new Level(this, darkForestScenario,  11000, Touchable.disabled));
+
     }
 
+    /**
+     * function that sets the new skin picked by the player
+     * @param skinPath filepath to the new string texture
+     */
+    public void setNewSkin(String skinPath){
+        for(Level level : levels) {
+            level.getBlock().setSkin(new Texture(skinPath));
+            level.getBlock().setTexture(level.getBlock().getSkin());
+        }
+    }
+
+
+    /**
+     * adds a new stage to the index multiplier
+     * @param stage the stage to be added
+     */
+    public void addStage(Stage stage){
+        inputMultiplexer.addProcessor(stage);
+    }
+
+    /**
+     * @return program's sprite batch
+     */
     public SpriteBatch getBatch(){
         return batch;
     }
 
+    /**
+     * @return current app state
+     */
     public GameState getGameState() {
         return gameState;
     }
 
+    /**
+     * @param gameState sets a new app state
+     */
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
 
-    public InputMultiplexer getInputMultiplexer() {
-        return inputMultiplexer;
-    }
-
-    public void setInputMultiplexer(InputMultiplexer inputMultiplexer) {
-        this.inputMultiplexer = inputMultiplexer;
-    }
-
-    public int getLives() {
-        return lives;
-    }
-
-    public void setLives(int lives) {
-        this.lives = lives;
-    }
-
-    public Block getBlock() {
-        return block;
-    }
-
-    public void setBlock(Block block) {
-        this.block = block;
-    }
-
+    /**
+     * @return the level array
+     */
     public ArrayList<Level> getLevels() {
         return levels;
     }
 
-    public void setLevels(ArrayList<Level> levels) {
-        this.levels = levels;
-    }
-
-    public Texture getMenuScene() {
-        return menuScene;
-    }
-
-    public void setMenuScene(Texture menuScene) {
-        this.menuScene = menuScene;
-    }
-
-    public Texture getLogo() {
-        return logo;
-    }
-
-    public void setLogo(Texture logo) {
-        this.logo = logo;
-    }
-
-    public void setBatch(SpriteBatch batch) {
-        this.batch = batch;
-    }
-
-    public Stage getMenuStage() {
-        return menuStage;
-    }
-
-    public void setMenuStage(Stage menuStage) {
-        this.menuStage = menuStage;
-    }
-
-    public Stage getHudStage() {
-        return hudStage;
-    }
-
-    public void setHudStage(Stage hudStage) {
-        this.hudStage = hudStage;
-    }
-
-    public Stage getBlocksStage() {
-        return blocksStage;
-    }
-
-    public void setBlocksStage(Stage blocksStage) {
-        this.blocksStage = blocksStage;
-    }
-
-    public Stage getSettingsStage() {
-
-        return settingsStage;
-    }
-
-    public void setSettingsStage(Stage settingsStage) {
-        this.settingsStage = settingsStage;
-    }
-
-    public Stage getLevelSelectorStage() {
-        return levelSelectorStage;
-    }
-
-    public void setLevelSelectorStage(Stage levelSelectorStage) {
-        this.levelSelectorStage = levelSelectorStage;
-    }
-
-    public int getCurrentLevelNo() {
-        return currentLevelNo;
-    }
-
+    /**
+     * @param currentLevelNo the new level number
+     */
     public void setCurrentLevelNo(int currentLevelNo) {
         this.currentLevelNo = currentLevelNo;
     }
 
+    /**
+     * @return the current level
+     */
     public Level getCurrentLevel(){
         return levels.get(currentLevelNo - 1);
     }
 
-    public World getWorld() {
-        return world;
+    /**
+     * @return if any menu is transitioning
+     */
+    public boolean isTransitioning() {
+        return isTransitioning;
     }
 
-    public void setWorld(World world) {
-        this.world = world;
+    /**
+     * @param transitioning the new value
+     */
+    public void setTransitioning(boolean transitioning) {
+        isTransitioning = transitioning;
     }
+
+    /**
+     * @return the current level number
+     */
+    public int getCurrentLevelNo() {
+        return currentLevelNo;
+    }
+
+
 }

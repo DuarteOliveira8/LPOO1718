@@ -1,7 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -9,25 +7,42 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-import java.awt.Rectangle;
-
 public class TriangleObstacle {
-    World world;
-    TiledMap map;
-    TiledMapTile mapTile;
-    Polygon polygon;
+    /**
+     * the platform box2d body
+     */
     Body body;
+    /**
+     * the platform box2d bodyDef
+     */
+    BodyDef bodyDef;
+    /**
+     * the platform polygon shape
+     */
+    PolygonShape shape;
+    /**
+     * the platform fixture definiton
+     */
+    FixtureDef fixtureDef;
 
+    /**
+     * TriangleObstacle constructor
+     * @param world level's world
+     * @param polygon one of the level's triangle obstacle
+     */
+    TriangleObstacle(World world, Polygon polygon){
+        bodyDef = new BodyDef();
+        shape = new PolygonShape();
+        fixtureDef = new FixtureDef();
+        createBody(world, polygon);
+    }
 
-    public TriangleObstacle(World world, TiledMap map, Polygon polygon){
-        BodyDef bodyDef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fixtureDef = new FixtureDef();
-
-        this.polygon = polygon;
-
-        fixtureDef.friction = 0;
-
+    /**
+     * creates the box2d body of the triangle obstacle
+     * @param world level's world
+     * @param polygon one of the level's triangle obstacle
+     */
+    private void createBody(World world, Polygon polygon){
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(polygon.getX() / GameUI.PPM, polygon.getY() / GameUI.PPM);
 
@@ -38,10 +53,9 @@ public class TriangleObstacle {
             vertices[i] /= GameUI.PPM;
         }
         polygon.setVertices(vertices);
-
         shape.set(polygon.getVertices());
+        fixtureDef.friction = 0;
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef).setUserData("triangle");
-
     }
 }
