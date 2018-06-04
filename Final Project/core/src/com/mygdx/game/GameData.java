@@ -79,7 +79,6 @@ public class GameData {
     public void setNewSkin(String skinPath){
         for(Level level : levels) {
             level.getBlock().setSkin(new Texture(skinPath));
-            level.getBlock().setTexture(level.getBlock().getSkin());
         }
     }
 

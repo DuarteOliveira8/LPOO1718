@@ -139,6 +139,9 @@ public class Block extends Sprite {
      */
     public void setSkin(Texture skin) {
         this.skin = skin;
+        skinRegion = new TextureRegion(skin, 0, 0, 500, 500);
+        setBounds(0, 0, 100*WIDTH_CONVERTER, 100*HEIGHT_CONVERTER);
+        setRegion(skinRegion);
     }
 
     /**
